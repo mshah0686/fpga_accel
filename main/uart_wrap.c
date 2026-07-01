@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "uart_wrap.h"
+#include "common_queues.h"
 
 // Logger
 static const char *TAG = "UART";
@@ -37,9 +38,12 @@ static void setup_uart() {
 
 static void run_uart_poll() {
     ESP_LOGI(TAG, "UART_POLL_START....");
+    UART_to_SPI_message_t message;
+
     while (1) {
         // Read data from the UART
-        int len = uart_read_bytes(HARDWARE_UART_PORT, 
+        int len = uart_read_bytes(
+                HARDWARE_UART_PORT,  // PORT defined in setup
                 &uart_read_data,  // Buffer to read
                 (UART_BUF_SIZE - 1),  // Buffer size to read (last bit is for \n)
                 0); // Period to wait (either exit on buffer full or hold task for this long) - 0 means no wait just grab
@@ -48,6 +52,13 @@ static void run_uart_poll() {
         if (len) {
             uart_read_data[len] = '\0';
             ESP_LOGI(TAG, "Recv str: %s", (char *) uart_read_data);
+
+            message.data = uart_read_data[0];
+            if (xQueueSend(uart_to_spi_queue, &message, pdMS_TO_TICKS(10)) != pdPASS) {
+                ESP_LOGI(TAG, "Could not send message! %s", (char *) uart_read_data);
+            }
+            // Wait for next input
+            vTaskDelay(pdMS_TO_TICKS(1000));
         }
     }
 }

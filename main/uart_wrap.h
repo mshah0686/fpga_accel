@@ -5,6 +5,7 @@
 #pragma once
 #include <stdint.h>
 #include "hardware.h"
+#include "freertos/queue.h"
 
 #define TEST_RTS (UART_PIN_NO_CHANGE) // Unused
 #define TEST_CTS (UART_PIN_NO_CHANGE) // Unused
@@ -18,4 +19,3 @@
  * @return void
  */
 void setup_uart_and_run(void *args);
-
