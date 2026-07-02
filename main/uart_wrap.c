@@ -42,11 +42,11 @@ static void run_uart_poll() {
 
     while (1) {
         // Read data from the UART
-        int len = uart_read_bytes(
+        int len = uart_read_bytes (
                 HARDWARE_UART_PORT,  // PORT defined in setup
                 &uart_read_data,  // Buffer to read
                 (UART_BUF_SIZE - 1),  // Buffer size to read (last bit is for \n)
-                0); // Period to wait (either exit on buffer full or hold task for this long) - 0 means no wait just grab
+                pdMS_TO_TICKS(10)); // Period to wait (either exit on buffer full or hold task for this long) - 0 means no wait just grab
 
         // Write data back to the UART
         if (len) {
@@ -58,7 +58,7 @@ static void run_uart_poll() {
                 ESP_LOGI(TAG, "Could not send message! %s", (char *) uart_read_data);
             }
             // Wait for next input
-            vTaskDelay(pdMS_TO_TICKS(1000));
+            vTaskDelay(pdMS_TO_TICKS(1));
         }
     }
 }

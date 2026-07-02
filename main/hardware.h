@@ -14,7 +14,7 @@
 #define SPI_CLK_PIN    14
 #define SPI_CS_PIN     15
 
-#define SPI_FREQ 1 * 1000 * 1000 // 1Mhz
+
 
 // LED
 #define HARDWARE_ONBOARD_LED 2

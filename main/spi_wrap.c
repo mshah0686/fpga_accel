@@ -49,7 +49,7 @@ void send_spi_transaction(uint8_t data) {
     spi_transaction_t t;
 
     memset(&t, 0, sizeof(t));
-    t.length = 8;                   // Total transaction length in BITS (2 bytes = 16 bits)
+    t.length = 8;                   // Total transaction length in BITS
     t.tx_buffer = &data;               // Data to send (or poitner based on flags)
     t.rx_buffer = NULL;              // Pointer to buffer for data in
 
@@ -66,11 +66,11 @@ void setup_and_run_spi(void *args) {
 
     while(1) {
         if(xQueueReceive(uart_to_spi_queue, &input_message, pdMS_TO_TICKS(10)) == pdPASS) {
-            ESP_LOGI(TAG, "Sending %0d", input_message.data);
+            ESP_LOGI(TAG, "Sending %0x", input_message.data);
             send_spi_transaction(input_message.data);
         } else {
             // Delay a bit for next data input
-            vTaskDelay(pdMS_TO_TICKS(10));
+            vTaskDelay(pdMS_TO_TICKS(1));
         }
     }
 }

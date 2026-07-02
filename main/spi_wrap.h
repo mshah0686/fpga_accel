@@ -2,10 +2,14 @@
 #include "driver/spi_master.h"
 #include <stdint.h>
 
+#define SPI_TASK_STACK_SIZE 3072
+
 // SPI sizes in bits
 #define SPI_COMMAND_SIZE 0
 #define SPI_ADDRESS_SIZE 0
 #define SPI_DUMMY_SIZE   0
+
+#define SPI_FREQ (1 * 25* 1000) // 1khz
 
 /**
  * @param data to send
