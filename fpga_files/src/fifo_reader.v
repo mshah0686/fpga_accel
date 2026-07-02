@@ -17,7 +17,9 @@ module fifo_reader #(
 
     // Data out
     output reg data_valid,
-    output reg [DATA_WIDTH-1:0] data
+    output reg [DATA_WIDTH-1:0] data,
+
+    output reg [3:0] led_dbg
 );
     assign r_en = downstream_ready & ~fifo_empty;
     // Save fifo value
@@ -27,6 +29,7 @@ module fifo_reader #(
         if(r_en) begin
             data <= r_data;
             data_valid <= 1'b1;
+            led_dbg <= r_data[3:0];
         end else begin
             data_valid <= 1'b0;
         end

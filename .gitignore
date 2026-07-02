@@ -83,3 +83,4 @@ Desktop.ini
 .vscode/launch.json
 .vscode/settings.json
 /fpga_files/sim
+/fpga_files/flash

@@ -10,7 +10,10 @@ module async_fifo #(
     input r_en,
     output [DATA_WIDTH-1:0] r_data,
     input r_clk,
-    output fifo_empty
+    output fifo_empty,
+
+    output [3:0] led_dbg_read,
+    output [3:0] led_dbg_write
 );
 
     parameter PTR_WIDTH_M_1 = $clog2(DEPTH);
@@ -50,6 +53,7 @@ module async_fifo #(
         end
     end
 
+    assign led_dbg_read[1:0] = read_bucket[1:0];
     assign fifo_empty = (r_write_gray_ptr == r_read_gray_code_out);
     assign r_data = r_en ? fifo_mem[read_bucket] : {DATA_WIDTH{1'b0}};
 
@@ -78,7 +82,8 @@ module async_fifo #(
             fifo_mem[write_bucket] <= w_data;
         end
     end
-
+    
+    assign led_dbg_write[1:0] = write_bucket[1:0];
     wire [PTR_WIDTH_M_1:0] gray_write_compare;
     assign gray_write_compare = {~w_write_gray_code_out[PTR_WIDTH_M_1:PTR_WIDTH_M_1-1], w_write_gray_code_out[PTR_WIDTH_M_1-2:0]};
     assign fifo_full = (gray_write_compare == w_read_gray_ptr);

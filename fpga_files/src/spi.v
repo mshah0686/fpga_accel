@@ -6,7 +6,8 @@ module spi_peripheral
     input spi_cs,
 
     output [DATA_WIDTH-1:0] data_out,
-    output data_valid
+    output data_valid,
+    output [3:0] led_dbg
 );
 
 parameter DATA_COUNTER_WIDTH = $clog2(DATA_WIDTH);
@@ -24,8 +25,18 @@ reg valid_q;
 wire recieved_all_data_flag;
 assign recieved_all_data_flag = recieved_count == (DATA_WIDTH -1);
 
+/** DBG **/
+reg [3:0] led_assign = 4'b0;
+reg [2:0] spi_clk_counter =32'b0;
+
 // Latch SPI data
 always @(posedge spi_clk) begin
+    // DBG clk cycle inputs
+    spi_clk_counter <= spi_clk_counter + 1;
+    if(spi_clk_counter == 0) begin
+        led_assign <= led_assign + 1;
+    end
+
     if(~spi_cs) begin
         data_q <= {data_q[DATA_WIDTH-2:0], spi_data};
     end
@@ -44,5 +55,7 @@ end
 // Output assignment
 assign data_out = valid_q ? data_q : {DATA_WIDTH{1'b0}};
 assign data_valid = valid_q;
+
+assign led_dbg = data_q[3:0];
 
 endmodule
