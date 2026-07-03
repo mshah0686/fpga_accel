@@ -73,9 +73,9 @@ module top (
 `endif
     );
 
-    spi_rx_sync #(.DATA_WIDTH((SPI_DATA_WIDTH)))
+    spi_rx_sync #(.DATA_WIDTH(SPI_DATA_WIDTH))
     spi_rx_u (
-        .system_clk(i_clk)),
+        .system_clk(i_clk),
         .data_out(sync_data),
         .data_valid(sync_data_valid),
         .system_ready(downstream_ready),
@@ -84,7 +84,7 @@ module top (
         .spi_data_valid(spi_peripheral_out_valid),
 
         .led_dbg()
-    )
+    );
 
     // UART
     UART_TX uart_tx (
