@@ -5,57 +5,41 @@ module spi_peripheral
     input spi_data,
     input spi_cs,
 
-    output [DATA_WIDTH-1:0] data_out,
-    output data_valid,
-    output [3:0] led_dbg
+    output reg [DATA_WIDTH-1:0] data_out,
+    output reg data_valid_flag,
+    output [3:0] led_dbg // SHIFT_REGISTER_VALUE
 );
 
+// Count data recieved
 parameter DATA_COUNTER_WIDTH = $clog2(DATA_WIDTH);
 
-// Latch input data
-reg [DATA_WIDTH-1:0] data_q = {DATA_WIDTH{1'b0}};
+// Shift register for input data
+reg [DATA_WIDTH-1:0] shift_reg = {DATA_WIDTH{1'b0}};
 
-// Count input bits
+// Count recieved data
 reg [DATA_COUNTER_WIDTH - 1 : 0] recieved_count = 0;
 
-// Latch data valid
-reg valid_q;
-
-// Flag for data recieved
-wire recieved_all_data_flag;
-assign recieved_all_data_flag = recieved_count == (DATA_WIDTH -1);
-
-/** DBG **/
-reg [3:0] led_assign = 4'b0;
-reg [2:0] spi_clk_counter =32'b0;
+// On last transaction
+wire last_txn_flag;
+assign last_txn_flag = (recieved_count == (DATA_WIDTH -1));
 
 // Latch SPI data
 always @(posedge spi_clk) begin
-    // DBG clk cycle inputs
-    spi_clk_counter <= spi_clk_counter + 1;
-    if(spi_clk_counter == 0) begin
-        led_assign <= led_assign + 1;
-    end
-
-    if(~spi_cs) begin
-        data_q <= {data_q[DATA_WIDTH-2:0], spi_data};
-    end
-
-    if(~spi_cs) begin
-        recieved_count <= recieved_all_data_flag ? {DATA_COUNTER_WIDTH{1'b0}} : recieved_count + 1;
-    end
-
-    if(recieved_all_data_flag && ~spi_cs) begin
-        valid_q <= 1'b1;
-    end else begin
+    // Generally this flop will only enter when spi_cs is low as per SPI interface
+    if(last_txn_flag) begin
+        // No more clks after this until next cycle!
+        shift_reg <= {DATA_WIDTH{1'b0}};
+        data_out <=  {shift_reg[DATA_WIDTH-2:0], spi_data};
+        data_valid_flag <= 1'b1;
+        recieved_count <= 1'b0;
+    end else if (~spi_cs) begin
+        shift_reg <= {shift_reg[DATA_WIDTH-2:0], spi_data};
+        recieved_count <= recieved_count + 1;
         valid_q <= 1'b0;
     end
 end
 
-// Output assignment
-assign data_out = valid_q ? data_q : {DATA_WIDTH{1'b0}};
-assign data_valid = valid_q;
-
-assign led_dbg = data_q[3:0];
+/*** DEBUG ***/
+assign led_dbg = shift_reg[3:0];
 
 endmodule
