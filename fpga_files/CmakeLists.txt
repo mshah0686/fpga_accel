@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 3.16)
+project(test CXX)
+
+# Global Compiler Settings
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 1. Point CMake to the Homebrew root prefix on macOS
+if(APPLE)
+    list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew" "/usr/local")
+endif()
+
+# 2. Find Verilator (CMake will now automatically find it inside /opt/homebrew)
+find_package(verilator REQUIRED HINTS ${VERILATOR_ROOT} $ENV{VERILATOR_ROOT})
+
+# 3. SystemC dependencies
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
+# Find SystemC using SystemC's CMake integration
+find_package(SystemCLanguage PATHS ${SYSTEMC_HOME})
+
+# 4. Global Includes
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/rtl")
+
+# 5. Hand off to your testbench subdirectories
+add_subdirectory(tb/spi_cdc_handshake)
