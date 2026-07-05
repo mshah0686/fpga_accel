@@ -1,24 +1,25 @@
-# 1. Define the simulation executable target
+# 1. Define the simulation executable binary name and its C++ testbench source
 set(TB_NAME spi_handshake_tb)
 add_executable(${TB_NAME} tb_spi_handshake.cpp)
 
-# 2. Dynamically find the absolute path of the RTL directory
-get_filename_component(PORTABLE_RTL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../rtl" ABSOLUTE)
-
-# 3. Call verilate
+# 2. Compile your Verilog hardware files using the official Verilator macro
 verilate(${TB_NAME}
     PREFIX Vtb_spi_handshake
-    
-    # Pass ONLY the local filename with NO paths. 
-    # This tricks CMake into skipping the path-splitting macro bug entirely!
-    SOURCES "tb_spi_handshake.v"
-    
     TOP_MODULE tb_spi_handshake_top
-    TRACE
-    
-    # Verilator will look for "spi.v" inside the absolute, quoted RTL directory
-    VERILATOR_ARGS "-I${PORTABLE_RTL_DIR}"
+    TRACE_VCD
+    VERILATOR_ARGS 
+        "-timescale" 
+        "1ns/1ps" 
+        "--timing" 
+        "--trace"
+        "--trace-structs"
+    SOURCES
+        "${CMAKE_SOURCE_DIR}/rtl/spi.v"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tb_spi_handshake.v"
 )
 
-# 4. Link Verilator's runtime library
-target_link_libraries(${TB_NAME} PRIVATE verilator)
+# 3. Explicitly link the core Verilator static library via its absolute path variable
+target_link_libraries(${TB_NAME} 
+    PRIVATE 
+        ${VERILATOR_LIBS}
+)

@@ -1,15 +1,20 @@
-#include "Vtb_spi_handshake_top.h"
+#include <memory>
+#include "Vtb_spi_handshake.h"
 #include "verilated.h"
 
-int main(int argc, char** argv)
-{
-    Verilated::commandArgs(argc, argv);
+int main(int argc, char** argv) {
+    auto contextp = std::make_unique<VerilatedContext>();
+    contextp->commandArgs(argc, argv);
+    contextp->traceEverOn(true); 
 
-    Vtb_spi_handshake_top dut;
+    auto dut = std::make_unique<Vtb_spi_handshake>(contextp.get());
 
-    while (!Verilated::gotFinish()) {
-        dut.eval();
+    while (!contextp->gotFinish()) {
+        dut->eval();
+        if (contextp->gotFinish()) break; // 👈 The absolute necessary safety brake
+        contextp->time(dut->nextTimeSlot());
     }
 
+    dut->final(); // Automatically flushes and writes the wave file
     return 0;
 }
