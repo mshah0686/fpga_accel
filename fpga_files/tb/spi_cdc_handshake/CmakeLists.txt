@@ -15,6 +15,9 @@ verilate(${TB_NAME}
         "--trace-structs"
     SOURCES
         "${CMAKE_SOURCE_DIR}/rtl/spi.v"
+        "${CMAKE_SOURCE_DIR}/rtl/spi_rx_sync.v"
+        "${CMAKE_SOURCE_DIR}/rtl/sync_flops.v"
+        "${CMAKE_CURRENT_SOURCE_DIR}/spi_top.v"
         "${CMAKE_CURRENT_SOURCE_DIR}/tb_spi_handshake.v"
 )
 

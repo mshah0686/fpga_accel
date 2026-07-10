@@ -21,7 +21,7 @@ reg [DATA_COUNTER_WIDTH - 1 : 0] recieved_count = 0;
 
 // On last transaction
 wire last_txn_flag;
-assign last_txn_flag = (recieved_count == (DATA_WIDTH -1));
+assign last_txn_flag = ({1'b0, recieved_count} == (DATA_WIDTH -1));
 
 // Latch SPI data
 always @(posedge spi_clk) begin
@@ -31,13 +31,14 @@ always @(posedge spi_clk) begin
         shift_reg <= {DATA_WIDTH{1'b0}};
         data_out <=  {shift_reg[DATA_WIDTH-2:0], spi_data};
         data_valid_flag <= 1'b1;
-        recieved_count <= 1'b0;
+        recieved_count <= 'b0;
     end else if (~spi_cs) begin
         shift_reg <= {shift_reg[DATA_WIDTH-2:0], spi_data};
         recieved_count <= recieved_count + 1;
-        valid_q <= 1'b0;
+        data_valid_flag <= 1'b0;
     end
 end
+
 
 /*** DEBUG ***/
 assign led_dbg = shift_reg[3:0];

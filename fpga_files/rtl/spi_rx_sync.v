@@ -3,6 +3,7 @@ module spi_rx_sync
 (
     input system_clk,
     output [DATA_WIDTH -1:0] data_out,
+    // Valid/ready interface - valid held until handshake
     output data_valid,
     input system_ready,
     
@@ -13,7 +14,7 @@ module spi_rx_sync
 
     // DEBGUG
     output [3:0] led_dbg
-)
+);
 
     wire [DATA_WIDTH-1:0] sync_data_out;
     wire sync_valid_out;
@@ -35,7 +36,7 @@ module spi_rx_sync
     // Valid signal on rising edge of spi_valid
     reg valid_q = 1'b0;
     wire valid_rising_edge_flag = ~valid_q && sync_valid_out;
-    always @(posedge clk) begin
+    always @(posedge system_clk) begin
         valid_q <= sync_valid_out;
     end
 
@@ -44,10 +45,11 @@ module spi_rx_sync
         - When we see valid pulse, hold valid until handshake
         - Clear valid after handshake until next pulse
     */
-    wire downstream_handshake = data_valid && system_ready;
+    wire downstream_handshake;
+    assign downstream_handshake = data_valid && system_ready;
     reg downstream_valid_q = 1'b0;
-    always @(posedge clk) begin
-        if(downstream_handshake) begin
+    always @(posedge system_clk) begin
+        if(data_valid && system_ready) begin
             downstream_valid_q <= 1'b0;
         end else if (valid_rising_edge_flag) begin
             // 1 cycle latency - can be optimized to assert ready on flag cycle but it is okay for now

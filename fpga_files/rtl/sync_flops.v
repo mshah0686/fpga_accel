@@ -3,11 +3,11 @@ module sync_flops #(
 )
 (
     input clk,
-    input [SIZE:0] in,
-    output reg [SIZE:0] out
+    input [SIZE-1:0] in,
+    output reg [SIZE-1:0] out
 );
 
-    reg [SIZE:0] q_1 = {SIZE{0}};
+    reg [SIZE-1:0] q_1 = '0;
 
     always @(posedge clk) begin
         q_1 <= in;
