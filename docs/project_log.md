@@ -21,3 +21,14 @@ To confirm this - I will attach an LED to the valid signal from SPI to see it ho
 1. Send dummy bits at the end of ESP32 for 2 cycles to allow the fifo to flush. SPI module drop these 2 dummy cycles
 2. Have a RX data MISO connection that SPI module sends back to ESP32 as a confirmation. Either tie this to the fifo write actually happening or a floating delay to force the latch.
 I think 2 is a good approach since I will likely need a data read back path. Will work on implementing this on FPGA SPI module next.
+
+# July 10th, 2026
+# Status
+- Updated code to have handshake output from SPI for CDC instead of async fifo that relies on spi clk (spi_clk is not constant on)
+- Flashed and test both sides - able to send data from ESP32 and display on FPGA at 10Mhz. Faster clock rates cannot be handled by FPGA that is 25Mhz. 
+# Cool Issues:
+- Debugging is still a pain since I don't have visibility into the FPGA. Have to use LEDs and PWM signals on logic analyzer. Logic analyzer cannot capture all FPGA signals since they are both 25Mhz and break Nyquist sampling
+# Next Steps
+- Implement FPGA -> ESP 32 write. Need to architect what the system looks like
+- Calculate SPI data transmit timing as FPGA needs to do downstream processing. 
+- Architect what I am going to send and in what bursts.
