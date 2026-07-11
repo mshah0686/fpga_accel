@@ -25,6 +25,7 @@ I think 2 is a good approach since I will likely need a data read back path. Wil
 # July 10th, 2026
 # Status
 - Updated code to have handshake output from SPI for CDC instead of async fifo that relies on spi clk (spi_clk is not constant on)
+- Set up verilator + waves on Mac with Cmake files. Simulated new code on spi_handshake_tb on branch. This was a huge plus to be able to work on simulation outside of ModelSim.
 - Flashed and test both sides - able to send data from ESP32 and display on FPGA at 10Mhz. Faster clock rates cannot be handled by FPGA that is 25Mhz. 
 # Cool Issues:
 - Debugging is still a pain since I don't have visibility into the FPGA. Have to use LEDs and PWM signals on logic analyzer. Logic analyzer cannot capture all FPGA signals since they are both 25Mhz and break Nyquist sampling
