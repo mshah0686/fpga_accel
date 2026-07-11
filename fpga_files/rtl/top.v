@@ -1,6 +1,6 @@
 //`define DBG_SPI 0
 //`define DBG_FIFO_READER
-`define DBG_ASYNC_FIFO_WRITE
+`define DBG_SPI
 
 module top (
     input  i_clk,       // Main Clock
@@ -31,6 +31,12 @@ module top (
     input io_PMOD_1, // clk
     input io_PMOD_2, // data
     input io_PMOD_3, // cs
+
+
+    output io_PMOD_7,
+    output io_PMOD_8,
+    output io_PMOD_9,
+    output io_PMOD_10,
 
     // LED
     output o_LED_1,
@@ -66,6 +72,7 @@ module top (
 
         .data_out(spi_peripheral_out_data),
         .data_valid_flag(spi_peripheral_out_valid),
+        .pwd_debug({io_PMOD_7, io_PMOD_8, io_PMOD_9, io_PMOD_10}),
 `ifdef DBG_SPI
         .led_dbg ({o_LED_4, o_LED_3, o_LED_2, o_LED_1})
 `else

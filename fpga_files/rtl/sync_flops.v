@@ -1,5 +1,5 @@
 module sync_flops #(
-    parameter SIZE=4
+    parameter SIZE=8
 )
 (
     input clk,
@@ -7,7 +7,7 @@ module sync_flops #(
     output reg [SIZE-1:0] out
 );
 
-    reg [SIZE-1:0] q_1 = '0;
+    reg [SIZE-1:0] q_1;
 
     always @(posedge clk) begin
         q_1 <= in;

@@ -7,7 +7,8 @@ module spi_peripheral
 
     output reg [DATA_WIDTH-1:0] data_out,
     output reg data_valid_flag,
-    output [3:0] led_dbg // SHIFT_REGISTER_VALUE
+    output [3:0] led_dbg,
+    output [3:0] pwd_debug // SHIFT_REGISTER_VALUE
 );
 
 // Count data recieved
@@ -42,5 +43,6 @@ end
 
 /*** DEBUG ***/
 assign led_dbg = shift_reg[3:0];
+assign pwd_debug = {last_txn_flag, data_valid_flag, spi_clk, 1'b0};
 
 endmodule
