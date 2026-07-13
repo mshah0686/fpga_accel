@@ -33,3 +33,12 @@ I think 2 is a good approach since I will likely need a data read back path. Wil
 - Implement FPGA -> ESP 32 write. Need to architect what the system looks like
 - Calculate SPI data transmit timing as FPGA needs to do downstream processing. 
 - Architect what I am going to send and in what bursts.
+
+# July 13, 2026
+## Expanding SPI
+Need to expand SPI to send commands, address to registers, and then have the FPGA respond with data. I'm going to start with something simple. This will be the approach. I will experiment with optimization later.
+1. Each transaction will be 4 bytes
+2. First byte will be comamnd - read = 0x2, write = 0x1, and NOP = 0x0.
+3. Next byte will be address (8 bits)
+4. Next 2 bytes will be data (2 byte data)
+5. For a write transaction, you only need one transaction. For read, the microcontroller must send dummy transaction following a read with "NOP" and FPGA will respond with data. This has to be done because there is CDC between SPI module and FPGA. This causes 2 cycle sync between data from uController -> FPGA and data from FPGA -> SPI module. This 8 cycle total prevents data from being latched and responded to. We can either add dummy cycles in the transaction or do a new transaction. For now, it's easier to just send a new transaction. I will go with that.
