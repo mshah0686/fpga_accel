@@ -25,7 +25,10 @@ module spi_top_wrap
         // Data out
         .data_out(spi_data_out),
         .data_valid_flag(spi_data_valid),
-        .led_dbg()
+        
+        // DBG
+        .led_dbg(),
+        .pwd_debug()
     );
 
 

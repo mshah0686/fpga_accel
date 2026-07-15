@@ -42,3 +42,20 @@ Need to expand SPI to send commands, address to registers, and then have the FPG
 3. Next byte will be address (8 bits)
 4. Next 2 bytes will be data (2 byte data)
 5. For a write transaction, you only need one transaction. For read, the microcontroller must send dummy transaction following a read with "NOP" and FPGA will respond with data. This has to be done because there is CDC between SPI module and FPGA. This causes 2 cycle sync between data from uController -> FPGA and data from FPGA -> SPI module. This 8 cycle total prevents data from being latched and responded to. We can either add dummy cycles in the transaction or do a new transaction. For now, it's easier to just send a new transaction. I will go with that.
+
+Just for bringup testing and flow testing - I implemented a timer module with following SPI COMMAND structures. For now, I will tie the timer count to FPGA display. Later I will add read capability to read back to ESP32 from the FPGA.
+CMND:
+    0x0 NOP
+    0x1 WRITE
+    0x2 READ
+
+ADDR:
+    0x0 NOP
+    0x1 TIMER
+
+TIMER: DATA
+    0x0 CLEAR TIMER
+    0x1 START TIMER
+    0x2 STOP TIMER
+    //Read pending
+

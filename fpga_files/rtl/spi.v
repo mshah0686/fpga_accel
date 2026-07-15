@@ -1,5 +1,5 @@
 module spi_peripheral
-#( parameter DATA_WIDTH=8)
+#( parameter DATA_WIDTH=32)
 (
     input spi_clk,
     input spi_data,

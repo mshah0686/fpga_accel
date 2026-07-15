@@ -1,0 +1,32 @@
+# 1. Define the simulation executable binary name and its C++ testbench source
+set(TB_NAME spi_timer_control_tb)
+add_executable(${TB_NAME} tb_spi_timer_control.cpp)
+
+# 2. Compile your Verilog hardware files using the official Verilator macro
+verilate(${TB_NAME}
+    PREFIX Vtb_spi_timer_control
+    TOP_MODULE tb_spi_timer_control_top
+    TRACE_VCD
+    VERILATOR_ARGS
+        "-timescale"
+        "1ns/1ps"
+        "--timing"
+        "--trace"
+        "--trace-structs"
+    SOURCES
+        "${CMAKE_SOURCE_DIR}/rtl/fpga_types.v"
+        "${CMAKE_SOURCE_DIR}/rtl/spi.v"
+        "${CMAKE_SOURCE_DIR}/rtl/spi_rx_sync.v"
+        "${CMAKE_SOURCE_DIR}/rtl/sync_flops.v"
+        "${CMAKE_SOURCE_DIR}/rtl/packet_decoder.v"
+        "${CMAKE_SOURCE_DIR}/rtl/timer.v"
+        "${CMAKE_SOURCE_DIR}/rtl/segment_display.v"
+        "${CMAKE_SOURCE_DIR}/rtl/top.v"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tb_spi_timer_control.v"
+)
+
+# 3. Explicitly link the core Verilator static library via its absolute path variable
+target_link_libraries(${TB_NAME}
+    PRIVATE
+        ${VERILATOR_LIBS}
+)

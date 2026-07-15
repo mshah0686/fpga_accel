@@ -1,5 +1,5 @@
 module spi_rx_sync
-#( parameter DATA_WIDTH=8)
+#( parameter DATA_WIDTH=32)
 (
     input system_clk,
     output [DATA_WIDTH -1:0] data_out,
@@ -20,7 +20,7 @@ module spi_rx_sync
     wire sync_valid_out;
 
     // Sync the inputs accross clocks
-    sync_flops #(.SIZE(8)) data_sync (
+    sync_flops #(.SIZE(DATA_WIDTH)) data_sync (
         .clk(system_clk), 
         .in(spi_data_in),
         .out(sync_data_out)
@@ -40,7 +40,6 @@ module spi_rx_sync
         valid_q <= sync_valid_out;
     end
 
-    // Send data downstream
     /* Send data downstream:
         - When we see valid pulse, hold valid until handshake
         - Clear valid after handshake until next pulse

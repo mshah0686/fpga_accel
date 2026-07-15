@@ -1,7 +1,3 @@
-//`define DBG_SPI 0
-//`define DBG_FIFO_READER
-`define DBG_SPI
-
 module top (
     input  i_clk,       // Main Clock
 
@@ -46,7 +42,7 @@ module top (
 
 
 ); 
-    parameter SPI_DATA_WIDTH = 8;
+    parameter SPI_DATA_WIDTH = 32; // 4 bytes now
     parameter FIFO_DEPTH = 4;
 
     // SPI PERIPHERAL
@@ -54,61 +50,89 @@ module top (
     wire spi_peripheral_out_valid;
 
     // SPI SYNC
-    wire sync_data_valid;
+    wire sync_valid_out;
     wire downstream_ready;
-    wire[SPI_DATA_WIDTH-1:0] sync_data;
+    wire[SPI_DATA_WIDTH-1:0] sync_data_out;
 
-    // Downstream
-    wire uart_ready;
+    // Packet decoder
+    wire timer_clear;
+    wire timer_start;
+    wire timer_stop;
 
-    assign downstream_ready = uart_ready;
+    // Timer
+    wire [7:0] timer_count;
 
     // SPI
-    spi_peripheral #(.DATA_WIDTH(SPI_DATA_WIDTH)) 
+    spi_peripheral #(.DATA_WIDTH(SPI_DATA_WIDTH))
     spi_slave (
+        // INPUT
         .spi_clk(io_PMOD_1),
         .spi_data(io_PMOD_2),
         .spi_cs(io_PMOD_3),
-
+        
+        // OUTPUT
         .data_out(spi_peripheral_out_data),
         .data_valid_flag(spi_peripheral_out_valid),
-        .pwd_debug({io_PMOD_7, io_PMOD_8, io_PMOD_9, io_PMOD_10}),
-`ifdef DBG_SPI
-        .led_dbg ({o_LED_4, o_LED_3, o_LED_2, o_LED_1})
-`else
+
+        // DBG
+        .pwd_debug(),
         .led_dbg()
-`endif
     );
 
+    // SYNC SPI -> SYSTEM CLOCK
     spi_rx_sync #(.DATA_WIDTH(SPI_DATA_WIDTH))
     spi_rx_u (
         .system_clk(i_clk),
-        .data_out(sync_data),
-        .data_valid(sync_data_valid),
-        .system_ready(downstream_ready),
+        // Outputs
+        .data_out(sync_data_out),
+        .data_valid(sync_valid_out),
+        .system_ready(1'b1),  // FIXME::TIED TO 1 for now since no downstream has actual valid
 
+        // Inputs
         .spi_data_in(spi_peripheral_out_data),
         .spi_data_valid(spi_peripheral_out_valid),
-
+        
+        // DBG
         .led_dbg()
     );
 
-    // UART
-    UART_TX uart_tx (
+    // DECODE PACKET FROM SPI
+    packet_decoder packet_decoder_u (
         .clk(i_clk),
 
-        .valid(sync_data_valid),
-        .data(sync_data),
+        // INPUT
+        .packet_valid(sync_valid_out),
+        .packet_data(sync_data_out),
 
-        .uart_out(o_UART_TX),
-        .ready(uart_ready)
+        // OUTPUT -> TIMER
+        .timer_clear(timer_clear),
+        .timer_start(timer_start),
+        .timer_stop(timer_stop)
     );
 
-    segment_display DISPLAY_1
-    (   
+    // TIMER MODULE controlled from SPI
+    simple_timer timer_u (
         .clk(i_clk),
-        .valid(sync_data_valid),
-        .count(sync_data[7:4]),
+
+        // INPUT
+        .start(timer_start),
+        .clear(timer_clear),
+        .stop(timer_stop),
+        
+        // OUTPUT -> DISPLAY
+        .count(timer_count)
+    );
+
+    // DISPLAY TIMER
+    segment_display DISPLAY_1
+    (
+        .clk(i_clk),
+
+        // INPUT
+        .valid(1'b1), // ALWAYS VALID
+        .count(timer_count[7:4]),
+
+        // OUTPUT
         .A(o_Segment1_A),
         .B(o_Segment1_B),
         .C(o_Segment1_C),
@@ -121,8 +145,12 @@ module top (
     segment_display DISPLAY_2
     (
         .clk(i_clk),
-        .valid(sync_data_valid),
-        .count(sync_data[3:0]),
+
+        // INPUT
+        .valid(1'b1), // ALWAYS VALID
+        .count(timer_count[3:0]),
+
+        // OUTPUT
         .A(o_Segment2_A),
         .B(o_Segment2_B),
         .C(o_Segment2_C),

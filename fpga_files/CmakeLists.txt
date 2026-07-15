@@ -15,3 +15,4 @@ find_package(verilator REQUIRED)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/rtl")
 
 add_subdirectory(tb/spi_cdc_handshake)
+add_subdirectory(tb/spi_timer_control)
