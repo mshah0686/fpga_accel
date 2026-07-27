@@ -7,7 +7,9 @@ module simple_timer (
     input clear,
     input stop,
 
-    output [7:0] count
+    output [7:0] count, 
+
+    output [3:0] dbg
 );
 
     localparam CYCLES_PER_SECOND = 25000000;
@@ -46,6 +48,8 @@ module simple_timer (
     end
 
     assign count = count_q;
+
+    assign dbg = {timer_en, start, stop, clear};
 
 
 endmodule 

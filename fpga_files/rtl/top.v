@@ -28,7 +28,7 @@ module top (
     input io_PMOD_2, // data
     input io_PMOD_3, // cs
 
-
+    // DBG
     output io_PMOD_7,
     output io_PMOD_8,
     output io_PMOD_9,
@@ -62,6 +62,9 @@ module top (
     // Timer
     wire [7:0] timer_count;
 
+    // Debug
+    wire[3:0] dbg_io;
+
     // SPI
     spi_peripheral #(.DATA_WIDTH(SPI_DATA_WIDTH))
     spi_slave (
@@ -93,7 +96,7 @@ module top (
         .spi_data_valid(spi_peripheral_out_valid),
         
         // DBG
-        .led_dbg()
+        .dbg()
     );
 
     // DECODE PACKET FROM SPI
@@ -107,7 +110,10 @@ module top (
         // OUTPUT -> TIMER
         .timer_clear(timer_clear),
         .timer_start(timer_start),
-        .timer_stop(timer_stop)
+        .timer_stop(timer_stop),
+
+        // DEBUG
+        .dbg(dbg_io[2:0])
     );
 
     // TIMER MODULE controlled from SPI
@@ -120,7 +126,10 @@ module top (
         .stop(timer_stop),
         
         // OUTPUT -> DISPLAY
-        .count(timer_count)
+        .count(timer_count),
+
+        // DBG
+        .dbg()
     );
 
     // DISPLAY TIMER
@@ -129,7 +138,7 @@ module top (
         .clk(i_clk),
 
         // INPUT
-        .valid(1'b1), // ALWAYS VALID
+        //.valid(1'b1), // ALWAYS VALID
         .count(timer_count[7:4]),
 
         // OUTPUT
@@ -147,7 +156,7 @@ module top (
         .clk(i_clk),
 
         // INPUT
-        .valid(1'b1), // ALWAYS VALID
+        //.valid(1'b1), // ALWAYS VALID
         .count(timer_count[3:0]),
 
         // OUTPUT
@@ -159,5 +168,7 @@ module top (
         .F(o_Segment2_F),
         .G(o_Segment2_G)
     );
+
+    assign {io_PMOD_7, io_PMOD_8, io_PMOD_9, io_PMOD_10} = dbg_io;
 
 endmodule

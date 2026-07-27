@@ -13,7 +13,7 @@ module spi_rx_sync
     input spi_data_valid,
 
     // DEBGUG
-    output [3:0] led_dbg
+    output [3:0] dbg
 );
 
     wire [DATA_WIDTH-1:0] sync_data_out;
@@ -48,7 +48,7 @@ module spi_rx_sync
     assign downstream_handshake = data_valid && system_ready;
     reg downstream_valid_q = 1'b0;
     always @(posedge system_clk) begin
-        if(data_valid && system_ready) begin
+        if(downstream_handshake) begin
             downstream_valid_q <= 1'b0;
         end else if (valid_rising_edge_flag) begin
             // 1 cycle latency - can be optimized to assert ready on flag cycle but it is okay for now
@@ -58,5 +58,8 @@ module spi_rx_sync
 
     assign data_out = sync_data_out;
     assign data_valid = downstream_valid_q;
+
+
+    assign dbg = {downstream_handshake, valid_q, sync_valid_out, data_valid};
 
 endmodule

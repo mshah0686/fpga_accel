@@ -1,4 +1,5 @@
-`timescale 1ns/1ps
+﻿`timescale 1ns/1ps
+`include "fpga_types.v"
 module tb_spi_timer_control_top;
 
     // SPI transaction width matches top's SPI_DATA_WIDTH (CMD_WIDTH + ADDR_WIDTH + DATA_WIDTH)
@@ -96,37 +97,37 @@ module tb_spi_timer_control_top;
         repeat(5) @(negedge i_clk);
 
         // Scenario 1: Start the timer
-        send_spi_word({CMD_WRITE, TIMER_ADDR, TIMER_START});
+        send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_START});
         for(int i = 0; i < 10; i++) begin
             repeat(250) @(negedge i_clk);
         end
 
         // Scenario 2: Stop the timer
-        send_spi_word({CMD_WRITE, TIMER_ADDR, TIMER_STOP});
+        send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_STOP});
         repeat(30) @(negedge i_clk);
 
         // Scenario 3: Restart after a stop
-        send_spi_word({CMD_WRITE, TIMER_ADDR, TIMER_START});
+        send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_START});
         repeat(20) @(negedge i_clk);
 
         // Scenario 4: Clear while running
-        send_spi_word({CMD_WRITE, TIMER_ADDR, TIMER_CLEAR});
+        send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_CLEAR});
         repeat(20) @(negedge i_clk);
 
         // Scenario 5: Back-to-back start/stop with minimal gap (stresses CDC + edge detect)
-        send_spi_word({CMD_WRITE, TIMER_ADDR, TIMER_START});
+        send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_START});
         repeat(2) @(negedge fast_base_clk);
-        send_spi_word({CMD_WRITE, TIMER_ADDR, TIMER_STOP});
+        send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_STOP});
         repeat(20) @(negedge i_clk);
 
         // Scenario 6: NOP command should not touch the timer
-        send_spi_word({CMD_NOP, TIMER_ADDR, 16'h0000});
+        send_spi_word({`CMD_NOP, `TIMER_ADDR, 16'h0000});
         repeat(20) @(negedge i_clk);
 
         // Scenario 8: Clean start/stop to close out the run
-        send_spi_word({CMD_WRITE, TIMER_ADDR, TIMER_START});
+        send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_START});
         repeat(20) @(negedge i_clk);
-        send_spi_word({CMD_WRITE, TIMER_ADDR, TIMER_STOP});
+        send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_STOP});
 
         repeat(50) @(negedge i_clk);
         $display("[%0t] All stimulus sent.", $time);

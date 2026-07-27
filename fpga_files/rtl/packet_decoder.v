@@ -1,4 +1,5 @@
 // Decode SPI commands to downstream
+`include "fpga_types.v"
 /*
 4 Byte transactions:
 [CMD: 8bit][ADDR: 8bit][DATA: 16 bits]
@@ -29,35 +30,40 @@ module packet_decoder (
     // Packet outputs
     output reg timer_clear,
     output reg timer_start,
-    output reg timer_stop
+    output reg timer_stop,
+
+    // DBG
+    output [3:0] dbg
 );
-    wire [CMD_WIDTH-1:0] cmd;
-    wire [ADDR_WIDTH-1:0] addr;
-    wire [DATA_WIDTH-1:0] data;
+    wire [`CMD_WIDTH-1:0] cmd;
+    wire [`ADDR_WIDTH-1:0] addr;
+    wire [`DATA_WIDTH-1:0] data;
 
     assign {cmd, addr, data} = packet_data;
 
     // Simple decoder can be done combinationally
     // Issue pulse signal tied to valid pulse input to the timer
-    always_comb begin
+    always @(*) begin
         // Initial drive to prevent flop infer
         timer_clear = 1'b0;
         timer_start = 1'b0;
         timer_stop = 1'b0;
 
-        if(packet_valid && (addr == TIMER_ADDR)) begin
-            if (cmd == CMD_WRITE) begin
-                if(data == TIMER_CLEAR) begin
+        if(packet_valid && (addr == `TIMER_ADDR)) begin
+            //if (cmd == `CMD_WRITE) begin
+                if(data == `TIMER_CLEAR) begin
                     timer_clear = 1'b1;
-                end else if(data == TIMER_START) begin
+                end else if(data == `TIMER_START) begin
                     timer_start = 1'b1;
-                end else if(data == TIMER_STOP) begin
+                end else if(data == `TIMER_STOP) begin
                     timer_stop = 1'b1;
                 end
-            end
+            //end
         end
 
     end
+
+    assign dbg = cmd[7:4];
 
 
 endmodule
