@@ -4,7 +4,9 @@
 #include "freertos/queue.h"
 
 typedef struct {
-    uint8_t data;
+    uint8_t CMND;
+    uint8_t ADDR;
+    uint16_t DATA;
 } UART_to_SPI_message_t;
 
 // Queue handle

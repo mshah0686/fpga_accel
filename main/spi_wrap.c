@@ -44,13 +44,19 @@ static void setup_spi_interface(void) {
     ESP_ERROR_CHECK(ret);
 }
 
-void send_spi_transaction(uint8_t data) {
+void send_spi_transaction(UART_to_SPI_message_t data) {
     esp_err_t ret;
     spi_transaction_t t;
+    uint8_t buf[4] = {
+        data.CMND,
+        data.ADDR,
+        (uint8_t) (data.DATA >> 8),
+        (uint8_t) (data.DATA & 0xFF)
+    };
 
     memset(&t, 0, sizeof(t));
-    t.length = 8;                   // Total transaction length in BITS
-    t.tx_buffer = &data;               // Data to send (or poitner based on flags)
+    t.length = 32;                   // Total transaction length in BITS
+    t.tx_buffer = &buf;               // Data to send (or poitner based on flags)
     t.rx_buffer = NULL;              // Pointer to buffer for data in
 
     // This blocks the task until transmission completes
@@ -66,8 +72,8 @@ void setup_and_run_spi(void *args) {
 
     while(1) {
         if(xQueueReceive(uart_to_spi_queue, &input_message, pdMS_TO_TICKS(10)) == pdPASS) {
-            ESP_LOGI(TAG, "Sending %0x", input_message.data);
-            send_spi_transaction(input_message.data);
+            ESP_LOGI(TAG, "Sending %0x", input_message.DATA);
+            send_spi_transaction(input_message);
         } else {
             // Delay a bit for next data input
             vTaskDelay(pdMS_TO_TICKS(1));

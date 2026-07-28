@@ -40,6 +40,9 @@ static void run_uart_poll() {
     ESP_LOGI(TAG, "UART_POLL_START....");
     UART_to_SPI_message_t message;
 
+    message.CMND = 1;
+    message.ADDR = 1;
+
     while (1) {
         // Read data from the UART
         int len = uart_read_bytes (
@@ -53,10 +56,13 @@ static void run_uart_poll() {
             uart_read_data[len] = '\0';
             ESP_LOGI(TAG, "Recv str: %s", (char *) uart_read_data);
 
-            message.data = uart_read_data[0];
-            if (xQueueSend(uart_to_spi_queue, &message, pdMS_TO_TICKS(10)) != pdPASS) {
-                ESP_LOGI(TAG, "Could not send message! %s", (char *) uart_read_data);
+            if(uart_read_data[0] == 48 || uart_read_data[0] == 49 || uart_read_data[0] == 50) {
+                message.DATA = uart_read_data[0] - 48;
+                if (xQueueSend(uart_to_spi_queue, &message, pdMS_TO_TICKS(10)) != pdPASS) {
+                    ESP_LOGI(TAG, "Could not send message! %s", (char *) uart_read_data);
+                }
             }
+
             // Wait for next input
             vTaskDelay(pdMS_TO_TICKS(1));
         }

@@ -59,3 +59,10 @@ TIMER: DATA
     0x2 STOP TIMER
     //Read pending
 
+# July 14th, 2026
+Let's do some cycle calcuation for the SPI interface. First, assume SPI transmits at 10Mhz, FPGA operates at 25Mhz. To send SPI transaction of 32 bits, we need 32 cycles at 10Mhz which is 0.1 microseconds. It take 3.2 microseconds to send one packet. From there it takes about 3 cycles for the valid to assert on the sync. This is 0.04us * 3 = 0.12us. To send 32 bits, we take 3.2 + 0.12 = 3.32us which is about 9.66Mbs. 
+
+Technically, the SPI could start sending the transaction for the next data by pipelining. It could start transmit for the next 32 bits while the rx sync is still processing. But since the FPGA clock speed is 2.5x the SPI clock speed, this is negligible. The bottleneck is SPI transmit speed at 10Mhz. Anything faster there we would see more speed up. The FPGA chip itself might not be able to handle a faster SPI routing. Will have to experiment with that packet loss.
+
+In case of accelerator, we could double this speed at the cost of area. We could tie the another PWM port to the same CS and SCLK. If we needed to transfer large amounts of data, this is an architectural option. Instead of 1 bit per SCLK, we would transmit 2 bits. So the total would be 32 bits of data or 48 bits of data (depending if the second SPI is only data transmit). The cost is area in FPGA and complexity in merging packets downstream.
+
