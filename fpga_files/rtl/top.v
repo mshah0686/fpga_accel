@@ -61,9 +61,11 @@ module top (
 
     // Timer
     wire [7:0] timer_count;
+    wire [7:0] decimal_timer_count;
 
     // Debug
     wire[3:0] dbg_io;
+    wire[3:0] dbg_led_io;
 
     // SPI
     spi_peripheral #(.DATA_WIDTH(SPI_DATA_WIDTH))
@@ -113,7 +115,7 @@ module top (
         .timer_stop(timer_stop),
 
         // DEBUG
-        .dbg(dbg_io[2:0])
+        .dbg()
     );
 
     // TIMER MODULE controlled from SPI
@@ -127,9 +129,11 @@ module top (
         
         // OUTPUT -> DISPLAY
         .count(timer_count),
+        .tens_place(decimal_timer_count[7:4]),
+        .ones_place(decimal_timer_count[3:0]),
 
         // DBG
-        .dbg()
+        .dbg(dbg_io)
     );
 
     // DISPLAY TIMER
@@ -139,7 +143,7 @@ module top (
 
         // INPUT
         //.valid(1'b1), // ALWAYS VALID
-        .count(timer_count[7:4]),
+        .count(decimal_timer_count[7:4]),
 
         // OUTPUT
         .A(o_Segment1_A),
@@ -157,7 +161,7 @@ module top (
 
         // INPUT
         //.valid(1'b1), // ALWAYS VALID
-        .count(timer_count[3:0]),
+        .count(decimal_timer_count[3:0]),
 
         // OUTPUT
         .A(o_Segment2_A),
@@ -170,5 +174,12 @@ module top (
     );
 
     assign {io_PMOD_7, io_PMOD_8, io_PMOD_9, io_PMOD_10} = dbg_io;
+
+    assign dbg_led_io = {timer_count[7] | timer_count[6],
+                          timer_count[5] | timer_count[4],
+                          timer_count[3] | timer_count[2],
+                          timer_count[1] | timer_count[0]};
+
+    assign {o_LED_1, o_LED_2, o_LED_3, o_LED_4} = dbg_led_io;
 
 endmodule
