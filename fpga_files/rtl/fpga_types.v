@@ -11,7 +11,7 @@
 // COMMANDS
 `define CMD_NOP    `CMD_WIDTH'd0
 `define CMD_WRITE  `CMD_WIDTH'd1
-`define CMD_READ   `CMD_WIDTH'd1
+`define CMD_READ   `CMD_WIDTH'd2
 
 // ADDRESSES
 `define TIMER_ADDR `ADDR_WIDTH'd1

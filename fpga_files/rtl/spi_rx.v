@@ -1,8 +1,8 @@
-module spi_peripheral
+module spi_rx
 #( parameter DATA_WIDTH=32)
 (
     input spi_clk,
-    input spi_data,
+    input spi_pico, // ucontroller -> FPGA
     input spi_cs,
 
     output reg [DATA_WIDTH-1:0] data_out,
@@ -30,11 +30,11 @@ always @(posedge spi_clk) begin
     if(last_txn_flag) begin
         // No more clks after this until next cycle!
         shift_reg <= {DATA_WIDTH{1'b0}};
-        data_out <=  {shift_reg[DATA_WIDTH-2:0], spi_data};
+        data_out <=  {shift_reg[DATA_WIDTH-2:0], spi_pico};
         data_valid_flag <= 1'b1;
         recieved_count <= 'b0;
     end else if (~spi_cs) begin
-        shift_reg <= {shift_reg[DATA_WIDTH-2:0], spi_data};
+        shift_reg <= {shift_reg[DATA_WIDTH-2:0], spi_pico};
         recieved_count <= recieved_count + 1;
         data_valid_flag <= 1'b0;
     end

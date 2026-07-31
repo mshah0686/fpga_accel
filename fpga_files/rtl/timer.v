@@ -8,6 +8,7 @@ module simple_timer (
     input stop,
 
     output [7:0] count,
+    output reg timer_en,
 
     output reg [3:0] tens_place,
     output reg [3:0] ones_place,
@@ -15,14 +16,13 @@ module simple_timer (
     output [3:0] dbg
 );
 
-    localparam CYCLES_PER_SECOND = 25000000;
-    //ocalparam CYCLES_PER_SECOND = 25;
+    //localparam CYCLES_PER_SECOND = 25000000;
+    localparam CYCLES_PER_SECOND = 25;
     localparam CYCLE_COUNTER_WIDTH = 25;
     localparam COUNTER_MAX = 99; // Display of 99
 
     reg [7:0] count_q = 8'd0;
     reg [24:0] cycle_counter = CYCLES_PER_SECOND;
-    reg timer_en = 1'b0;
 
     reg dummy_started = 1'b0;
 
@@ -47,7 +47,7 @@ module simple_timer (
             if(cycle_counter == 25'b0) begin
                 // Down counter hit! Increase counter + reset cycle counter
                 cycle_counter <= CYCLES_PER_SECOND;
-                count_q <= count_q == COUNTER_MAX ? count_q <= 8'b0 : count_q + 8'b1;
+                count_q <= (count_q == COUNTER_MAX) ? 8'b0 : count_q + 8'b1;
             end else begin
                 if(timer_en== 1'b1) begin
                     // Decrease counter if enabled

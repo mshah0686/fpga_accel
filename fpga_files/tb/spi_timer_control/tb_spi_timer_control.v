@@ -17,6 +17,7 @@ module tb_spi_timer_control_top;
     reg io_PMOD_1;   // SPI clk
     reg io_PMOD_2;   // SPI data
     reg io_PMOD_3;   // SPI cs
+    reg io_PMOD_4;
 
     // DUT Outputs
     wire o_UART_TX;
@@ -60,6 +61,7 @@ module tb_spi_timer_control_top;
         .io_PMOD_1(io_PMOD_1),
         .io_PMOD_2(io_PMOD_2),
         .io_PMOD_3(io_PMOD_3),
+        .io_PMOD_4(io_PMOD_4),
 
         .io_PMOD_7(io_PMOD_7),
         .io_PMOD_8(io_PMOD_8),
@@ -96,38 +98,60 @@ module tb_spi_timer_control_top;
 
         repeat(5) @(negedge i_clk);
 
-        // Scenario 1: Start the timer
-        send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_START});
-        for(int i = 0; i < 10; i++) begin
-            repeat(250) @(negedge i_clk);
-        end
-
-        // Scenario 2: Stop the timer
-        send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_STOP});
-        repeat(30) @(negedge i_clk);
-
-        // Scenario 3: Restart after a stop
-        send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_START});
-        repeat(20) @(negedge i_clk);
-
-        // Scenario 4: Clear while running
+        // 1. Clear timer
         send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_CLEAR});
         repeat(20) @(negedge i_clk);
 
-        // Scenario 5: Back-to-back start/stop with minimal gap (stresses CDC + edge detect)
+        // 2. Start timer
         send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_START});
-        repeat(2) @(negedge fast_base_clk);
+        repeat(200) @(negedge i_clk);
+
+        send_spi_word({`CMD_READ, `TIMER_ADDR, 16'h0000});
+        repeat(20) @(negedge i_clk);
+
+        // send_spi_word({`CMD_NOP, `TIMER_ADDR, 16'h0000});
+        // repeat(20) @(negedge i_clk);
+
+        // 3. Stop timer
         send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_STOP});
         repeat(20) @(negedge i_clk);
 
-        // Scenario 6: NOP command should not touch the timer
+        // 4. Read timer - queues {timer_en, timer_count} into rd_out_fifo
+        send_spi_word({`CMD_READ, `TIMER_ADDR, 16'h0000});
+        repeat(20) @(negedge i_clk);
+
         send_spi_word({`CMD_NOP, `TIMER_ADDR, 16'h0000});
         repeat(20) @(negedge i_clk);
 
-        // Scenario 8: Clean start/stop to close out the run
-        send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_START});
+        send_spi_word({`CMD_NOP, `TIMER_ADDR, 16'h0000});
         repeat(20) @(negedge i_clk);
-        send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_STOP});
+
+        // // 5. Start timer - also clocks scenario 4's read response out on POCI
+        // send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_START});
+        // repeat(20) @(negedge i_clk);
+
+        // // 5b. Read timer - queues {timer_en, timer_count} into rd_out_fifo
+        // send_spi_word({`CMD_READ, `TIMER_ADDR, 16'h0000});
+        // repeat(20) @(negedge i_clk);
+
+        // // 6. Stop timer
+        // send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_STOP});
+        // repeat(20) @(negedge i_clk);
+
+        // // 7. Read timer - queues {timer_en, timer_count} into rd_out_fifo
+        // send_spi_word({`CMD_READ, `TIMER_ADDR, 16'h0000});
+        // repeat(20) @(negedge i_clk);
+
+        // // 8. Clear timer - also clocks scenario 7's read response out on POCI
+        // send_spi_word({`CMD_WRITE, `TIMER_ADDR, `TIMER_CLEAR});
+        // repeat(20) @(negedge i_clk);
+
+        // // 9. Read timer - queues {timer_en, timer_count} into rd_out_fifo
+        // send_spi_word({`CMD_READ, `TIMER_ADDR, 16'h0000});
+        // repeat(20) @(negedge i_clk);
+
+        // // Dummy NOP so scenario 9's read response is clocked out on POCI
+        // send_spi_word({`CMD_NOP, `TIMER_ADDR, 16'h0000});
 
         repeat(50) @(negedge i_clk);
         $display("[%0t] All stimulus sent.", $time);

@@ -7,6 +7,8 @@ verilate(${TB_NAME}
     PREFIX Vtb_spi_timer_control
     TOP_MODULE tb_spi_timer_control_top
     TRACE_VCD
+    INCLUDE_DIRS
+        "${CMAKE_SOURCE_DIR}/rtl"
     VERILATOR_ARGS
         "-timescale"
         "1ns/1ps"
@@ -15,10 +17,14 @@ verilate(${TB_NAME}
         "--trace-structs"
     SOURCES
         "${CMAKE_SOURCE_DIR}/rtl/fpga_types.v"
-        "${CMAKE_SOURCE_DIR}/rtl/spi.v"
+        "${CMAKE_SOURCE_DIR}/rtl/spi_rx.v"
         "${CMAKE_SOURCE_DIR}/rtl/spi_rx_sync.v"
+        "${CMAKE_SOURCE_DIR}/rtl/spi_tx.v"
         "${CMAKE_SOURCE_DIR}/rtl/sync_flops.v"
+        "${CMAKE_SOURCE_DIR}/rtl/bin2gray.v"
+        "${CMAKE_SOURCE_DIR}/rtl/fifo_async.v"
         "${CMAKE_SOURCE_DIR}/rtl/packet_decoder.v"
+        "${CMAKE_SOURCE_DIR}/rtl/register_model.v"
         "${CMAKE_SOURCE_DIR}/rtl/timer.v"
         "${CMAKE_SOURCE_DIR}/rtl/segment_display.v"
         "${CMAKE_SOURCE_DIR}/rtl/top.v"

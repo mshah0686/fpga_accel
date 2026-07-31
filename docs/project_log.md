@@ -66,3 +66,17 @@ Technically, the SPI could start sending the transaction for the next data by pi
 
 In case of accelerator, we could double this speed at the cost of area. We could tie the another PWM port to the same CS and SCLK. If we needed to transfer large amounts of data, this is an architectural option. Instead of 1 bit per SCLK, we would transmit 2 bits. So the total would be 32 bits of data or 48 bits of data (depending if the second SPI is only data transmit). The cost is area in FPGA and complexity in merging packets downstream.
 
+# July 27th, 2026
+Timer on RTL works. Couple things I missed:
+1. Address in RTL for timer incorrect
+2. Display should be in decimal for the way I encoded the seven segment. Implemented double dabble to make it work for now. 
+
+Next up:
+Sending data back from SPI from FPGA to uController. First will think of the architecture to do this and then simulate it in the test bench and then move on.
+
+One interesting thing I didn't consider before is that the SPI I am running is currently 25Khz - slower than FPGA clock speed. On the last send of the SPI data, before transaction completed, I actually have data transmitted downstream on the faster clock cycle. I can probably push the SPI transmit speed closer to FPGA clock speed and still have it working. Wondering if I can go faster even. 
+
+### Adding read Capability
+For read, the architecture will be to send one read request followed by a dummy txn (or another valid txn) for the FPGA to respond to that data. Basically, when chip select falls, I need to know if there is valid data to send from FPGA and start the transfer on the SPI clock edges. The architecture here is interesting. If the SPI clock is slower than the FPGA clock, then I can just clock everything on FPGA clock and shift register out. If SPI clock is faster, then I need to do CDC and transmit data. 
+
+Let's go with the SPI clock being faster since this architecture should work with both cases (and it is more interesting to learn). I can either do a FIFO or a flag system and cross that data through the boundary.
