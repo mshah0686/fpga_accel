@@ -13,11 +13,12 @@ module simple_timer (
     output reg [3:0] tens_place,
     output reg [3:0] ones_place,
 
-    output [3:0] dbg
+    output [3:0] dbg,
+    output [3:0] led_dbg
 );
 
-    //localparam CYCLES_PER_SECOND = 25000000;
-    localparam CYCLES_PER_SECOND = 25;
+    localparam CYCLES_PER_SECOND = 25000000;
+    //localparam CYCLES_PER_SECOND = 25;
     localparam CYCLE_COUNTER_WIDTH = 25;
     localparam COUNTER_MAX = 99; // Display of 99
 
@@ -25,7 +26,6 @@ module simple_timer (
     reg [24:0] cycle_counter = CYCLES_PER_SECOND;
 
     reg dummy_started = 1'b0;
-
 
     always @(posedge clk) begin
         if(start) begin
@@ -60,6 +60,7 @@ module simple_timer (
     assign count = count_q;
 
     assign dbg = {timer_en, start, stop, clear};
+    assign led_dbg = count_q[3:0];
 
 
     // Convert to binary for output

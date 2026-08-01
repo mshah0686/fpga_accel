@@ -226,6 +226,8 @@ module top (
         .led_dbg_write()
     );
 
+    //assign dbg_io = {rd_data_fifo_empty, rd_data_fifo_rd_en, rd_data_fifo_wr_en, ~io_PMOD_1};
+
     spi_tx #(
         .TXN_WIDTH(`TXN_WIDTH),
         .DATA_WIDTH(`DATA_WIDTH)
@@ -237,7 +239,9 @@ module top (
         // FIFO connection
         .fifo_read_data_in(rd_data_fifo_rd_data),
         .fifo_empty_in(rd_data_fifo_empty),
-        .r_en_out(rd_data_fifo_rd_en)
+        .r_en_out(rd_data_fifo_rd_en),
+
+        .dbg(dbg_io)
     );
 
     assign {io_PMOD_7, io_PMOD_8, io_PMOD_9, io_PMOD_10} = dbg_io;

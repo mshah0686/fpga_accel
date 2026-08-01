@@ -9,7 +9,9 @@ module spi_tx #(
     // Read data
     input [DATA_WIDTH-1 : 0] fifo_read_data_in,
     input fifo_empty_in,
-    output r_en_out
+    output r_en_out,
+
+    output [3:0] dbg
 );
 
     localparam INIT= 2'd0, WAIT_TO_SEND = 2'd1, SEND = 2'd2, SKIP = 2'd3;
@@ -18,7 +20,7 @@ module spi_tx #(
     reg [1:0] current_state;
     reg [DATA_WIDTH-1:0] send_data_shift_reg;
     reg [$clog2(TXN_WIDTH) - 1:0] cycle_count;
-    localparam [$clog2(TXN_WIDTH) - 1:0] LAST_TXN_CYCLE = $clog2(TXN_WIDTH)'(TXN_WIDTH - 1);
+    localparam [4:0] LAST_TXN_CYCLE = (TXN_WIDTH - 1);
 
     always @(negedge spi_clk) begin
         current_state <= next_state;
@@ -51,9 +53,9 @@ module spi_tx #(
         next_state = INIT;
         case (current_state)
             INIT : begin
-                if(~fifo_empty_in && cycle_count == $clog2(TXN_WIDTH)'(2)) begin
+                if(~fifo_empty_in && cycle_count == 5'd1) begin
                     next_state = WAIT_TO_SEND;
-                end else if(cycle_count == $clog2(TXN_WIDTH)'(2)) begin
+                end else if(cycle_count == 5'd2) begin
                     next_state = SKIP;
                 end else begin
                     next_state = INIT;
@@ -96,4 +98,5 @@ module spi_tx #(
     assign r_en_out = (current_state == INIT) & ~fifo_empty_in;
     assign spi_poci = (current_state == SKIP) ? 1'b1 : (current_state == INIT || current_state == WAIT_TO_SEND) ? 1'b0 : send_data_shift_reg[DATA_WIDTH - 1];
 
+    assign dbg = {fifo_empty_in, 1'b0, current_state};
 endmodule
