@@ -11,6 +11,10 @@
 // Logger
 static const char *TAG = "UART";
 
+// Command values - must match `CMD_WRITE / `CMD_READ in fpga_files/rtl/fpga_types.v
+#define CMD_WRITE 1
+#define CMD_READ  2
+
 // UART Read data
 static uint8_t uart_read_data[UART_BUF_SIZE];
 
@@ -40,7 +44,6 @@ static void run_uart_poll() {
     ESP_LOGI(TAG, "UART_POLL_START....");
     UART_to_SPI_message_t message;
 
-    message.CMND = 1;
     message.ADDR = 1;
 
     while (1) {
@@ -56,8 +59,17 @@ static void run_uart_poll() {
             uart_read_data[len] = '\0';
             ESP_LOGI(TAG, "Recv str: %s", (char *) uart_read_data);
 
-            if(uart_read_data[0] == 48 || uart_read_data[0] == 49 || uart_read_data[0] == 50) {
-                message.DATA = uart_read_data[0] - 48;
+            if(uart_read_data[0] == 48 || uart_read_data[0] == 49 || uart_read_data[0] == 50 || uart_read_data[0] == 51) {
+                uint8_t value = uart_read_data[0] - 48; // 0=clear, 1=start, 2=stop, 3=read
+
+                if (value == 3) {
+                    message.CMND = CMD_READ;
+                    message.DATA = 0;
+                } else {
+                    message.CMND = CMD_WRITE;
+                    message.DATA = value;
+                }
+
                 if (xQueueSend(uart_to_spi_queue, &message, pdMS_TO_TICKS(10)) != pdPASS) {
                     ESP_LOGI(TAG, "Could not send message! %s", (char *) uart_read_data);
                 }

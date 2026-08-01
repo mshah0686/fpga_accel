@@ -53,15 +53,19 @@ void send_spi_transaction(UART_to_SPI_message_t data) {
         (uint8_t) (data.DATA >> 8),
         (uint8_t) (data.DATA & 0xFF)
     };
+    uint8_t rx_buf[4] = {0};
 
     memset(&t, 0, sizeof(t));
     t.length = 32;                   // Total transaction length in BITS
-    t.tx_buffer = &buf;               // Data to send (or poitner based on flags)
-    t.rx_buffer = NULL;              // Pointer to buffer for data in
+    t.tx_buffer = buf;               // Data to send (or poitner based on flags)
+    t.rx_buffer = rx_buf;            // Pointer to buffer for data in
 
     // This blocks the task until transmission completes
     ret = spi_device_transmit(spi_device, &t);
     ESP_ERROR_CHECK(ret);
+
+    ESP_LOGI(TAG, "RX bytes: %02X %02X %02X %02X",
+             rx_buf[0], rx_buf[1], rx_buf[2], rx_buf[3]);
 }
 
 void setup_and_run_spi(void *args) {
