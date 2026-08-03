@@ -2,7 +2,7 @@
 
 module mac #(
     parameter ACC_WIDTH = 24,
-    parameter D_WIDTH = 8,
+    parameter D_WIDTH = 8
 )
 (
     input clk,
