@@ -43,14 +43,6 @@ module top (
 
 
 ); 
-    // SPI PERIPHERAL
-    wire [`TXN_WIDTH-1:0] spi_rx_data;
-    wire spi_rx_valid;
-
-    // SPI SYNC OUT
-    wire spi_rx_synced_valid;
-    wire[`TXN_WIDTH-1:0] spi_rx_synced_data;
-
     // REGISTER_COMMANDS
     wire ral_req_valid;
     wire ral_req_wr_en;
@@ -63,70 +55,50 @@ module top (
     wire timer_data_en;
     wire [7:0] timer_data_decimal;
 
-    // OUTPUT DATA FIFO
-    wire [`DATA_WIDTH-1:0] rd_data_fifo_rd_data;
+    // RAL READ DATA -> SPI TX FIFO (write side; read side lives in spi_top)
     wire [`DATA_WIDTH-1:0] rd_data_fifo_wr_data;
-    wire rd_data_fifo_empty;
-    wire rd_data_fifo_rd_en;
     wire rd_data_fifo_wr_en;
 
+    // MATRIX MULT <-> REGISTER MODEL
+    wire [1:0][1:0][7:0] mat_a;              // operands (RAL -> mult)
+    wire [1:0][1:0][7:0] mat_b;
+    wire [15:0]           mat_control_write;  // control reg (RAL -> mult)
+    wire [15:0]           mat_control_status; // status (mult -> RAL, bit0 = idle)
+    wire [1:0][1:0][15:0] mat_result;         // result (mult -> RAL)
 
     // Debug
     wire[3:0] dbg_io;
     wire[3:0] dbg_led_io;
 
-    // SPI
-    spi_rx #(.DATA_WIDTH(`TXN_WIDTH))
-    spi_rx_u (
-        // INPUT
-        .spi_clk(io_PMOD_1),
-        .spi_pico(io_PMOD_2),
-        .spi_cs(io_PMOD_3),
-        
-        // OUTPUT
-        .data_out(spi_rx_data),
-        .data_valid_flag(spi_rx_valid),
-
-        // DBG
-        .pwd_debug(),
-        .led_dbg()
-    );
-
-    // SYNC SPI -> SYSTEM CLOCK
-    spi_rx_sync #(.DATA_WIDTH(`TXN_WIDTH))
-    spi_rx_sync_u (
-        .system_clk(i_clk),
-
-        // Inputs
-        .spi_data_in(spi_rx_data),
-        .spi_data_valid(spi_rx_valid),
-
-        // Outputs
-        .data_out(spi_rx_synced_data),
-        .data_valid(spi_rx_synced_valid),
-        .system_ready(1'b1),
-        
-        // DBG
-        .dbg()
-    );
-
-    // DECODE PACKET FROM SPI
-    packet_decoder packet_decoder_u (
+    // SPI TOP: RX + CDC + decode -> RAL request bus, and RAL read data -> TX
+    spi_top spi_top_u (
         .clk(i_clk),
 
-        // INPUT
-        .packet_valid(spi_rx_synced_valid),
-        .packet_data(spi_rx_synced_data),
+        // SPI physical interface
+        .spi_sck(io_PMOD_1),
+        .spi_pico(io_PMOD_2),
+        .spi_cs(io_PMOD_3),
+        .spi_poci(io_PMOD_4),
 
-        // OUTPUT RAL CONTROL
-        .out_valid(ral_req_valid),
-        .out_wr_en(ral_req_wr_en),
-        .out_addr(ral_req_addr),
-        .out_data(ral_req_data)
+        // Decoded packet -> RAL request bus
+        .ral_req_valid(ral_req_valid),
+        .ral_req_wr_en(ral_req_wr_en),
+        .ral_req_addr(ral_req_addr),
+        .ral_req_data(ral_req_data),
+
+        // RAL read data -> TX FIFO
+        .rd_fifo_wr_en(rd_data_fifo_wr_en),
+        .rd_fifo_wr_data(rd_data_fifo_wr_data),
+
+        // DBG
+        .dbg(dbg_io)
     );
 
     // REGISTER MODEL: decode packet into peripheral control/read strobes
-    register_model register_model_u (
+    register_model #(
+        .MATRIX_D_WIDTH(8),
+        .MATRIX_ACC_WIDTH(16)
+    ) register_model_u (
         .clk(i_clk),
 
         // Packet inputs
@@ -144,12 +116,34 @@ module top (
         .in_timer_en(timer_data_en),
         .in_timer_count(timer_data_count),
 
+        // MATRIX MULT interface
+        .a_matrix(mat_a),
+        .b_matrix(mat_b),
+        .matrix_control_write(mat_control_write),
+        .matrix_result(mat_result),
+        .matrix_control(mat_control_status),
+
         // Read data output to fifo
         .out_rd_valid(rd_data_fifo_wr_en),
         .out_rd_data(rd_data_fifo_wr_data),
 
         // DBG
         .dbg()
+    );
+
+    // MATRIX MULT (2x2) controlled from SPI via the register model.
+    // Widths match the register model: 16-bit operands, 32-bit result.
+    matrix_mult_top #(
+        .D_WIDTH   (8),
+        .ACC_WIDTH (16),
+        .CTRL_WIDTH(16)
+    ) matrix_mult_top_u (
+        .clk               (i_clk),
+        .matrix_control_in (mat_control_write),
+        .matrix_control_out(mat_control_status),
+        .a                 (mat_a),
+        .b                 (mat_b),
+        .c                 (mat_result)
     );
 
     // TIMER MODULE controlled from SPI
@@ -168,7 +162,8 @@ module top (
         .ones_place(timer_data_decimal[3:0]),
 
         // DBG
-        .dbg()
+        .dbg(),
+        .led_dbg()
     );
 
     // DISPLAY TIMER
@@ -206,42 +201,6 @@ module top (
         .E(o_Segment2_E),
         .F(o_Segment2_F),
         .G(o_Segment2_G)
-    );
-
-    async_fifo #(
-        .DEPTH(2), 
-        .DATA_WIDTH(`DATA_WIDTH)
-    ) rd_out_fifo_u (
-        .w_en(rd_data_fifo_wr_en),
-        .w_data(rd_data_fifo_wr_data),
-        .w_clk(i_clk),
-        .fifo_full(),
-
-        .r_en(rd_data_fifo_rd_en),
-        .r_data(rd_data_fifo_rd_data),
-        .r_clk(~io_PMOD_1),
-        .fifo_empty(rd_data_fifo_empty),
-
-        .led_dbg_read(),
-        .led_dbg_write()
-    );
-
-    //assign dbg_io = {rd_data_fifo_empty, rd_data_fifo_rd_en, rd_data_fifo_wr_en, ~io_PMOD_1};
-
-    spi_tx #(
-        .TXN_WIDTH(`TXN_WIDTH),
-        .DATA_WIDTH(`DATA_WIDTH)
-    ) spi_tx_u (
-        .spi_clk(io_PMOD_1),
-        .spi_poci(io_PMOD_4),
-        .spi_cs(io_PMOD_3),
-
-        // FIFO connection
-        .fifo_read_data_in(rd_data_fifo_rd_data),
-        .fifo_empty_in(rd_data_fifo_empty),
-        .r_en_out(rd_data_fifo_rd_en),
-
-        .dbg(dbg_io)
     );
 
     assign {io_PMOD_7, io_PMOD_8, io_PMOD_9, io_PMOD_10} = dbg_io;

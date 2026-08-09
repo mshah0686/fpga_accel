@@ -1,43 +1,51 @@
 // MAC implementation block
 
-module mac #(
-    parameter ACC_WIDTH = 24,
-    parameter D_WIDTH = 8
-)
-(
+module systolic_mac #(
+    parameter D_WIDTH   = 8,
+    parameter ACC_WIDTH = 24
+)(
     input clk,
-    input valid, // Enable compute
-    input clear, // Clear values
-    input [D_WIDTH -1:0] A,
-    input [D_WIDTH-1:0] B,
 
-    output [ACC_WIDTH-1:0] acc_out
+    input  [D_WIDTH-1:0] a_in,
+    input  [D_WIDTH-1:0] b_in,
+    input                valid_a_in, // Both should be valid on same cycle...can remove this to opimize
+    input                valid_b_in,
+    input                first_in_a, // First compute
+    input                first_in_b,
+
+    output reg [D_WIDTH-1:0] a_out,
+    output reg [D_WIDTH-1:0] b_out,
+    output reg               valid_a_out,
+    output reg               valid_b_out,
+    output reg               first_a_out,
+    output reg               first_b_out,
+
+    output [ACC_WIDTH-1:0] c_out
 );
 
-    // If clear and valid on same cycle, only A*B accumulated
-    // If clear and no valid, acc cleared
-    // If only valid, then A*B added to accumulator
+    reg [ACC_WIDTH-1:0] acc;
 
-    wire[(D_WIDTH*2)-1:0] mult;
-    wire[ACC_WIDTH -1 : 0] mult_extended;
-    wire[ACC_WIDTH-1:0] acc_next;
-
-    reg [ACC_WIDTH-1:0] acc = {ACC_WIDTH{1'b0}};
-
-
-    assign mult = A * B; // Multiply
-    assign mult_extended = {{(ACC_WIDTH - (2*D_WIDTH)){1'b0}}, mult};
-    assign acc_next = clear ? mult_extended : mult_extended + acc; // Add
-
+    wire valid = valid_a_in & valid_b_in;
 
     always @(posedge clk) begin
-        if(valid) begin
-            acc <= acc_next; // Assign to next if valid
-        end else if (clear) begin
-            acc <= {ACC_WIDTH{1'b0}}; // Clear if only clear
+        // pass operands + validity to neighbors, one cycle later
+        a_out       <= a_in;
+        b_out       <= b_in;
+        valid_a_out <= valid_a_in;
+        valid_b_out <= valid_b_in;
+        first_a_out <= first_in_a;
+        first_b_out <= first_in_b;
+
+        // Valid inputs
+        if (valid) begin
+            if(first_in_a || first_in_b)
+                acc <= (a_in * b_in);
+            else
+                acc <= acc + (a_in * b_in);
         end
+
     end
 
-    assign acc_out = acc;
+    assign c_out = acc;
 
-endmodule 
+endmodule

@@ -1,22 +1,21 @@
 module matrix_mult_controller (
     input clk,
-    input req_valid,
+    input req_valid, // Pulse beat in (only captured when idle)
 
     // Control signals to datapath
     output reg load_values,
-    output reg select_k,
-    output reg enable,
-    output reg clear,
+    output reg execute,
     output reg load_outputs,
+    input dpath_idle,
 
-    output reg done
+    output reg idle
 );
 
     // FSM state encoding
-    parameter [2:0] IDLE = 3'd0,
+    localparam [2:0] IDLE = 3'd0,
                      LOAD = 3'd1,
-                     K1   = 3'd2,
-                     K2   = 3'd3,
+                     EXECUTE = 3'd2,
+                     WAIT = 3'd3,
                      SAVE = 3'd4;
 
     reg [2:0] current_state = IDLE;
@@ -41,15 +40,19 @@ module matrix_mult_controller (
             end
 
             LOAD: begin
-                next_state = K1;
+                next_state = EXECUTE;
             end
 
-            K1: begin
-                next_state = K2;
+            EXECUTE: begin
+                next_state = WAIT;
             end
 
-            K2: begin
-                next_state = SAVE;
+            WAIT: begin
+                if(dpath_idle) begin
+                    next_state = SAVE;
+                end else begin
+                    next_state = WAIT;
+                end
             end
 
             SAVE: begin
@@ -65,30 +68,24 @@ module matrix_mult_controller (
     // Output logic
     always @(*) begin
         load_values  = 1'b0;
-        select_k     = 1'b0;
-        enable       = 1'b0;
-        clear        = 1'b0;
+        execute      = 1'b0;
         load_outputs = 1'b0;
-        done         = 1'b0;
+        idle         = 1'b0;
 
         case (current_state)
             IDLE: begin
-                done = 1'b1;
+                idle = 1'b1;
             end
 
             LOAD: begin
-                clear = 1'b1;
                 load_values = 1'b1;
             end
 
-            K1: begin
-                enable = 1'b1;
-                select_k = 1'b0;
+            EXECUTE: begin
+                execute = 1'b1;
             end
 
-            K2: begin
-                enable = 1'b1;
-                select_k = 1'b1;
+            WAIT: begin
             end
 
             SAVE: begin
@@ -96,7 +93,7 @@ module matrix_mult_controller (
             end
 
             default: begin
-                done = 1'b1;
+                idle = 1'b1;
             end
         endcase
     end

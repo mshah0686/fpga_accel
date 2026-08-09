@@ -80,3 +80,23 @@ One interesting thing I didn't consider before is that the SPI I am running is c
 For read, the architecture will be to send one read request followed by a dummy txn (or another valid txn) for the FPGA to respond to that data. Basically, when chip select falls, I need to know if there is valid data to send from FPGA and start the transfer on the SPI clock edges. The architecture here is interesting. If the SPI clock is slower than the FPGA clock, then I can just clock everything on FPGA clock and shift register out. If SPI clock is faster, then I need to do CDC and transmit data. 
 
 Let's go with the SPI clock being faster since this architecture should work with both cases (and it is more interesting to learn). I can either do a FIFO or a flag system and cross that data through the boundary.
+
+# August 9th, 2026
+Updates/Issues/Cool things:
+1. Implemented a 2x2 static multiplier where you load A & B values and drive enable to each over two cycles with a k to select which values to use in accumulator. Learned that this doesn't scale at larger values.
+2. Learned about systolic arrays. Moved 2x2 matmult to a systolic array. Here the key is A values propogate from one MAC to the next in the row and B values to the bottom in column. You drive valid/A and valid/B on the edges. The key is to cascade the data per cycle. A 2x2 now takes 4 cycles (calculate by 3N-2 where N is size of matrix). 
+    - This is better for scalability. You can write a parameterized data path without having to drive indivisual elements. You now only drive rows of A and columns of B on a staggared timing. They propogate through the array and at the end you have the results.
+    - The downside is complexity and time. You take 2 more cycles to compute and have the logic of staggared inputs. A simple multiplier set up is simpler to implement but does not scale.
+    - The MAC/PEs now have valid in, first valid in, A and B signals. These are propogated to the right and below neighbors. Datapath and controller are split where controller just sends signals and datapath handles the data drive to the array.
+    - Data drive to the array is edged based on cycle count to control first_valid, valid, and data being driven into PEs on the edges. Right now a set cycle count is used to calculate when to assert done to the controller to indicate finished compute.
+3. Designed the register model wrapper and set up addressing. Now SPI addressing has a peripheral tag to identify TIMER vs Matrix compute. Then within the other bits of address, you pack the row/col and matrix type. The data is the data. Right now the matrix is 8 bit multipliers and 16 bit result. 2x2 limited
+4. Set up a simple simulation TOP_TB to simulate. Refactored code into SPI_TOP and MATRIX_TOP to keep parts isolated. The register model is the connection between the SPI and the hardware. 
+5. Software read from FPGA using the SPI read commands
+
+Optimizations:
+1. Right now writes have a 16 bit width but multipliers are 8 bit. You could pack two address spaces into this. This would cut down matrix programming commands by half.
+2. Expand the commands to add multiple read options. You can use the data bits to read 3 addresses at once. This would save 2 read commands being send on SPI.
+3. Not sure if the current register set up is best. Will explore what BRAMs are and how they are used.
+4.  The bottleneck is still SPI transmit speed. Speeding this up or lowering the number of commands needed would improve performance.
+
+The main next step is to come up with an application. Either run the inference workload on the uController and use the matrix multiplier to compute features or implement full ended to end multiplier on FPGA. The bottleneck is still SPI transmit speed.

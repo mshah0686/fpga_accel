@@ -1,35 +1,43 @@
 module matrix_mult_top #(
-    parameter D_WIDTH = 4,
-    parameter ACC_WIDTH = 16
+    parameter D_WIDTH    = 8,
+    parameter ACC_WIDTH  = 16,
+    parameter CTRL_WIDTH = 16
 )(
     input clk,
-    input req_valid,
-    output done,
 
-    // Matrix A / B inputs
-    input  [D_WIDTH-1:0] a00, a01, a10, a11,
-    input  [D_WIDTH-1:0] b00, b01, b10, b11,
+    // Matrix control register interface (to/from register model)
+    input  [CTRL_WIDTH-1:0] matrix_control_in, // LSB valid beat to enable it
+    output [CTRL_WIDTH-1:0] matrix_control_out,
 
-    // Matrix C output
-    output [ACC_WIDTH-1:0] c00, c01, c10, c11
+    // Matrix operands (2x2, indexed [row][col])
+    input  [1:0][1:0][D_WIDTH-1:0]   a,
+    input  [1:0][1:0][D_WIDTH-1:0]   b,
+
+    // Matrix result (2x2, indexed [row][col])
+    output [1:0][1:0][ACC_WIDTH-1:0] c
 );
 
-    // Controller -> datapath control signals
+    // Controller <-> datapath control signals
     wire load_values;
-    wire select_k;
-    wire enable;
-    wire clear;
+    wire execute;
     wire load_outputs;
+    wire dpath_idle;
+
+    // Controller input/output & status
+    wire multiplier_idle;
+    wire req_valid = matrix_control_in[0]; // Pulse in
+
+    // Control register out
+    assign matrix_control_out = {15'd0, multiplier_idle};
 
     matrix_mult_controller u_controller (
         .clk          (clk),
-        .req_valid    (req_valid),
+        .req_valid    (req_valid), // Pulse beat in
         .load_values  (load_values),
-        .select_k     (select_k),
-        .enable       (enable),
-        .clear        (clear),
+        .execute      (execute),
         .load_outputs (load_outputs),
-        .done         (done)
+        .dpath_idle   (dpath_idle),
+        .idle         (multiplier_idle)
     );
 
     mult_datapath #(
@@ -38,13 +46,12 @@ module matrix_mult_top #(
     ) u_datapath (
         .clk          (clk),
         .load_values  (load_values),
-        .select_k     (select_k),
-        .enable       (enable),
-        .clear        (clear),
+        .execute      (execute),
         .load_outputs (load_outputs),
-        .a00 (a00), .a01 (a01), .a10 (a10), .a11 (a11),
-        .b00 (b00), .b01 (b01), .b10 (b10), .b11 (b11),
-        .c00 (c00), .c01 (c01), .c10 (c10), .c11 (c11)
+        .idle         (dpath_idle),
+        .a            (a),
+        .b            (b),
+        .c_out        (c)
     );
 
 endmodule

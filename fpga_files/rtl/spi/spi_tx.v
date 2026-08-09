@@ -20,7 +20,7 @@ module spi_tx #(
     reg [1:0] current_state;
     reg [DATA_WIDTH-1:0] send_data_shift_reg;
     reg [$clog2(TXN_WIDTH) - 1:0] cycle_count;
-    localparam [4:0] LAST_TXN_CYCLE = (TXN_WIDTH - 1);
+    localparam [4:0] LAST_TXN_CYCLE = 5'(TXN_WIDTH - 1);
 
     always @(negedge spi_clk) begin
         current_state <= next_state;
