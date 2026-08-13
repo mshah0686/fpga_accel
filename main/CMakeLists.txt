@@ -5,5 +5,7 @@ idf_component_register(SRCS
     "uart_wrap.c" 
     "spi_wrap.h"
     "spi_wrap.c"
+    "matrix_controller.h"
+    "matrix_controller.c"
     "main.c"
     INCLUDE_DIRS ".")

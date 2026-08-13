@@ -8,7 +8,7 @@
 
 static const char *TAG = "SPI";
 
-spi_bus_config_t spi_cfg = {
+static spi_bus_config_t spi_cfg = {
     .miso_io_num = SPI_MISO_PIN,
     .mosi_io_num = SPI_MOSI_PIN,
     .sclk_io_num = SPI_CLK_PIN,
@@ -17,7 +17,7 @@ spi_bus_config_t spi_cfg = {
     .max_transfer_sz = 4    // Maximum transfer size in bytes
 };
 
-spi_device_interface_config_t dev_cfg = {
+static spi_device_interface_config_t dev_cfg = {
     .command_bits = SPI_COMMAND_SIZE,
     .address_bits = SPI_ADDRESS_SIZE,
     .dummy_bits = 0,
@@ -28,7 +28,7 @@ spi_device_interface_config_t dev_cfg = {
 };
 
 // Device handle to send data
-spi_device_handle_t spi_device;
+static spi_device_handle_t spi_device;
 
 // Setup SPI
 static void setup_spi_interface(void) {
@@ -44,14 +44,14 @@ static void setup_spi_interface(void) {
     ESP_ERROR_CHECK(ret);
 }
 
-void send_spi_transaction(UART_to_SPI_message_t data) {
+static void send_spi_transaction(uint32_t data) {
     esp_err_t ret;
     spi_transaction_t t;
     uint8_t buf[4] = {
-        data.CMND,
-        data.ADDR,
-        (uint8_t) (data.DATA >> 8),
-        (uint8_t) (data.DATA & 0xFF)
+        (uint8_t) (data & 0xFF),
+        (uint8_t) ((data >> 8) & 0xFF),
+        (uint8_t) ((data >> 16) & 0xFF),
+        (uint8_t) ((data >> 24) & 0xFF)
     };
     uint8_t rx_buf[4] = {0};
 
@@ -63,6 +63,8 @@ void send_spi_transaction(UART_to_SPI_message_t data) {
     // This blocks the task until transmission completes
     ret = spi_device_transmit(spi_device, &t);
     ESP_ERROR_CHECK(ret);
+    ESP_LOGI(TAG, "TX bytes: %02X %02X %02X %02X",
+             buf[0], buf[1], buf[2], buf[3]);
 
     ESP_LOGI(TAG, "RX bytes: %02X %02X %02X %02X",
              rx_buf[0], rx_buf[1], rx_buf[2], rx_buf[3]);
@@ -72,12 +74,11 @@ void setup_and_run_spi(void *args) {
     setup_spi_interface();
     ESP_LOGI(TAG, "SPI_SETUP....OK");
 
-    UART_to_SPI_message_t input_message;
+    matrix_command_u input_message;
 
     while(1) {
-        if(xQueueReceive(uart_to_spi_queue, &input_message, pdMS_TO_TICKS(10)) == pdPASS) {
-            ESP_LOGI(TAG, "Sending %0x", input_message.DATA);
-            send_spi_transaction(input_message);
+        if(xQueueReceive(matrix_to_spi_queue, &input_message, pdMS_TO_TICKS(10)) == pdPASS) {
+            send_spi_transaction(input_message.word);
         } else {
             // Delay a bit for next data input
             vTaskDelay(pdMS_TO_TICKS(1));
