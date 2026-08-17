@@ -30,4 +30,5 @@ typedef union {
 
 // Queue handle - handle in main.c
 extern QueueHandle_t uart_to_spi_queue;
+extern QueueHandle_t uart_trigger_queue;
 extern QueueHandle_t matrix_to_spi_queue;

@@ -42,9 +42,8 @@ static void setup_uart() {
 
 static void run_uart_poll() {
     ESP_LOGI(TAG, "UART_POLL_START....");
-    UART_to_SPI_message_t message;
+    uint8_t message;
 
-    message.ADDR = 1;
 
     while (1) {
         // Read data from the UART
@@ -58,21 +57,10 @@ static void run_uart_poll() {
         if (len) {
             uart_read_data[len] = '\0';
             ESP_LOGI(TAG, "Recv str: %s", (char *) uart_read_data);
-
-            if(uart_read_data[0] == 48 || uart_read_data[0] == 49 || uart_read_data[0] == 50 || uart_read_data[0] == 51) {
-                uint8_t value = uart_read_data[0] - 48; // 0=clear, 1=start, 2=stop, 3=read
-
-                if (value == 3) {
-                    message.CMND = CMD_READ;
-                    message.DATA = 0;
-                } else {
-                    message.CMND = CMD_WRITE;
-                    message.DATA = value;
-                }
-
-                if (xQueueSend(uart_to_spi_queue, &message, pdMS_TO_TICKS(10)) != pdPASS) {
-                    ESP_LOGI(TAG, "Could not send message! %s", (char *) uart_read_data);
-                }
+            
+            message = uart_read_data[0];
+            if (xQueueSend(uart_trigger_queue, &message, pdMS_TO_TICKS(10)) != pdPASS) {
+                ESP_LOGI(TAG, "Could not send message! %s", (char *) uart_read_data);
             }
 
             // Wait for next input

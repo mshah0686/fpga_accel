@@ -58,7 +58,14 @@ static void run_matrix_loop() {
 // Setup and run UART reading forever loop
 void setup_matrix_and_run(void *args) {
     ESP_LOGI(TAG, "MATRIX_SETUP....OK");
-    run_matrix_loop();
 
-    vTaskDelete(NULL);
+    uint8_t static_input_message;
+
+    while(1) {
+        if(xQueueReceive(uart_trigger_queue, &static_input_message, pdMS_TO_TICKS(10)) == pdPASS) {
+            run_matrix_loop();
+        } else {
+            vTaskDelay(pdMS_TO_TICKS(1));
+        }
+    }
 }
