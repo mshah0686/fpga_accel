@@ -1,3 +1,5 @@
+`include "fpga_types.sv"
+
 module top (
     input  i_clk,       // Main Clock
 

@@ -68,7 +68,7 @@ module simple_timer (
     always @(*) begin
         tens_place = 4'b0;
         ones_place = 4'b0;
-        for(i = 7; i >=0; i-=1) begin
+        for(i = 7; i >=0; i = i - 1) begin
             if(tens_place >= 5) tens_place = tens_place + 3;
             if(ones_place >= 5) ones_place = ones_place + 3;
 

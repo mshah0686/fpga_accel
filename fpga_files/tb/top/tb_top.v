@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-`include "fpga_types.v"
+`include "fpga_types.sv"
 module tb_top;
 
     // SPI transaction width (CMD_WIDTH + ADDR_WIDTH + DATA_WIDTH)

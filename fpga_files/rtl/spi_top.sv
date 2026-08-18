@@ -2,7 +2,7 @@
 //  - Receive SPI packets, CDC into the system clock, decode to the RAL request bus
 //  - Accept RAL read data and stream it back out over SPI TX
 
-`include "fpga_types.v"
+`include "fpga_types.sv"
 
 module spi_top (
     input clk,                       // system clock

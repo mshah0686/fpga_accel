@@ -1,4 +1,4 @@
-# 1. Define the simulation executable binary name and its C++ testbench source
+﻿# 1. Define the simulation executable binary name and its C++ testbench source
 set(TB_NAME spi_timer_control_tb)
 add_executable(${TB_NAME} tb_spi_timer_control.cpp)
 
@@ -16,18 +16,18 @@ verilate(${TB_NAME}
         "--trace"
         "--trace-structs"
     SOURCES
-        "${CMAKE_SOURCE_DIR}/rtl/fpga_types.v"
-        "${CMAKE_SOURCE_DIR}/rtl/spi_rx.v"
-        "${CMAKE_SOURCE_DIR}/rtl/spi_rx_sync.v"
-        "${CMAKE_SOURCE_DIR}/rtl/spi_tx.v"
-        "${CMAKE_SOURCE_DIR}/rtl/sync_flops.v"
-        "${CMAKE_SOURCE_DIR}/rtl/bin2gray.v"
-        "${CMAKE_SOURCE_DIR}/rtl/fifo_async.v"
-        "${CMAKE_SOURCE_DIR}/rtl/packet_decoder.v"
-        "${CMAKE_SOURCE_DIR}/rtl/register_model.v"
-        "${CMAKE_SOURCE_DIR}/rtl/timer.v"
-        "${CMAKE_SOURCE_DIR}/rtl/segment_display.v"
-        "${CMAKE_SOURCE_DIR}/rtl/top.v"
+        "${CMAKE_SOURCE_DIR}/rtl/fpga_types.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/spi_rx.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/spi_rx_sync.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/spi_tx.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/sync_flops.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/bin2gray.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/fifo_async.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/packet_decoder.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/register_model.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/timer.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/segment_display.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/top.sv"
         "${CMAKE_CURRENT_SOURCE_DIR}/tb_spi_timer_control.v"
 )
 

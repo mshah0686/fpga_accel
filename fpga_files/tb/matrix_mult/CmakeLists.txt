@@ -1,4 +1,4 @@
-# 1. Define the simulation executable binary name and its C++ testbench source
+﻿# 1. Define the simulation executable binary name and its C++ testbench source
 set(TB_NAME matrix_mult_tb)
 add_executable(${TB_NAME} tb_matrix_mult.cpp)
 
@@ -16,10 +16,10 @@ verilate(${TB_NAME}
         "--trace"
         "--trace-structs"
     SOURCES
-        "${CMAKE_SOURCE_DIR}/rtl/compute/mac.v"
-        "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_datapath.v"
-        "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_controller.v"
-        "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_top.v"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/mac.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_datapath.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_controller.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_top.sv"
         "${CMAKE_CURRENT_SOURCE_DIR}/tb_matrix_mult.v"
 )
 

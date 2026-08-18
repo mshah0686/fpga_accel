@@ -1,0 +1,29 @@
+timestamp: "17233715923"
+arch: ICE40
+fpga_info {
+  fpga_id: "ice40hx1k-vq100"
+  part_num: "ICE40HX1K-VQ100"
+  size: "1k"
+  ice40_params {
+    type: "hx1k"
+    package: "vq100"
+  }
+}
+verbosity {
+  pnr: true
+}
+environment {
+  platform_id: "windows-amd64"
+  is_windows: true
+  terminal_mode: FORCE_TERMINAL
+  theme_name: "light"
+  debug_level: 0
+  yosys_path: "C:\\Users\\Malav\\.apio\\packages\\oss-cad-suite\\share\\yosys"
+  trellis_path: "C:\\Users\\Malav\\.apio\\packages\\oss-cad-suite\\share\\trellis"
+  scons_shell_id: "cmd"
+}
+apio_env_params {
+  env_name: "default"
+  board_id: "go-board"
+  top_module: "top"
+}

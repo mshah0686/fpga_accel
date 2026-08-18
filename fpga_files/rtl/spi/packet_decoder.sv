@@ -1,5 +1,5 @@
 // Decode SPI commands to downstream
-`include "fpga_types.v"
+`include "fpga_types.sv"
 /*
     Simple logic to decode the packet into register interface
 */

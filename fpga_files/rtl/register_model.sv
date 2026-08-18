@@ -1,6 +1,6 @@
 
 // Decode SPI commands to downstream
-`include "fpga_types.v"
+`include "fpga_types.sv"
 /*
 4 Byte transactions:
 [CMD: 8bit][ADDR: 8bit][DATA: 16 bits]
