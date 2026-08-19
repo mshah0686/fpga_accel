@@ -109,15 +109,6 @@ module top (
         .in_data(ral_req_data),
         .in_addr(ral_req_addr),
 
-        // Peripheral Controls -> TIMER
-        .out_timer_clear(timer_ctrl_clear),
-        .out_timer_start(timer_ctrl_start),
-        .out_timer_stop(timer_ctrl_stop),
-
-        // Peripheral input data
-        .in_timer_en(timer_data_en),
-        .in_timer_count(timer_data_count),
-
         // MATRIX MULT interface
         .a_matrix(mat_a),
         .b_matrix(mat_b),
@@ -146,63 +137,6 @@ module top (
         .a                 (mat_a),
         .b                 (mat_b),
         .c                 (mat_result)
-    );
-
-    // TIMER MODULE controlled from SPI
-    simple_timer timer_u (
-        .clk(i_clk),
-
-        // INPUT
-        .start(timer_ctrl_start),
-        .clear(timer_ctrl_clear),
-        .stop(timer_ctrl_stop),
-        
-        // OUTPUT -> DISPLAY
-        .timer_en(timer_data_en),
-        .count(timer_data_count),
-        .tens_place(timer_data_decimal[7:4]),
-        .ones_place(timer_data_decimal[3:0]),
-
-        // DBG
-        .dbg(),
-        .led_dbg()
-    );
-
-    // DISPLAY TIMER
-    segment_display DISPLAY_1
-    (
-        .clk(i_clk),
-
-        // INPUT
-        //.valid(1'b1), // ALWAYS VALID
-        .count(timer_data_decimal[7:4]),
-
-        // OUTPUT
-        .A(o_Segment1_A),
-        .B(o_Segment1_B),
-        .C(o_Segment1_C),
-        .D(o_Segment1_D),
-        .E(o_Segment1_E),
-        .F(o_Segment1_F),
-        .G(o_Segment1_G)
-    );
-
-    segment_display DISPLAY_2
-    (
-        .clk(i_clk),
-
-        // INPUT
-        //.valid(1'b1), // ALWAYS VALID
-        .count(timer_data_decimal[3:0]),
-
-        // OUTPUT
-        .A(o_Segment2_A),
-        .B(o_Segment2_B),
-        .C(o_Segment2_C),
-        .D(o_Segment2_D),
-        .E(o_Segment2_E),
-        .F(o_Segment2_F),
-        .G(o_Segment2_G)
     );
 
     assign {io_PMOD_7, io_PMOD_8, io_PMOD_9, io_PMOD_10} = dbg_io;

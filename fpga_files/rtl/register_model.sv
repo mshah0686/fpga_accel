@@ -38,15 +38,6 @@ module register_model
     input [`DATA_WIDTH-1:0] in_data,
     input [`ADDR_WIDTH-1:0] in_addr,
 
-
-    // TIMER CONTROL
-    output reg out_timer_clear,
-    output reg out_timer_start,
-    output reg out_timer_stop,
-
-    input in_timer_en,
-    input [7:0] in_timer_count,
-
     // MULT CONTROL
     output reg [1:0][1:0][MATRIX_D_WIDTH-1:0] a_matrix,
     output reg [1:0][1:0][MATRIX_D_WIDTH-1:0] b_matrix,
@@ -66,20 +57,6 @@ module register_model
     // Peripheral TAG -> then addr split after
     wire [`ADDR_PERIF_TAG_WIDTH-1:0] peripheral_tag = in_addr[`ADDR_PERIF_TAG_WIDTH - 1:0]; // LSB
     wire [`ADDR_REG_WIDTH-1:0] peripheral_reg_addr = in_addr[`ADDR_WIDTH-1:`ADDR_PERIF_TAG_WIDTH]; // MSB
-
-    // ---------------- TIMER CONTROL (write, one-cycle pulse outputs) ----------------
-    always @(posedge clk) begin
-        out_timer_clear <= 1'b0;
-        out_timer_start <= 1'b0;
-        out_timer_stop  <= 1'b0;
-
-        if (in_valid && in_wr_en && peripheral_tag == `TIMER_TAG) begin
-            // Only one register so doesn't really matter
-            out_timer_clear <= (in_data == `TIMER_CLEAR);
-            out_timer_start <= (in_data == `TIMER_START);
-            out_timer_stop  <= (in_data == `TIMER_STOP);
-        end
-    end
 
     // ---------------- MATRIX REGISTER WRITE (held) ----------------
     // A/B operand elements and the control register hold until overwritten.
@@ -108,10 +85,7 @@ module register_model
         out_rd_valid <= 1'b0;
 
         if (in_valid && !in_wr_en) begin
-            if (peripheral_tag == `TIMER_TAG) begin
-                out_rd_valid <= 1'b1;
-                out_rd_data  <= {7'd0, in_timer_en, in_timer_count};
-            end else if (peripheral_tag == `MATRIX_TAG) begin
+            if (peripheral_tag == `MATRIX_TAG) begin
                 if (matrix_type == `MATRIX_A) begin
                     out_rd_valid <= 1'b1;
                     out_rd_data <= {8'd0, a_matrix[matrix_row_idx][matrix_col_idx]}; // FIXME::Need to parameterize this based on data size
@@ -128,7 +102,5 @@ module register_model
             end
         end
     end
-
-    assign dbg = {out_timer_clear, out_timer_start, out_timer_stop, out_rd_valid};
 
 endmodule

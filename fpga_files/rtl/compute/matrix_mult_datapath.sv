@@ -18,9 +18,6 @@ module mult_datapath #(
     output reg [1:0][1:0][ACC_WIDTH-1:0] c_out
 );
 
-    reg [1:0][1:0][D_WIDTH-1:0] a_l;
-    reg [1:0][1:0][D_WIDTH-1:0] b_l;
-
     localparam IDLE    = 2'd0;
     localparam EXECUTE = 2'd1;
     localparam EXECUTION_CYCLES = 3; // Hardcoded for now
@@ -61,10 +58,7 @@ module mult_datapath #(
     assign idle = current_state == IDLE;
 
     always @(posedge clk) begin
-        if(load_values) begin
-            a_l <= a;
-            b_l <= b;
-        end else if (load_outputs) begin
+        if (load_outputs) begin
             c_out <= c_out_conns;
         end
     end
@@ -87,7 +81,7 @@ module mult_datapath #(
                                               cycle_counter <  a_drive + 4'd2);
             // data: k = cycle_counter - row (diagonal skew), narrowed to 1-bit index
             A_edge_drive[a_drive[0]] = valid_a_edge_drive[a_drive[0]] ?
-                                       a_l[a_drive[0]][1'(cycle_counter - a_drive)] : 'd0;
+                                       a[a_drive[0]][1'(cycle_counter - a_drive)] : 'd0;
             // first: assert only on this row's leading (k=0) cycle
             first_a_edge_drive[a_drive[0]] = (current_state == EXECUTE &&
                                               cycle_counter == a_drive);
@@ -101,9 +95,9 @@ module mult_datapath #(
             valid_b_edge_drive[b_drive[0]] = (current_state == EXECUTE &&
                                               cycle_counter >= b_drive &&
                                               cycle_counter <  b_drive + 4'd2);
-            // data: k = cycle_counter - col; b_l is [k][col], so indices swap vs A
+            // data: k = cycle_counter - col; b is [k][col], so indices swap vs A
             B_edge_drive[b_drive[0]] = valid_b_edge_drive[b_drive[0]] ?
-                                       b_l[1'(cycle_counter - b_drive)][b_drive[0]] : 'd0;
+                                       b[1'(cycle_counter - b_drive)][b_drive[0]] : 'd0;
             // first: assert only on this column's leading (k=0) cycle
             first_b_edge_drive[b_drive[0]] = (current_state == EXECUTE &&
                                               cycle_counter == b_drive);
