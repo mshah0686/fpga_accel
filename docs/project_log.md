@@ -100,3 +100,16 @@ Optimizations:
 4.  The bottleneck is still SPI transmit speed. Speeding this up or lowering the number of commands needed would improve performance.
 
 The main next step is to come up with an application. Either run the inference workload on the uController and use the matrix multiplier to compute features or implement full ended to end multiplier on FPGA. The bottleneck is still SPI transmit speed.
+
+
+# August 19th, 2026
+## Status:
+1. Synthesiszed and implemented on FPGA. Had some hiccups:
+    - The old tool Lattice that I was using to program FPGA is not able to handle system verilog. I needed SV to make some of the packed matrix multiplying easier.
+    - The original design was too area heavy for the FPGA. The FPGA I have is a beginner board. I got around this by removing the second MATRIX copy inside the compute block. I sacrifice being able to program a second set of matrix in parallel while compute is happening. This should be okay since SPI is the bottleneck anyway.
+
+2. The fastest frequency I can reliably transmit is around 250Khz. Anything more, and the hardware is finnicky. I think the new tool I use for SV synthesis and place and route is not optimal as the last so the clock frequency is significantly affected by this. For now, I will do around 100 Khz to be safe. The goal of the project is not timing optimalizing for now.
+
+## Next steps:
+1. I will try to implement a 16x16 matrix multiplication on the hardware. This would require 16x more flops in general. I doubt the FPGA will be able to hold this much. I will explore buying another FPGA or using scaling down the bit sizes.
+

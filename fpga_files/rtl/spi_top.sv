@@ -87,7 +87,9 @@ module spi_top (
         .out_valid(ral_req_valid),
         .out_wr_en(ral_req_wr_en),
         .out_addr(ral_req_addr),
-        .out_data(ral_req_data)
+        .out_data(ral_req_data),
+
+        .dbg()
     );
 
     // TX read-data FIFO (write: system clock, read: SPI clock)

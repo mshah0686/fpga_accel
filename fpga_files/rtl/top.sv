@@ -136,7 +136,8 @@ module top (
         .matrix_control_out(mat_control_status),
         .a                 (mat_a),
         .b                 (mat_b),
-        .c                 (mat_result)
+        .c                 (mat_result),
+        .dbg()
     );
 
     assign {io_PMOD_7, io_PMOD_8, io_PMOD_9, io_PMOD_10} = dbg_io;

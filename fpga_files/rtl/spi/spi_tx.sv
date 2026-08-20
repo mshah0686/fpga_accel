@@ -98,5 +98,5 @@ module spi_tx #(
     assign r_en_out = (current_state == INIT) & ~fifo_empty_in;
     assign spi_poci = (current_state == SKIP) ? 1'b1 : (current_state == INIT || current_state == WAIT_TO_SEND) ? 1'b0 : send_data_shift_reg[DATA_WIDTH - 1];
 
-    assign dbg = {fifo_empty_in, 1'b0, current_state};
+    assign dbg = {fifo_empty_in, r_en_out, current_state[1], current_state[0]};
 endmodule

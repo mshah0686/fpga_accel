@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <string.h>
 #include "driver/spi_master.h"
 #include "driver/gpio.h"
 #include "spi_wrap.h"
@@ -66,8 +67,15 @@ static void send_spi_transaction(uint32_t data) {
     ESP_LOGI(TAG, "TX bytes: %02X %02X %02X %02X",
              buf[0], buf[1], buf[2], buf[3]);
 
-    ESP_LOGI(TAG, "RX bytes: %02X %02X %02X %02X",
+
+    if(rx_buf[1] == 0) {
+        ESP_LOGI(TAG, "RX Result: %02X %02X",
+            rx_buf[2], rx_buf[3]);
+    } else {
+        ESP_LOGI(TAG, "NO VALID_READ: RX bytes: %02X %02X %02X %02X",
              rx_buf[0], rx_buf[1], rx_buf[2], rx_buf[3]);
+    }
+
 }
 
 void setup_and_run_spi(void *args) {
@@ -77,11 +85,11 @@ void setup_and_run_spi(void *args) {
     matrix_command_u input_message;
 
     while(1) {
-        if(xQueueReceive(matrix_to_spi_queue, &input_message, pdMS_TO_TICKS(10)) == pdPASS) {
+        // Block until work arrives. Do NOT use a short pdMS_TO_TICKS() timeout here:
+        // at CONFIG_FREERTOS_HZ=100 anything under 10ms truncates to 0 ticks, which
+        // turns this into a busy-spin that starves IDLE0 and trips the task watchdog.
+        if(xQueueReceive(matrix_to_spi_queue, &input_message, portMAX_DELAY) == pdPASS) {
             send_spi_transaction(input_message.word);
-        } else {
-            // Delay a bit for next data input
-            vTaskDelay(pdMS_TO_TICKS(1));
         }
     }
 }

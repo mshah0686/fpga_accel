@@ -14,7 +14,9 @@ module packet_decoder (
     output out_valid,
     output out_wr_en,
     output [`ADDR_WIDTH-1:0] out_addr,
-    output [`DATA_WIDTH-1:0] out_data
+    output [`DATA_WIDTH-1:0] out_data,
+
+    output [3:0] dbg
 );
     wire [`CMD_WIDTH-1:0] cmd;
     wire [`ADDR_WIDTH-1:0] addr;
@@ -27,5 +29,7 @@ module packet_decoder (
     assign out_wr_en = packet_valid  && (cmd == `CMD_WRITE) ? 1'b1 : 1'b0;
     assign out_addr = addr;
     assign out_data = data;
+
+    assign dbg = {1'b1, out_wr_en, packet_valid, out_valid};
 
 endmodule

@@ -9,8 +9,7 @@
 #define SPI_ADDRESS_SIZE 0
 #define SPI_DUMMY_SIZE   0
 
-#define SPI_FREQ (1 * 25* 1000) // 1khz
-
+#define SPI_FREQ (1 * 100 * 1000) // 100 khz
 /**
  * @param data to send
  */

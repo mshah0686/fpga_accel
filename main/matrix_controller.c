@@ -39,20 +39,41 @@ static void send_SPI_command(
     }
 }
 
-static void run_matrix_loop() {
-    for(int c = 0; c < 2; c++) {
-        for (int r = 0; r < 2; r++) {
+static void run_matrix_loop(uint8_t seed) {
+
+    for (int r = 0; r < 2; r++) {
+        for(int c = 0; c < 2; c++) {
             uint16_t data = (2 * r) + c;
+            data = data + seed;
             send_SPI_command(WRITE, MATRIX_TYPE_A, r, c, data);
         }
     }
 
-    for(int c = 0; c < 2; c++) {
-        for (int r = 0; r < 2; r++) {
+    for (int r = 0; r < 2; r++) {
+        for(int c = 0; c < 2; c++) {
             uint16_t data = (2 * r) + c + 4;
+            data = data + seed;
             send_SPI_command(WRITE, MATRIX_TYPE_B, r, c, data);
         }
     }
+
+    // Enable compute
+    uint16_t compute_enable = 1;
+    send_SPI_command(WRITE, MATRIX_CTRL, 0, 0, compute_enable);
+
+    // Read request
+    uint16_t read_req = 0;
+    send_SPI_command(READ, MATRIX_CTRL, 0, 0, read_req);
+    
+    for (int r = 0; r < 2; r++) {
+        for(int c = 0; c < 2; c++) {
+            // Read result
+            send_SPI_command(READ, MATRIX_TYPE_C, r, c, 0);
+        }
+    }
+
+    // Last read
+    send_SPI_command(NOP, 0, 0, 0, 0);
 }
 
 // Setup and run UART reading forever loop
@@ -63,7 +84,7 @@ void setup_matrix_and_run(void *args) {
 
     while(1) {
         if(xQueueReceive(uart_trigger_queue, &static_input_message, pdMS_TO_TICKS(10)) == pdPASS) {
-            run_matrix_loop();
+            run_matrix_loop(static_input_message);
         } else {
             vTaskDelay(pdMS_TO_TICKS(1));
         }

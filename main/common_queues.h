@@ -12,12 +12,14 @@ typedef struct {
 typedef struct {
     // Cmnd
     uint8_t CMD : 8;
-    // Addr
-    uint8_t MATRIX_TYPE : 2; // 2 bits
-    uint8_t ROW_IDX : 1;
-    uint8_t COL_IDX : 1;
-    uint8_t RESERVED : 2;
+    // Addr - little-endian bitfields allocate from the LSB, so these are
+    // declared LSB-first to match the RTL address map (MSB->LSB):
+    // [7:6] MATRIX_TYPE [5] ROW_IDX [4] COL_IDX [3:2] RESERVED [1:0] TAG
     uint8_t TAG : 2;
+    uint8_t RESERVED : 2;
+    uint8_t COL_IDX : 1;
+    uint8_t ROW_IDX : 1;
+    uint8_t MATRIX_TYPE : 2;
     // Data
     uint8_t DATA_UPPER : 8;
     uint8_t DATA_LOWER : 8;

@@ -14,7 +14,9 @@ module matrix_mult_top #(
     input  [1:0][1:0][D_WIDTH-1:0]   b,
 
     // Matrix result (2x2, indexed [row][col])
-    output [1:0][1:0][ACC_WIDTH-1:0] c
+    output [1:0][1:0][ACC_WIDTH-1:0] c,
+
+    output [2:0] dbg
 );
 
     // Controller <-> datapath control signals
@@ -53,5 +55,7 @@ module matrix_mult_top #(
         .b            (b),
         .c_out        (c)
     );
+
+    assign dbg = {execute, load_outputs, dpath_idle, multiplier_idle};
 
 endmodule
