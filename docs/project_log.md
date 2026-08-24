@@ -113,3 +113,21 @@ The main next step is to come up with an application. Either run the inference w
 ## Next steps:
 1. I will try to implement a 16x16 matrix multiplication on the hardware. This would require 16x more flops in general. I doubt the FPGA will be able to hold this much. I will explore buying another FPGA or using scaling down the bit sizes.
 
+# August 23rd, 2026
+## Status:
+1. Updated matrix mult for parameterized multiplciation
+2. Learned about layers:
+    => for 28x28 letter prediction
+    => Flatten into 784x1 pixels
+    => Hidden layer (depending on number of neurons): have pixels input as activations with weights determined per pixel. If 16 neurons for example, this is essentially 16 features. Can scale up to 32 neurons.
+    => Output Layer : Convert the 16x1 (or weights per neuron/feature) into final output. This output is 10 values (one per each digit)
+    => Softmax/Argmax: Software uses softmax to create percentages per output. We can use argmax to pick the highest values of the 10 from output layer
+3. Learned about systolic arrays used for inference:
+    => Weight-stationary: Pre-load weights into PEs and the stream actitions (or other way around). Since weights stationary, you save power and cycles to load in those weights or stream weights. Stream the sums and activations
+    => Output-stationary: This is what I've implemented where accumulation stays stationary and I explored in depth.
+    => Activation-stationary: Keep activations and stream sums and weights.
+4. Learned about BRAM usage:
+    => FPGA have a set of BRAMs that can be used. BRAMs essentially are optimized storage built into FPGA fabric. They can be preloaded, dual port/single port. Have read/write interfaces depending on BRAM. And come with certain size per FPGA.
+    => One way to do output-stationary is to have one BRAM per edge Node where you compute address at N-1 and stream the read at cycle N into the array. 
+5. Learned the math of systolic arrays:
+    => Compute takes M + N + K - 2 cycles to compute in weight stream array. This is because the last PE (bottom right) will take M cycles for that row to start, and then N cycles for the first valid to stream in and then K cycles for all the activations to stream through. The -2 is for the M and N dimension
