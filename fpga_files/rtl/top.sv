@@ -119,8 +119,6 @@ module top (
         // Read data output to fifo
         .out_rd_valid(rd_data_fifo_wr_en),
         .out_rd_data(rd_data_fifo_wr_data),
-
-        // DBG
         .dbg()
     );
 
@@ -129,15 +127,14 @@ module top (
     matrix_mult_top #(
         .D_WIDTH   (8),
         .ACC_WIDTH (16),
-        .CTRL_WIDTH(16)
+        .REG_WIDTH(16)
     ) matrix_mult_top_u (
         .clk               (i_clk),
         .matrix_control_in (mat_control_write),
         .matrix_control_out(mat_control_status),
         .a                 (mat_a),
         .b                 (mat_b),
-        .c                 (mat_result),
-        .dbg()
+        .c                 (mat_result)
     );
 
     assign {io_PMOD_7, io_PMOD_8, io_PMOD_9, io_PMOD_10} = dbg_io;

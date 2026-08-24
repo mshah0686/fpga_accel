@@ -1,4 +1,4 @@
-﻿# 1. Define the simulation executable binary name and its C++ testbench source
+# 1. Define the simulation executable binary name and its C++ testbench source
 set(TB_NAME matrix_mult_tb)
 add_executable(${TB_NAME} tb_matrix_mult.cpp)
 
@@ -9,6 +9,9 @@ verilate(${TB_NAME}
     TRACE_VCD
     INCLUDE_DIRS
         "${CMAKE_SOURCE_DIR}/rtl"
+        "${CMAKE_SOURCE_DIR}/rtl/compute"
+        # so the TB can `include the generated matrix_data.vh
+        "${CMAKE_CURRENT_SOURCE_DIR}"
     VERILATOR_ARGS
         "-timescale"
         "1ns/1ps"
@@ -16,10 +19,15 @@ verilate(${TB_NAME}
         "--trace"
         "--trace-structs"
     SOURCES
+        # Systolic PE + datapath + FSM + wrapper (no package/include deps)
         "${CMAKE_SOURCE_DIR}/rtl/compute/mac.sv"
         "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_datapath.sv"
         "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_controller.sv"
         "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_top.sv"
+
+        # Testbench (16x784 * 784x1, D_WIDTH=8 / ACC_WIDTH=26)
+        # Operands + expected product come from matrix_data.vh, regenerated with
+        #   python3 scripts/gen_matmul_data.py
         "${CMAKE_CURRENT_SOURCE_DIR}/tb_matrix_mult.v"
 )
 
@@ -28,3 +36,7 @@ target_link_libraries(${TB_NAME}
     PRIVATE
         ${VERILATOR_LIBS}
 )
+
+# 4. The C++ TB opens waves/tb_matrix_mult.vcd relative to the run directory
+#    (run the binary from the fpga_files/ root, same as top_tb).
+file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/waves")
