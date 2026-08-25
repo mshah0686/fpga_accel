@@ -1,6 +1,0 @@
-# Matrix A
-7A 7B
-7C 7D
-# Matrix B
-7E 7F
-80 81

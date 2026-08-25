@@ -55,7 +55,13 @@ module matrix_mult_top #(
         .idle         (datapath_idle),
         .a            (a),
         .b            (b),
-        .c_out        (c)
+        .c_out        (c),
+
+        // BRAM
+        .A_req_addr(),
+        .A_req_en(),
+        .B_req_addr(),
+        .B_req_en()
     );
 
 endmodule
