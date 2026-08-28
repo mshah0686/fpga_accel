@@ -10,7 +10,6 @@ verilate(${TB_NAME}
     INCLUDE_DIRS
         "${CMAKE_SOURCE_DIR}/rtl"
         "${CMAKE_SOURCE_DIR}/rtl/compute"
-        # so the TB can `include the generated matrix_data.vh
         "${CMAKE_CURRENT_SOURCE_DIR}"
     VERILATOR_ARGS
         "-timescale"
@@ -19,15 +18,19 @@ verilate(${TB_NAME}
         "--trace"
         "--trace-structs"
     SOURCES
+        # BRAM storage + per-edge BRAM array wrapper (operands now live here,
+        # preloaded from rtl/weights/*.hex via $readmemh)
+        "${CMAKE_SOURCE_DIR}/rtl/compute/single_port_bram.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/bram_wrapper.sv"
+
         # Systolic PE + datapath + FSM + wrapper (no package/include deps)
         "${CMAKE_SOURCE_DIR}/rtl/compute/mac.sv"
         "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_datapath.sv"
         "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_controller.sv"
         "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_top.sv"
 
-        # Testbench (16x784 * 784x1, D_WIDTH=8 / ACC_WIDTH=26)
-        # Operands + expected product come from matrix_data.vh, regenerated with
-        #   python3 scripts/gen_matmul_data.py
+        # Testbench (16x784 * 784x1, DATA_WIDTH=8 / ACC_WIDTH=26).
+        # Drives only the control-register req pulse; operands come from BRAM.
         "${CMAKE_CURRENT_SOURCE_DIR}/tb_matrix_mult.v"
 )
 
@@ -40,3 +43,15 @@ target_link_libraries(${TB_NAME}
 # 4. The C++ TB opens waves/tb_matrix_mult.vcd relative to the run directory
 #    (run the binary from the fpga_files/ root, same as top_tb).
 file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/waves")
+
+# 5. single_port_bram's $readmemh is called with paths like "weights/hidden_0.hex"
+#    (see LOAD_FILE_PREFIX in matrix_mult_top). $readmemh resolves relative
+#    paths against the simulator's working directory, which is fpga_files/,
+#    but the real files live in fpga_files/rtl/weights. Drop a symlink at the
+#    expected location so the preload finds them without touching the RTL.
+if(NOT EXISTS "${CMAKE_SOURCE_DIR}/weights")
+    file(CREATE_LINK
+        "${CMAKE_SOURCE_DIR}/rtl/weights"
+        "${CMAKE_SOURCE_DIR}/weights"
+        SYMBOLIC)
+endif()

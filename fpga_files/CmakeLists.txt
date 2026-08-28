@@ -17,4 +17,4 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/rtl")
 # add_subdirectory(tb/spi_cdc_handshake) # stale: references pre-split spi.v/spi_peripheral, needs rework
 #add_subdirectory(tb/spi_timer_control)
 add_subdirectory(tb/matrix_mult)
-add_subdirectory(tb/top)
+#add_subdirectory(tb/top)

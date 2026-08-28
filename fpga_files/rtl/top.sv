@@ -125,15 +125,14 @@ module top (
     // MATRIX MULT (2x2) controlled from SPI via the register model.
     // Widths match the register model: 16-bit operands, 32-bit result.
     matrix_mult_top #(
-        .D_WIDTH   (8),
+        .DATA_WIDTH   (8),
         .ACC_WIDTH (16),
         .REG_WIDTH(16)
     ) matrix_mult_top_u (
         .clk               (i_clk),
         .matrix_control_in (mat_control_write),
         .matrix_control_out(mat_control_status),
-        .a                 (mat_a),
-        .b                 (mat_b),
+
         .c                 (mat_result)
     );
 

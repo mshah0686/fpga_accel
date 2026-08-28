@@ -1,5 +1,5 @@
 module mult_datapath #(
-    parameter D_WIDTH = 8,
+    parameter DATA_WIDTH = 8, // A and B inputs must be same size
     parameter ACC_WIDTH = 26,
     parameter M = 2,
     parameter K = 2,
@@ -12,10 +12,6 @@ module mult_datapath #(
     input execute,
     output idle,
 
-    // Data inputs (Loaded at once for now)
-    input  [M-1:0][K-1:0][D_WIDTH-1:0] a,
-    input  [K-1:0][N-1:0][D_WIDTH-1:0] b,
-
     // Data outputs (A_VER x A_HOR * B_VER x B_HOR)
     output logic [M-1:0][N-1:0][ACC_WIDTH-1:0] c_out,
 
@@ -23,9 +19,11 @@ module mult_datapath #(
     // BRAM interfaces
     output logic [M-1:0][$clog2(K)-1:0] A_req_addr,
     output logic [M-1:0] A_req_en,
+    input  [M-1:0][DATA_WIDTH-1:0] A_req_data,
 
     output logic [N-1:0][$clog2(K)-1:0] B_req_addr,
-    output logic [N-1:0] B_req_en
+    output logic [N-1:0] B_req_en,
+    input  [N-1:0][DATA_WIDTH-1:0] B_req_data
 );
     localparam EXECUTION_CYCLES = M + N + K - 2; // Hardcoded for now
     localparam EXECUTION_FINISH_CYCLES = EXECUTION_CYCLES - 1;
@@ -84,10 +82,6 @@ module mult_datapath #(
         end
     end
 
-    // SYSTOLIC ARRAY DRIVERS
-    logic [M-1:0][D_WIDTH-1:0] M_edge_drive; // Right edge drive
-    logic [N-1:0][D_WIDTH-1:0] N_edge_drive; // Top EDGE drive
-
     // M_edge meta
     logic [M-1:0] M_edge_valid;
     logic [M-1:0] M_edge_first;
@@ -115,12 +109,6 @@ module mult_datapath #(
                 M_edge_first[M_ADDR_WIDTH'(m_drive_loop)] = 'd0;
             end
 
-            // Data drive
-            M_edge_drive[M_ADDR_WIDTH'(m_drive_loop)] = 'd0;
-            if(current_state == EXECUTE && M_edge_valid[M_ADDR_WIDTH'(m_drive_loop)]) begin
-                M_edge_drive[m_drive_loop] = a[m_drive_loop][K_ADDR_WIDTH'(execution_cycle_counter - m_drive_loop)];
-            end
-
             // BRAM request for values
             // Request on same cycle to latch into PE
             A_req_en[M_ADDR_WIDTH'(m_drive_loop)] = M_edge_valid[M_ADDR_WIDTH'(m_drive_loop)];
@@ -130,7 +118,9 @@ module mult_datapath #(
                 A_req_addr[M_ADDR_WIDTH'(m_drive_loop)] = 'd0;
             end
 
-            left_to_right_conns[M_CONN_WIDTH'(m_drive_loop)][0] = M_edge_drive[M_ADDR_WIDTH'(m_drive_loop)];
+            // BRAM response
+            left_to_right_conns[M_CONN_WIDTH'(m_drive_loop)][0] = A_req_data[M_ADDR_WIDTH'(m_drive_loop)];
+            // Valid/first conns
             left_to_right_valid_conns[M_CONN_WIDTH'(m_drive_loop)][0] = M_edge_valid[M_ADDR_WIDTH'(m_drive_loop)];
             left_to_right_first_conns[M_CONN_WIDTH'(m_drive_loop)][0] = M_edge_first[M_ADDR_WIDTH'(m_drive_loop)];
         end
@@ -155,12 +145,6 @@ module mult_datapath #(
                 N_edge_first[N_ADDR_WIDTH'(n_drive_loop)] = 'd0;
             end
 
-            // Data drive
-            N_edge_drive[N_ADDR_WIDTH'(n_drive_loop)] = 'd0;
-            if(current_state == EXECUTE && N_edge_valid[N_ADDR_WIDTH'(n_drive_loop)]) begin
-                N_edge_drive[n_drive_loop] = b[K_ADDR_WIDTH'(execution_cycle_counter - n_drive_loop)][n_drive_loop];
-            end
-
             // BRAM reqeuest for values
             B_req_en[N_ADDR_WIDTH'(n_drive_loop)] = N_edge_valid[N_ADDR_WIDTH'(n_drive_loop)];
             if(current_state == EXECUTE && N_edge_valid[N_ADDR_WIDTH'(n_drive_loop)]) begin
@@ -169,15 +153,15 @@ module mult_datapath #(
                 B_req_addr[N_ADDR_WIDTH'(n_drive_loop)] = 'd0;
             end
 
-            up_to_down_conns[0][N_CONN_WIDTH'(n_drive_loop)] = N_edge_drive[N_ADDR_WIDTH'(n_drive_loop)];
+            up_to_down_conns[0][N_CONN_WIDTH'(n_drive_loop)] = B_req_data[N_ADDR_WIDTH'(n_drive_loop)];
             up_to_down_first_conns[0][N_CONN_WIDTH'(n_drive_loop)] = N_edge_first[N_ADDR_WIDTH'(n_drive_loop)];
             up_to_down_valid_conns[0][N_CONN_WIDTH'(n_drive_loop)] = N_edge_valid[N_ADDR_WIDTH'(n_drive_loop)];
         end
     end
 
     // Systolic array connection
-    logic [M:0][N:0][D_WIDTH-1:0] left_to_right_conns;
-    logic [M:0][N:0][D_WIDTH-1:0] up_to_down_conns;
+    logic [M:0][N:0][DATA_WIDTH-1:0] left_to_right_conns;
+    logic [M:0][N:0][DATA_WIDTH-1:0] up_to_down_conns;
     logic [M:0][N:0] left_to_right_valid_conns;
     logic [M:0][N:0] up_to_down_valid_conns;
     logic [M:0][N:0] left_to_right_first_conns;
@@ -190,7 +174,7 @@ module mult_datapath #(
     generate
         for(r = 0; r < M; r=r+1) begin : row_gen
             for(c=0; c < N; c=c+1) begin : col_gen
-                systolic_mac #(.D_WIDTH(D_WIDTH), .ACC_WIDTH(ACC_WIDTH))
+                systolic_mac #(.D_WIDTH(DATA_WIDTH), .ACC_WIDTH(ACC_WIDTH))
                 systolic_pe_u (
                     .clk(clk), 
                     .a_in(left_to_right_conns[r][c]),

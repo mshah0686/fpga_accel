@@ -3,7 +3,7 @@ module single_port_bram #(
     parameter DATA_WIDTH = 8, 
     parameter PRELOAD = 0,
     parameter LOAD_FILE = "",
-    localparameter ADDR_WIDTH = $clog2(SIZE)
+    localparam ADDR_WIDTH = $clog2(SIZE)
 )(
     input clk,
 

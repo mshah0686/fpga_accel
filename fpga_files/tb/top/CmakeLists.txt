@@ -35,7 +35,9 @@ verilate(${TB_NAME}
         "${CMAKE_SOURCE_DIR}/rtl/timer.sv"
         "${CMAKE_SOURCE_DIR}/rtl/segment_display.sv"
 
-        # 2x2 matrix multiplier
+        # Matrix multiplier: BRAM storage + wrapper feed the systolic array
+        "${CMAKE_SOURCE_DIR}/rtl/compute/single_port_bram.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/bram_wrapper.sv"
         "${CMAKE_SOURCE_DIR}/rtl/compute/mac.sv"
         "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_datapath.sv"
         "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_controller.sv"
@@ -51,3 +53,13 @@ target_link_libraries(${TB_NAME}
     PRIVATE
         ${VERILATOR_LIBS}
 )
+
+# 4. single_port_bram's $readmemh uses paths like "weights/hidden_0.hex",
+#    resolved against the simulator's working directory (fpga_files/), while
+#    the real files live in fpga_files/rtl/weights. Symlink them into place.
+if(NOT EXISTS "${CMAKE_SOURCE_DIR}/weights")
+    file(CREATE_LINK
+        "${CMAKE_SOURCE_DIR}/rtl/weights"
+        "${CMAKE_SOURCE_DIR}/weights"
+        SYMBOLIC)
+endif()

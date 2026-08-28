@@ -6,8 +6,8 @@ module systolic_mac #(
 )(
     input clk,
 
-    input  [D_WIDTH-1:0] a_in,
-    input  [D_WIDTH-1:0] b_in,
+    input  signed [D_WIDTH-1:0] a_in,
+    input  signed [D_WIDTH-1:0] b_in,
     input                valid_a_in, // Both should be valid on same cycle...can remove this to opimize
     input                valid_b_in,
     input                first_in_a, // First compute
@@ -23,7 +23,7 @@ module systolic_mac #(
     output [ACC_WIDTH-1:0] c_out
 );
 
-    reg [ACC_WIDTH-1:0] acc;
+    reg signed [ACC_WIDTH-1:0] acc;
 
     wire valid = valid_a_in & valid_b_in;
 
