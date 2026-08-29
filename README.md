@@ -25,7 +25,7 @@
 
 
 # uArch Diagram
-- TBD
+![Alt text](docs/pics/FGPA_Accel_Diagram.png.png)
 
 # Performance Calculation
 - TBD
