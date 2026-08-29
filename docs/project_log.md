@@ -131,3 +131,18 @@ The main next step is to come up with an application. Either run the inference w
     => One way to do output-stationary is to have one BRAM per edge Node where you compute address at N-1 and stream the read at cycle N into the array. 
 5. Learned the math of systolic arrays:
     => Compute takes M + N + K - 2 cycles to compute in weight stream array. This is because the last PE (bottom right) will take M cycles for that row to start, and then N cycles for the first valid to stream in and then K cycles for all the activations to stream through. The -2 is for the M and N dimension
+
+
+# August 29th, 2026
+## Status:
+1. Implemented BRAM capabilities. Now the datapath reads from BRAMs for driving weights and pixels into the edge nodes. Implemented simple BRAM and then a BRAM wrapper that holds edge nodes
+2. Used python to train a simple MINST model with Hidden Layer, Output Layer, and ArgMax and save weights/biases. Will implement this in hardware. Loaded those weights into BRAM. Tested with simulation
+3. Bought Nexys A7 100T - larger FPGA to hold the design that was limited from previous NandLandGO board.
+4. Tested hidden layer multiplication in simulation with golden model generated from python script.
+
+## Next steps:
+1. Architect diagram for the full system. This will make implementation easier.
+2. Calculate estimated performance and BRAM area for the above mentioned model.
+3. Implement bias in PE. Probably hardcoded right now instead of streaming to make it easier for bringup. Other approach is to have bias streamed through systolic array in a seperate PE mode.
+4. Update matrix multiplier top to either use BRAM reads or register reads. The output from Hidden Layer is only 16*32 bits. This is fine to store in a flop instead of BRAM. Need to update top to accept both kinds of inputs.
+5. Update RAL to stream pixels into BRAM. Set up overall pipe_top module with matrix_mult FSM.
