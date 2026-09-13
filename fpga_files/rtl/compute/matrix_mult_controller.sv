@@ -21,12 +21,12 @@ module matrix_mult_controller (
     datapath_state_t current_state , next_state;
 
     // State register
-    always @(posedge clk) begin
+    always_ff @(posedge clk) begin
         current_state <= next_state;
     end
 
     // Next-state logic
-    always @(*) begin
+    always_comb begin
         next_state = current_state;
 
         case (current_state)
@@ -61,7 +61,7 @@ module matrix_mult_controller (
     end
 
     // Output logic
-    always @(*) begin
+    always_comb begin
         execute      = 1'b0;
         load_outputs = 1'b0;
         controller_idle = 1'b1;

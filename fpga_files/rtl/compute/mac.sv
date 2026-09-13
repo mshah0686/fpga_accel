@@ -2,7 +2,8 @@
 
 module systolic_mac #(
     parameter D_WIDTH   = 8,
-    parameter ACC_WIDTH = 24
+    parameter ACC_WIDTH = 24,
+    parameter signed [ACC_WIDTH-1:0] PRELOAD_BIAS = 0
 )(
     input clk,
 
@@ -20,14 +21,14 @@ module systolic_mac #(
     output reg               first_a_out,
     output reg               first_b_out,
 
-    output [ACC_WIDTH-1:0] c_out
+    output signed [ACC_WIDTH-1:0] c_out
 );
 
-    reg signed [ACC_WIDTH-1:0] acc;
+    reg signed [ACC_WIDTH-1:0] acc = PRELOAD_BIAS;
 
     wire valid = valid_a_in & valid_b_in;
 
-    always @(posedge clk) begin
+    always_ff @(posedge clk) begin
         // pass operands + validity to neighbors, one cycle later
         a_out       <= a_in;
         b_out       <= b_in;
@@ -39,7 +40,7 @@ module systolic_mac #(
         // Valid inputs
         if (valid) begin
             if(first_in_a || first_in_b)
-                acc <= (a_in * b_in);
+                acc <= PRELOAD_BIAS + (a_in * b_in);
             else
                 acc <= acc + (a_in * b_in);
         end

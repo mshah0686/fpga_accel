@@ -146,3 +146,13 @@ The main next step is to come up with an application. Either run the inference w
 3. Implement bias in PE. Probably hardcoded right now instead of streaming to make it easier for bringup. Other approach is to have bias streamed through systolic array in a seperate PE mode.
 4. Update matrix multiplier top to either use BRAM reads or register reads. The output from Hidden Layer is only 16*32 bits. This is fine to store in a flop instead of BRAM. Need to update top to accept both kinds of inputs.
 5. Update RAL to stream pixels into BRAM. Set up overall pipe_top module with matrix_mult FSM.
+
+
+TODO:
+[x] Write TOP FSM
+[x] Pixel stream write to BRAM
+[x] ArgMax module
+[] Seven segment module
+[x] Control register out setup
+[] RAL setup
+[x] BIAS input into PE

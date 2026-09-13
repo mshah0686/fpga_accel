@@ -1,0 +1,66 @@
+# 1. Define the simulation executable binary name and its C++ testbench source
+set(TB_NAME pipe_tb)
+add_executable(${TB_NAME} tb_pipe.cpp)
+
+# 2. Compile your Verilog hardware files using the official Verilator macro
+verilate(${TB_NAME}
+    PREFIX Vtb_pipe
+    TOP_MODULE tb_pipe_top
+    TRACE_VCD
+    INCLUDE_DIRS
+        # rtl/ so pipe_top's `include "weights/*_biases.svh"` resolves
+        "${CMAKE_SOURCE_DIR}/rtl"
+        "${CMAKE_SOURCE_DIR}/rtl/compute"
+        "${CMAKE_SOURCE_DIR}/rtl/weights"
+        "${CMAKE_CURRENT_SOURCE_DIR}"
+    VERILATOR_ARGS
+        "-timescale"
+        "1ns/1ps"
+        "--timing"
+        "--trace"
+        "--trace-structs"
+    SOURCES
+        # BRAM storage + per-edge BRAM array wrapper (hidden/output weights
+        # preload from rtl/weights/*.hex via $readmemh; pixels are written in)
+        "${CMAKE_SOURCE_DIR}/rtl/compute/single_port_bram.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/bram_wrapper.sv"
+
+        # Systolic PE + datapath + FSM + wrapper
+        "${CMAKE_SOURCE_DIR}/rtl/compute/mac.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_datapath.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_controller.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_top.sv"
+
+        # Per-layer stages between the two matrix multiplies
+        "${CMAKE_SOURCE_DIR}/rtl/compute/relu.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/argmax.sv"
+
+        # Full inference pipeline (DUT) + its sequencing FSM
+        "${CMAKE_SOURCE_DIR}/rtl/compute/pipe_control_fsm.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/pipe_top.sv"
+
+        # Testbench (no stimulus yet: clock only, runs for 500ns)
+        "${CMAKE_CURRENT_SOURCE_DIR}/tb_pipe.v"
+)
+
+# 3. Explicitly link the core Verilator static library via its absolute path variable
+target_link_libraries(${TB_NAME}
+    PRIVATE
+        ${VERILATOR_LIBS}
+)
+
+# 4. The C++ TB opens waves/tb_pipe.vcd relative to the run directory
+#    (run the binary from the fpga_files/ root, same as matrix_mult_tb).
+file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/waves")
+
+# 5. bram_wrapper's $readmemh is called with paths like "weights/hidden_0.hex"
+#    (see LOAD_FILE_PREFIX in pipe_top). $readmemh resolves relative paths
+#    against the simulator's working directory, which is fpga_files/, but the
+#    real files live in fpga_files/rtl/weights. Drop a symlink at the expected
+#    location so the preload finds them without touching the RTL.
+if(NOT EXISTS "${CMAKE_SOURCE_DIR}/weights")
+    file(CREATE_LINK
+        "${CMAKE_SOURCE_DIR}/rtl/weights"
+        "${CMAKE_SOURCE_DIR}/weights"
+        SYMBOLIC)
+endif()

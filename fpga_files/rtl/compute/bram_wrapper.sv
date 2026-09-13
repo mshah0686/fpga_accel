@@ -24,7 +24,6 @@ module bram_wrapper #(
 
 );
 
-    // TODO: Implement BRAM array using genvar
     wire [N-1:0][DATA_WIDTH-1:0] r_data_out;
 
     genvar bram_idx;

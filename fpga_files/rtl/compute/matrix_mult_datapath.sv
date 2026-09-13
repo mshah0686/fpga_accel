@@ -3,7 +3,8 @@ module mult_datapath #(
     parameter ACC_WIDTH = 26,
     parameter M = 2,
     parameter K = 2,
-    parameter N = 2
+    parameter N = 2,
+    parameter signed [M-1:0][N-1:0][ACC_WIDTH-1:0] MAC_BIAS = 'd0 // Multiply result dimension sized
 )(
     input clk,
 
@@ -14,6 +15,7 @@ module mult_datapath #(
 
     // Data outputs (A_VER x A_HOR * B_VER x B_HOR)
     output logic [M-1:0][N-1:0][ACC_WIDTH-1:0] c_out,
+    output logic c_out_valid,
 
 
     // BRAM interfaces
@@ -66,7 +68,7 @@ module mult_datapath #(
                 end
             end
             EXECUTE: begin
-                if(execution_cycle_counter == EXECUTION_FINISH_CYCLES) begin
+                if(execution_cycle_counter == EXECUTION_FINISH_CYCLES[COUNTER_WIDTH-1:0]) begin
                     next_state = IDLE;
                 end
             end
@@ -79,6 +81,9 @@ module mult_datapath #(
     always @(posedge clk) begin
         if (load_outputs) begin
             c_out <= c_out_conns;
+            c_out_valid <= 1'b1;
+        end else begin
+            c_out_valid <= 1'b0;
         end
     end
 
@@ -174,8 +179,11 @@ module mult_datapath #(
     generate
         for(r = 0; r < M; r=r+1) begin : row_gen
             for(c=0; c < N; c=c+1) begin : col_gen
-                systolic_mac #(.D_WIDTH(DATA_WIDTH), .ACC_WIDTH(ACC_WIDTH))
-                systolic_pe_u (
+                systolic_mac #(
+                    .D_WIDTH(DATA_WIDTH), 
+                    .ACC_WIDTH(ACC_WIDTH), 
+                    .PRELOAD_BIAS(MAC_BIAS[r][c]) // Pass in bias
+                ) systolic_pe_u (
                     .clk(clk), 
                     .a_in(left_to_right_conns[r][c]),
                     .b_in(up_to_down_conns[r][c]),
