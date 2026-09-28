@@ -22,6 +22,7 @@ module bram_wrapper #(
     input [N-1:0][ADDR_WIDTH-1:0] w_addr,
     input [N-1:0][DATA_WIDTH-1:0] w_data
 
+
 );
 
     wire [N-1:0][DATA_WIDTH-1:0] r_data_out;

@@ -21,7 +21,7 @@ module pipe_top #(
 
     /*** PIXEL WRITE ***/
     input pixel_wr_en,
-    input [PIXEL_WIDTH-1:0] pixel_wr_data,
+    input [PIXEL_WIDTH-1:0] pixel_wr_data, // FIXME::This is now two pixels coming in...needs adjusting in BRAM
     input [$clog2(ACTIVATIONS)-1:0] pixel_wr_address
 );
 
@@ -202,6 +202,7 @@ module pipe_top #(
     );
 
     // Pixel BRAM
+    // FIXME::This will now have 16 bit write for 2 pixels at a time. Need adjusting in wrapper.
     bram_wrapper #(
         .N(1), // 1 BRAM only - flattened pixels
         .BRAM_SIZE(ACTIVATIONS), // Per BRAM 
@@ -215,6 +216,7 @@ module pipe_top #(
         .r_en(hidden_pixel_bram_rd_en),
         .r_addr(hidden_pixel_bram_rd_addr),
         .r_data(hidden_pixel_bram_rd_data),
+
         .w_en(pixel_wr_en),
         .w_addr(pixel_wr_address),
         .w_data(pixel_wr_data)
@@ -231,9 +233,11 @@ module pipe_top #(
         .LOAD_FILE_PREFIX("weights/output")
     ) output_weights_bram_u (
         .clk(clk),
+
         .r_en(output_weights_bram_rd_en),
         .r_addr(output_weights_bram_rd_addr),
         .r_data(output_weights_bram_rd_data),
+
         .w_en(),
         .w_addr(),
         .w_data()

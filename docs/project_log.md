@@ -148,11 +148,63 @@ The main next step is to come up with an application. Either run the inference w
 5. Update RAL to stream pixels into BRAM. Set up overall pipe_top module with matrix_mult FSM.
 
 
-TODO:
-[x] Write TOP FSM
-[x] Pixel stream write to BRAM
-[x] ArgMax module
-[] Seven segment module
-[x] Control register out setup
-[] RAL setup
-[x] BIAS input into PE
+
+# Sept 20th, 2026
+## SPI Command architecture
+I need to be able to address the following:
+1. Pixel writes (784 total) which needs 10 bits with 8 bit data
+2. CMD for READ/WRITE/NOP
+3. Read matrix status
+4. Read predicted output
+
+I have 32 bits to play with (right now - could expand or reduct those)
+[CMD: 2 bits][ADDRESS: 10 bits][DATA: 8 bits]
+
+This is total 20 bits. I could add another DATA field to reduce the SPI transactions needed to write pixel data. This would mean we can write 2 pixels at a time reduce the SPI txns required to 784/2.
+
+[CMD: 2 bits][Reserved: 4 bits][ADDRESS: 10 bits][DATA: 16 bits]
+
+The other approach is I could write a start command, then stream 4 pixels at a time after to reduce the total SPI writes required. This would require some sequencer sitting between decoder and RAL to intercept those writes. I will stick to the two stream writes for now and consider more optimizations later.
+
+The final RAL architecture is:
+[CMD: 2 bits][Peripheral TAG: 2 bits][ADDRESS: 10 bits][DATA: 16 bits]
+CMD:
+- NOP: 0x0
+- READ: 0x1
+- WRITE: 0x2
+
+Peripheral TAG:
+- PIXEL: 0x0
+- OUTPUT: 0x1
+
+ADDRESS (PIxel):
+- Correspond to 784 flattened array
+
+ADDRESS (OUTPUT):
+- 0x0: STATUS
+- 0x1: RESULT
+
+On data response, we will still follow:
+[RESERVED 16 bits][DATA: 16 bits]
+
+
+# Sept 28th, 2026
+## Quantization and Requantization
+Learned about how floating point weights are represented in hardware in fixed point to reduce memory footprint at expense of accuracy. Summary of learnings:
+1. To quantize something, you take the positive and negative max values of the real values. If you want to quantize into N bits, divide that max value with 2^(N-1) - 1. This gives a scale value. Dividing the real value with the scale, gives the quantized value. This is symmetric quantization where 0 maps to 0. There is a way to add an offset but that was not considered in this case for simplicity.
+2. General fixed point notation is to use QM.N. The scale is always 2^N. Multiplying the real value by this scale gives a quantized value in QM.N notation.
+3. When multiplying quantized values, the scale multiplies. When adding quantized values, the scale must match.
+4. Intermediate values between layers of a model can leverage requantization to avoid scale explosion. As activations and weights multiply, the scale grows and the bits required to store those activations for downstream layers also grows. Requantizing between layers controls this explosion.
+5. Using QM.N notation helps with requantization. To requantizate, you multiply the quantized value with a ratio of S(new) / S(old). Since the scales are powers of 2 in QM.N notation, this generally becomes a shift in hardware instead of a costly hardware division.
+
+## Quantization and bitwidths for this project
+1. Hidden layer weights are at Q3.13 scale and stored in 16 bits. Output layer weights are also Q3.13 scale and stored in 16 bits.
+2. Pixel activiations are scaled on 255. However, to maintain power of 2 scales to leveragy shift based division, the pixels are viewed on a 256 scale (accepting small margin of error).
+3. Hidden biases are added which need to be on 2^13 * 2^8 (pixels) scale which is 2^21 scale. Accumulators are stored in 32 bits so the output values from hidden layer are on Q11.21 scale.
+4. To prevent quantization explosion from hidden to output, the hidden outputs are requantized to Q8.8 scale using a division of 2^13 or shift by 13.
+5. Output layer is Q8.8 activations from requantization and Q3.13 from the weights. Biases match to hidden bias scale. 
+6. Argmax is don't care for the fixed point. 
+
+## Changes to the project:
+1. Need to write a requantization layer from RELU to the Output Layer
+2. Verify agains pipeline.py to verify RTL agains python implemented model.

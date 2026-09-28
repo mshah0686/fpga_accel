@@ -8,16 +8,16 @@ localparam OUTPUT_BIAS_WIDTH = 32;
 localparam OUTPUT_BIAS_ROWS  = 10;
 localparam OUTPUT_BIAS_COLS  = 1;
 
-localparam signed [31:0] BIAS_OUTPUT_0_0 = -32'sd42;
-localparam signed [31:0] BIAS_OUTPUT_1_0 = 32'sd114;
-localparam signed [31:0] BIAS_OUTPUT_2_0 = 32'sd13;
-localparam signed [31:0] BIAS_OUTPUT_3_0 = -32'sd68;
-localparam signed [31:0] BIAS_OUTPUT_4_0 = 32'sd22;
-localparam signed [31:0] BIAS_OUTPUT_5_0 = 32'sd102;
-localparam signed [31:0] BIAS_OUTPUT_6_0 = -32'sd26;
-localparam signed [31:0] BIAS_OUTPUT_7_0 = 32'sd134;
-localparam signed [31:0] BIAS_OUTPUT_8_0 = -32'sd115;
-localparam signed [31:0] BIAS_OUTPUT_9_0 = 32'sd25;
+localparam signed [31:0] BIAS_OUTPUT_0_0 = -32'sd78;
+localparam signed [31:0] BIAS_OUTPUT_1_0 = 32'sd133;
+localparam signed [31:0] BIAS_OUTPUT_2_0 = 32'sd29;
+localparam signed [31:0] BIAS_OUTPUT_3_0 = -32'sd82;
+localparam signed [31:0] BIAS_OUTPUT_4_0 = 32'sd73;
+localparam signed [31:0] BIAS_OUTPUT_5_0 = 32'sd132;
+localparam signed [31:0] BIAS_OUTPUT_6_0 = -32'sd22;
+localparam signed [31:0] BIAS_OUTPUT_7_0 = 32'sd4;
+localparam signed [31:0] BIAS_OUTPUT_8_0 = -32'sd67;
+localparam signed [31:0] BIAS_OUTPUT_9_0 = 32'sd1;
 
 // Indexable form for generate loops: BIAS_OUTPUT[row][col].
 // NOTE: assignment patterns fill a PACKED array from the high index down,

@@ -13,23 +13,23 @@ module packet_decoder (
     // Output RD/WR
     output out_valid,
     output out_wr_en,
+    output [`TAG_WIDTH-1:0] out_tag,
     output [`ADDR_WIDTH-1:0] out_addr,
-    output [`DATA_WIDTH-1:0] out_data,
-
-    output [3:0] dbg
+    output [`DATA_WIDTH-1:0] out_data
 );
+
     wire [`CMD_WIDTH-1:0] cmd;
+    wire [`TAG_WIDTH-1:0] tag;
     wire [`ADDR_WIDTH-1:0] addr;
     wire [`DATA_WIDTH-1:0] data;
 
-    assign {cmd, addr, data} = packet_data;
+    assign {cmd, tag, addr, data} = packet_data;
     
     // Assign rd/wr
     assign out_valid = packet_valid && (cmd != `CMD_NOP); // Drop NOPs here
     assign out_wr_en = packet_valid  && (cmd == `CMD_WRITE) ? 1'b1 : 1'b0;
     assign out_addr = addr;
     assign out_data = data;
-
-    assign dbg = {1'b1, out_wr_en, packet_valid, out_valid};
+    assign out_tag = tag;
 
 endmodule

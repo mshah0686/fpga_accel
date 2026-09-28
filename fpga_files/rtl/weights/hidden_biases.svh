@@ -8,22 +8,22 @@ localparam HIDDEN_BIAS_WIDTH = 32;
 localparam HIDDEN_BIAS_ROWS  = 16;
 localparam HIDDEN_BIAS_COLS  = 1;
 
-localparam signed [31:0] BIAS_HIDDEN_0_0 = 32'sd16;
-localparam signed [31:0] BIAS_HIDDEN_1_0 = 32'sd132;
-localparam signed [31:0] BIAS_HIDDEN_2_0 = 32'sd95;
-localparam signed [31:0] BIAS_HIDDEN_3_0 = 32'sd97;
-localparam signed [31:0] BIAS_HIDDEN_4_0 = 32'sd60;
-localparam signed [31:0] BIAS_HIDDEN_5_0 = 32'sd81;
-localparam signed [31:0] BIAS_HIDDEN_6_0 = -32'sd20;
-localparam signed [31:0] BIAS_HIDDEN_7_0 = -32'sd119;
-localparam signed [31:0] BIAS_HIDDEN_8_0 = 32'sd16;
-localparam signed [31:0] BIAS_HIDDEN_9_0 = -32'sd36;
-localparam signed [31:0] BIAS_HIDDEN_10_0 = -32'sd58;
-localparam signed [31:0] BIAS_HIDDEN_11_0 = 32'sd274;
-localparam signed [31:0] BIAS_HIDDEN_12_0 = -32'sd15;
-localparam signed [31:0] BIAS_HIDDEN_13_0 = 32'sd1;
-localparam signed [31:0] BIAS_HIDDEN_14_0 = 32'sd29;
-localparam signed [31:0] BIAS_HIDDEN_15_0 = 32'sd83;
+localparam signed [31:0] BIAS_HIDDEN_0_0 = 32'sd174;
+localparam signed [31:0] BIAS_HIDDEN_1_0 = 32'sd11;
+localparam signed [31:0] BIAS_HIDDEN_2_0 = 32'sd37;
+localparam signed [31:0] BIAS_HIDDEN_3_0 = -32'sd14;
+localparam signed [31:0] BIAS_HIDDEN_4_0 = 32'sd123;
+localparam signed [31:0] BIAS_HIDDEN_5_0 = -32'sd43;
+localparam signed [31:0] BIAS_HIDDEN_6_0 = -32'sd19;
+localparam signed [31:0] BIAS_HIDDEN_7_0 = 32'sd66;
+localparam signed [31:0] BIAS_HIDDEN_8_0 = -32'sd9;
+localparam signed [31:0] BIAS_HIDDEN_9_0 = -32'sd63;
+localparam signed [31:0] BIAS_HIDDEN_10_0 = 32'sd73;
+localparam signed [31:0] BIAS_HIDDEN_11_0 = 32'sd19;
+localparam signed [31:0] BIAS_HIDDEN_12_0 = -32'sd112;
+localparam signed [31:0] BIAS_HIDDEN_13_0 = 32'sd176;
+localparam signed [31:0] BIAS_HIDDEN_14_0 = -32'sd15;
+localparam signed [31:0] BIAS_HIDDEN_15_0 = -32'sd73;
 
 // Indexable form for generate loops: BIAS_HIDDEN[row][col].
 // NOTE: assignment patterns fill a PACKED array from the high index down,

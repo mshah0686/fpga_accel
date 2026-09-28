@@ -16,6 +16,7 @@ module spi_top (
     // Decoded packet out to register model (RAL)
     output                   ral_req_valid,
     output                   ral_req_wr_en,
+    output [`TAG_WIDTH-1:0]  ral_req_tag,
     output [`ADDR_WIDTH-1:0] ral_req_addr,
     output [`DATA_WIDTH-1:0] ral_req_data,
 
@@ -86,10 +87,9 @@ module spi_top (
         // OUTPUT RAL CONTROL
         .out_valid(ral_req_valid),
         .out_wr_en(ral_req_wr_en),
+        .out_tag(ral_req_tag),
         .out_addr(ral_req_addr),
-        .out_data(ral_req_data),
-
-        .dbg()
+        .out_data(ral_req_data)
     );
 
     // TX read-data FIFO (write: system clock, read: SPI clock)
