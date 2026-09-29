@@ -2,27 +2,24 @@
 
 module tb_pipe_top;
 
-    parameter REG_WIDTH   = 16;
-    parameter NUERONS     = 16;
-    parameter OUTPUT      = 10;
-    parameter ACTIVATIONS = 28 * 28;
+    // pipe_top now pulls every network/quantization size from the package;
+    // REG_WIDTH is the only parameter left on the module.
+    import pipe_params::*;
 
-    parameter HIDDEN_WEIGHT_WIDTH = 16;
-    parameter PIXEL_WIDTH         = 8;
-    parameter OUTPUT_WEIGHT_WIDTH = 16;
-
-    parameter HIDDEN_ACCUM_WIDTH = 32;
-    parameter OUTPUT_ACCUM_WIDTH = 32;
-
+    parameter REG_WIDTH  = 16;
     parameter CLK_PERIOD = 10;
+
+    // Local aliases so the stimulus reads the same as before the param strip
+    localparam ACTIVATIONS = HIDDEN_ACTIVATION_SIZE;
+    localparam PIX_WIDTH   = HIDDEN_PIXEL_WIDTH;
 
     // DUT inputs
     reg clk;
     reg [REG_WIDTH-1:0] matrix_control_in;
 
-    reg                              pixel_wr_en;
-    reg [PIXEL_WIDTH-1:0]            pixel_wr_data;
-    reg [$clog2(ACTIVATIONS)-1:0]    pixel_wr_address;
+    reg                           pixel_wr_en;
+    reg [PIX_WIDTH-1:0]           pixel_wr_data;
+    reg [$clog2(ACTIVATIONS)-1:0] pixel_wr_address;
 
     // DUT outputs
     wire [REG_WIDTH-1:0] matrix_status_out;
@@ -31,15 +28,7 @@ module tb_pipe_top;
     wire idle = matrix_status_out[0];
 
     pipe_top #(
-        .REG_WIDTH           (REG_WIDTH),
-        .NUERONS             (NUERONS),
-        .OUTPUT              (OUTPUT),
-        .ACTIVATIONS         (ACTIVATIONS),
-        .HIDDEN_WEIGHT_WIDTH (HIDDEN_WEIGHT_WIDTH),
-        .PIXEL_WIDTH         (PIXEL_WIDTH),
-        .OUTPUT_WEIGHT_WIDTH (OUTPUT_WEIGHT_WIDTH),
-        .HIDDEN_ACCUM_WIDTH  (HIDDEN_ACCUM_WIDTH),
-        .OUTPUT_ACCUM_WIDTH  (OUTPUT_ACCUM_WIDTH)
+        .REG_WIDTH (REG_WIDTH)
     ) uut (
         .clk                  (clk),
 
@@ -58,12 +47,12 @@ module tb_pipe_top;
         forever #(CLK_PERIOD/2) clk = ~clk;
     end
 
-    task write_pixel_data(); 
+    task write_pixel_data();
         @(negedge clk);
-        for(int i = 0; i < 28 * 28; i++) begin
+        for(int i = 0; i < ACTIVATIONS; i++) begin
             pixel_wr_en <= 1'b1;
             pixel_wr_data <= 8'hCC;
-            pixel_wr_address <= i[9:0];
+            pixel_wr_address <= i[$clog2(ACTIVATIONS)-1:0];
             @(negedge clk);
         end
         pixel_wr_en = 1'b0;
@@ -82,7 +71,7 @@ module tb_pipe_top;
         @(posedge clk);
     endtask
 
-    
+
 
     // ------------------------------------------------------------------
     // Main sequence - no stimulus yet, just let the BRAM $readmemh preloads
@@ -91,7 +80,7 @@ module tb_pipe_top;
     initial begin
         matrix_control_in = {REG_WIDTH{1'b0}};
         pixel_wr_en       = 1'b0;
-        pixel_wr_data     = {PIXEL_WIDTH{1'b0}};
+        pixel_wr_data     = {PIX_WIDTH{1'b0}};
         pixel_wr_address  = {$clog2(ACTIVATIONS){1'b0}};
 
         write_pixel_data();

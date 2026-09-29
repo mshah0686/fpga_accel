@@ -20,6 +20,10 @@ verilate(${TB_NAME}
         "--trace"
         "--trace-structs"
     SOURCES
+        # Shared network / quantization sizes. Must come first: pipe_top and
+        # tb_pipe both `import pipe_params::*` instead of taking parameters.
+        "${CMAKE_SOURCE_DIR}/rtl/compute/pipe_params.sv"
+
         # BRAM storage + per-edge BRAM array wrapper (hidden/output weights
         # preload from rtl/weights/*.hex via $readmemh; pixels are written in)
         "${CMAKE_SOURCE_DIR}/rtl/compute/single_port_bram.sv"
@@ -33,6 +37,7 @@ verilate(${TB_NAME}
 
         # Per-layer stages between the two matrix multiplies
         "${CMAKE_SOURCE_DIR}/rtl/compute/relu.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/reqauntizer.sv"
         "${CMAKE_SOURCE_DIR}/rtl/compute/argmax.sv"
 
         # Full inference pipeline (DUT) + its sequencing FSM
