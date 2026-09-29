@@ -13,14 +13,14 @@ module argmax #(
 );
 
     logic [SIZE_WIDTH-1:0] max_idx;
-    logic [WIDTH-1:0] max_value;
+    logic signed [WIDTH-1:0] max_value;
     integer i;
     always_comb begin
         max_value = inputs[0];
         max_idx = 0;
         for(i = 0; i < SIZE; i++) begin
             if(inputs[i] > max_value) begin
-                max_value = inputs[i];
+                max_value = $signed(inputs[i]);
                 max_idx = i[SIZE_WIDTH-1:0];
             end
         end
