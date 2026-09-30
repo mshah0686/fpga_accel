@@ -12,7 +12,7 @@ import pipe_params::*;
 
     /*** PIXEL WRITE ***/
     input pixel_wr_en,
-    input [PIXEL_WIDTH-1:0] pixel_wr_data, // FIXME::This is now two pixels coming in...needs adjusting in BRAM
+    input [HIDDEN_PIXEL_WIDTH-1:0] pixel_wr_data, // FIXME::This is now two pixels coming in...needs adjusting in BRAM
     input [$clog2(HIDDEN_ACTIVATION_SIZE)-1:0] pixel_wr_address
 );
 
@@ -35,7 +35,7 @@ import pipe_params::*;
 
     matrix_mult_top #(
         .A_DATA_WIDTH (HIDDEN_WEIGHT_WIDTH),
-        .B_DATA_WIDTH(PIXEL_WIDTH),
+        .B_DATA_WIDTH(HIDDEN_PIXEL_WIDTH),
         .ACC_WIDTH  (HIDDEN_ACCUM_WIDTH),
         .M          (HIDDEN_NEURONS_SIZE),
         .K          (HIDDEN_ACTIVATION_SIZE),
@@ -61,8 +61,8 @@ import pipe_params::*;
 
     /***** RELU LAYER *****/
     wire logic [HIDDEN_NEURONS_SIZE-1:0][HIDDEN_ACCUM_WIDTH -1:0] relu_result;
-    wire logic [HIDDEN_NEURONS_SIZE-1:0][HIDDEN_ACCUM_WIDTH -1:0] rerequantize_result;
-    logic [HIDDEN_NEURONS_SIZE-1:0][HIDDEN_ACCUM_WIDTH -1:0] requantized_result_l; // Hidden Layer + RelU output
+    wire logic [HIDDEN_NEURONS_SIZE-1:0][OUTPUT_ACTIVATION_WIDTH -1:0] rerequantize_result;
+    logic [HIDDEN_NEURONS_SIZE-1:0][OUTPUT_ACTIVATION_WIDTH -1:0] requantized_result_l; // Hidden Layer + RelU output
 
     relu #(
         .DATA_SIZE(HIDDEN_ACCUM_WIDTH),
@@ -83,7 +83,7 @@ import pipe_params::*;
     ) reqquantize_u (
         .arr_in(relu_result),
         .arr_out(rerequantize_result)
-    )
+    );
 
     // Latch results after combinational logic from RELU and REQUANTIZE
     always_ff @(posedge clk) begin
@@ -94,7 +94,7 @@ import pipe_params::*;
 
     /***** OUTPUT LAYER *****/
     //logic [OUTPUT-1:0][OUTPUT_ACCUM_WIDTH -1:0] output_layer_result_l;
-    logic [OUTPUT-1:0][OUTPUT_ACCUM_WIDTH -1:0] output_layer_result;
+    logic [OUTPUT_OUT_SIZE-1:0][OUTPUT_ACCUM_WIDTH -1:0] output_layer_result;
     logic output_go_pulse;
     logic output_idle;
     logic output_result_valid;
@@ -102,30 +102,31 @@ import pipe_params::*;
     // BRAM reads
     wire [OUTPUT_OUT_SIZE-1:0] output_weights_bram_rd_en;
     wire [OUTPUT_OUT_SIZE-1:0][$clog2(HIDDEN_NEURONS_SIZE)-1:0] output_weights_bram_rd_addr;
-    wire [OUTPUT_OUT_SIZE-1:0][OUTPUT_ACCUM_WIDTH-1:0] output_weights_bram_rd_data;
+    wire [OUTPUT_OUT_SIZE-1:0][OUTPUT_WEIGHT_WIDTH-1:0] output_weights_bram_rd_data;
 
     wire output_activations_bram_rd_en;
     wire [$clog2(HIDDEN_NEURONS_SIZE)-1:0] output_activations_bram_rd_addr;
-    logic [HIDDEN_ACCUM_WIDTH-1:0] output_activations_bram_rd_data;
+    logic [OUTPUT_ACTIVATION_WIDTH-1:0] output_activations_bram_rd_data;
 
     // Assign activation reads from RELU flops (simulate BRAM reads)
     always_comb begin
         if(output_activations_bram_rd_en) begin
-            output_activations_bram_rd_data = relu_layer_result_l[output_activations_bram_rd_addr];
+            output_activations_bram_rd_data = requantized_result_l[output_activations_bram_rd_addr];
         end else begin
             output_activations_bram_rd_data = 'd0;
         end
     end
 
+    // Right now - combinational
     // always_ff @(posedge clk) begin
     //     if(output_result_valid)
     //         output_layer_result_l <= output_layer_result;
     // end
 
     matrix_mult_top #(
-        .A_DATA_WIDTH (OUTPUT_WEIGHT_WIDTH),
-        .B_DATA_WIDTH(HIDDEN_ACCUM_WIDTH),
-        .ACC_WIDTH  (OUTPUT_ACCUM_WIDTH),
+        .A_DATA_WIDTH (OUTPUT_WEIGHT_WIDTH), // Weights
+        .B_DATA_WIDTH(OUTPUT_ACTIVATION_WIDTH), // Activations (Hidden requantized)
+        .ACC_WIDTH  (OUTPUT_ACCUM_WIDTH), // Accumulator
         .M          (OUTPUT_OUT_SIZE),
         .K          (HIDDEN_NEURONS_SIZE),
         .N          (1),
@@ -168,6 +169,8 @@ import pipe_params::*;
         end
     end
 
+    assign predicted_result_out = {12'b0, argmax_layer_output_l};
+
     /**** FSM CONTROL ****/
     pipe_control_fsm pipe_controller (
         .clk(clk),
@@ -209,7 +212,7 @@ import pipe_params::*;
     bram_wrapper #(
         .N(1), // 1 BRAM only - flattened pixels
         .BRAM_SIZE(HIDDEN_ACTIVATION_SIZE), // Per BRAM 
-        .DATA_WIDTH(PIXEL_WIDTH),
+        .DATA_WIDTH(HIDDEN_PIXEL_WIDTH),
         .OUTDATA_WIDTH(HIDDEN_WEIGHT_WIDTH),
         .SIGN_EXTEND(0),
         .PRELOAD(0),
@@ -230,7 +233,7 @@ import pipe_params::*;
         .N(OUTPUT_OUT_SIZE),
         .BRAM_SIZE(HIDDEN_NEURONS_SIZE), // Per BRAM 
         .DATA_WIDTH(OUTPUT_WEIGHT_WIDTH),
-        .OUTDATA_WIDTH(HIDDEN_ACCUM_WIDTH),
+        .OUTDATA_WIDTH(OUTPUT_WEIGHT_WIDTH),
         .SIGN_EXTEND(1),
         .PRELOAD(1),
         .LOAD_FILE_PREFIX("weights/output")

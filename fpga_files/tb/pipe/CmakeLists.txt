@@ -59,13 +59,57 @@ target_link_libraries(${TB_NAME}
 file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/waves")
 
 # 5. bram_wrapper's $readmemh is called with paths like "weights/hidden_0.hex"
-#    (see LOAD_FILE_PREFIX in pipe_top). $readmemh resolves relative paths
-#    against the simulator's working directory, which is fpga_files/, but the
-#    real files live in fpga_files/rtl/weights. Drop a symlink at the expected
-#    location so the preload finds them without touching the RTL.
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/weights")
-    file(CREATE_LINK
-        "${CMAKE_SOURCE_DIR}/rtl/weights"
-        "${CMAKE_SOURCE_DIR}/weights"
-        SYMBOLIC)
-endif()
+#    (the LOAD_FILE_PREFIX in pipe_top). $readmemh resolves relative paths
+#    against the simulator's working directory, and the real files live in
+#    fpga_files/rtl/weights. A missing preload is only a warning -- the sim
+#    runs on all-zero weights and quietly predicts 0 -- so drop a "weights"
+#    symlink in every directory the binary is plausibly launched from:
+#      fpga_files/          (documented run dir)
+#      build/               (cmake --build . && ./tb/pipe/pipe_tb)
+#      build/tb/pipe/       (running the binary from next to itself)
+foreach(_weights_dir
+        "${CMAKE_SOURCE_DIR}"
+        "${CMAKE_BINARY_DIR}"
+        "${CMAKE_CURRENT_BINARY_DIR}")
+    if(NOT IS_SYMLINK "${_weights_dir}/weights" AND NOT EXISTS "${_weights_dir}/weights")
+        file(CREATE_LINK
+            "${CMAKE_SOURCE_DIR}/rtl/weights"
+            "${_weights_dir}/weights"
+            SYMBOLIC)
+    endif()
+endforeach()
+
+# 6. Same story for waves/: the C++ TB opens waves/tb_pipe.vcd relative to the
+#    run directory, and fopen on a missing dir just drops the trace.
+foreach(_waves_dir
+        "${CMAKE_BINARY_DIR}"
+        "${CMAKE_CURRENT_BINARY_DIR}")
+    if(NOT IS_SYMLINK "${_waves_dir}/waves" AND NOT EXISTS "${_waves_dir}/waves")
+        file(CREATE_LINK
+            "${CMAKE_SOURCE_DIR}/waves"
+            "${_waves_dir}/waves"
+            SYMBOLIC)
+    endif()
+endforeach()
+
+# Read in golden data from python model
+foreach(_golden_dir
+        "${CMAKE_SOURCE_DIR}"
+        "${CMAKE_BINARY_DIR}"
+        "${CMAKE_CURRENT_BINARY_DIR}")
+    if(NOT IS_SYMLINK "${_golden_dir}/golden" AND NOT EXISTS "${_golden_dir}/golden")
+        file(CREATE_LINK
+            "${CMAKE_CURRENT_SOURCE_DIR}"
+            "${_golden_dir}/golden"
+            SYMBOLIC)
+    endif()
+endforeach()
+
+# 7. Convenience target that pins the working directory to fpga_files/, so
+#    `cmake --build . --target run_pipe_tb` can never hit the CWD trap above.
+add_custom_target(run_${TB_NAME}
+    COMMAND $<TARGET_FILE:${TB_NAME}>
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    DEPENDS ${TB_NAME}
+    USES_TERMINAL
+    COMMENT "Running ${TB_NAME} from ${CMAKE_SOURCE_DIR}")

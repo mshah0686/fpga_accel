@@ -89,3 +89,4 @@ fpga_files/rtl/_build/default/hardware.json
 .gitignore
 fpga_files/rtl/_build/default/scons.params
 fpga_files/rtl/_build/default/sconsign.dblite
+CLAUDE.md

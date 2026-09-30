@@ -41,15 +41,23 @@ cd fpga_files/build
 cmake ..                              # only needed after editing a CmakeLists.txt
 cmake --build . --target pipe_tb      # targets: pipe_tb, matrix_mult_tb, top_tb, spi_timer_control (when enabled)
 
-# Run from fpga_files/, NOT from build/ — see the working-directory note below
-cd .. && ./build/tb/pipe/pipe_tb
+cmake --build . --target run_pipe_tb   # runs it with CWD pinned to fpga_files/
+cd .. && ./build/tb/pipe/pipe_tb       # or launch it by hand
 ```
 
 VCDs land in `fpga_files/waves/`. The `.ron` files next to them are Surfer viewer state.
 
 **Working directory matters.** The RTL calls `$readmemh("weights/hidden_0.hex", ...)`, resolved against
-the simulator's CWD. Each TB's `CmakeLists.txt` creates a `fpga_files/weights -> rtl/weights` symlink for
-this. Running a TB binary from anywhere but `fpga_files/` silently preloads zeros.
+the simulator's CWD, and a missing preload is only a *warning* — the sim runs on all-zero weights and
+quietly predicts 0. `tb/pipe/CmakeLists.txt` drops a `weights -> rtl/weights` symlink (and a `waves`
+one) in `fpga_files/`, `build/`, and `build/tb/pipe/` so the three plausible run dirs all work; use the
+`run_pipe_tb` target to be sure. Launching from somewhere else still preloads zeros.
+
+Don't run `cmake` with `fpga_files/` as the *source* argument from inside it (`cmake .`), and don't let an
+in-source configure leave a `CMakeCache.txt` there: `cmake ..` from `build/` then sees that cache, treats
+`fpga_files/` as a build dir, and reconfigures the ESP-IDF root project instead — failing on
+`include($ENV{IDF_PATH}/tools/cmake/project.cmake)`. Delete `fpga_files/CMakeCache.txt` and
+`fpga_files/CMakeFiles/` if they reappear.
 
 Lint a single module without a full TB:
 

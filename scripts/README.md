@@ -73,6 +73,66 @@ factor, so a stale golden file identifies itself.
 > `expected_*` files yet. Streaming the image in and comparing is a separate
 > TB change.
 
+> **Superseded:** the `expected_*.hex` goldens above are from the old Q8.8 /
+> scale-256 weight flow. The current goldens come from
+> `model_pipeline/pipeline.py` (below), which matches what
+> `quantizer.py` + `gen_rtl_weights.py` actually bake into the BRAMs today.
+
+---
+
+## `model_pipeline/pipeline.py` — the integer reference model
+
+A bit-accurate integer model of `pipe_top`: hidden matmul -> ReLU -> requantize
+-> output matmul -> argmax, in the same widths and scales as the RTL. It is the
+golden source for `tb_pipe`.
+
+```bash
+python3 scripts/model_pipeline/pipeline.py             # MNIST t10k image 0
+python3 scripts/model_pipeline/pipeline.py --index 42   # any test image
+```
+
+The input is always read straight from
+`data/MNIST/raw/t10k-images-idx3-ubyte` at offset `16 + 784*index` — there is no
+file to hand-edit. `model_pipeline/pixels.txt` is rewritten each run as the
+human-readable 28x28 record of what ran; it is an **output**, never an input.
+
+### What it writes
+
+All five land in `fpga_files/tb/pipe/`, which `tb/pipe/CmakeLists.txt` symlinks
+as `golden/` into every plausible run dir (same CWD trap as `weights/`):
+
+| File | Entries | Width | Scale | RTL signal it checks |
+|---|---|---|---|---|
+| `golden_pixels.hex` | 784 | 8 | 256 | pixel BRAM stimulus |
+| `golden_hidden_relu.hex` | 16 | 32 | 2²¹ | `uut.relu_result` |
+| `golden_requantized.hex` | 16 | 16 | 256 | `uut.rerequantize_result` |
+| `golden_output.hex` | 10 | 32 | 2²¹ | `uut.output_layer_result` |
+| `golden_argmax.hex` | 1 | 4 | — | `uut.argmax_layer_output_l` |
+
+`infer()` returns these under the same names — `hidden_relu`, `requantized`,
+`output`, `argmax` — and `tb_pipe.v` loads them into `exp_hidden_relu`,
+`exp_requantized`, `exp_output`, `exp_argmax`.
+
+`golden_requantized.hex` is `hidden_relu >> 13`, the only value `pipe_top`
+latches (`requantized_result_l`) between the two matmuls. Without it a
+requantizer sign or width bug has nowhere to show up.
+
+This model and the weight BRAMs both read `scripts/quantized_weights/`
+(via `gen_rtl_weights.py` for the RTL side), so a mismatch against the RTL is an
+RTL bug rather than a weights skew. Re-run `pipeline.py` after any retrain +
+`quantizer.py` + `gen_rtl_weights.py` cycle.
+
+`model_pipeline/accuracy.py` runs the same `infer()` over all 10k test images
+and compares against a float reference from `training_weights/`, reporting both
+accuracies and their agreement.
+
+> **Known mismatch:** `argmax.sv` compares its packed input **unsigned** (one
+> unsigned operand makes the whole comparison unsigned), so any negative logit
+> outranks every positive one. `pipeline.py` uses a signed `np.argmax`. On image
+> 0 the model says 7 and the RTL says 8. Also `pipe_top.predicted_result_out` is
+> declared but never driven — read the prediction from
+> `uut.argmax_layer_output_l`.
+
 ---
 
 ## Fixed-point reference

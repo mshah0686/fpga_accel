@@ -8,7 +8,7 @@ package pipe_params;
     // HIDDEN
     localparam HIDDEN_NEURONS_SIZE = 16;
     localparam HIDDEN_WEIGHT_WIDTH = 16;
-    localparm HIDDEN_ACCUM_WIDTH = 32;
+    localparam HIDDEN_ACCUM_WIDTH = 32;
 
     // OUTPUT
     localparam OUTPUT_WEIGHT_WIDTH = 16;

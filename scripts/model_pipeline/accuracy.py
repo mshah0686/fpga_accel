@@ -9,26 +9,13 @@ loss; a gap in agreement on images both get right is a modelling bug.
 import os
 import numpy as np
 
-from pipeline import PIXEL_SCALE, SHIFT, load_weights, infer
+from pipeline import (PIXEL_SCALE, SHIFT, infer, load_weights, read_images,
+                      read_labels)
 
 DIR = os.path.dirname(os.path.abspath(__file__))
-RAW_DIR = os.path.join(DIR, os.pardir, "data", "MNIST", "raw")
 FLOAT_DIR = os.path.join(DIR, os.pardir, "training_weights")
 
 TRAIN_SCALE = 255.0   # ToTensor() fed pixels as px/255 during training
-
-
-def read_images():
-    with open(os.path.join(RAW_DIR, "t10k-images-idx3-ubyte"), "rb") as f:
-        f.seek(16)
-        data = np.frombuffer(f.read(), dtype=np.uint8)
-    return data.reshape(-1, 784).astype(np.int64)
-
-
-def read_labels():
-    with open(os.path.join(RAW_DIR, "t10k-labels-idx1-ubyte"), "rb") as f:
-        f.seek(8)
-        return np.frombuffer(f.read(), dtype=np.uint8).astype(np.int64)
 
 
 def read_floats(name):
@@ -52,7 +39,7 @@ int_correct = float_correct = agree = 0
 mismatches = []
 
 for i, (px, label) in enumerate(zip(images, labels)):
-    _, _, int_pred = infer(px, int_weights)
+    *_, int_pred = infer(px, int_weights)
     float_pred = infer_float(px, float_weights)
 
     int_correct += int_pred == label
