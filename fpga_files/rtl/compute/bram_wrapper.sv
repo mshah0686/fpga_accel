@@ -3,6 +3,8 @@ module bram_wrapper #(
     parameter N = 2,
     parameter BRAM_SIZE = 4,
     parameter DATA_WIDTH = 8,
+    parameter WRITE_WIDTH = DATA_WIDTH,
+    parameter WRITE_SCALE = 1,
     parameter OUTDATA_WIDTH = 8, // Output data at this width (must be greater than DATAWIDTH)
     parameter SIGN_EXTEND = 0, // Sign extend value or no
     parameter PRELOAD = 0,
@@ -20,7 +22,7 @@ module bram_wrapper #(
 
     input [N-1:0] w_en,
     input [N-1:0][ADDR_WIDTH-1:0] w_addr,
-    input [N-1:0][DATA_WIDTH-1:0] w_data
+    input [N-1:0][WRITE_WIDTH-1:0] w_data
 
 
 );
@@ -34,6 +36,8 @@ module bram_wrapper #(
             single_port_bram #(
                 .SIZE(BRAM_SIZE),
                 .DATA_WIDTH(DATA_WIDTH),
+                .WRITE_WIDTH(WRITE_WIDTH),
+                .WRITE_SCALE(WRITE_SCALE),
                 .PRELOAD(PRELOAD),
                 .LOAD_FILE($sformatf("%s_%0d.hex", LOAD_FILE_PREFIX, bram_idx))
             ) bram_u (

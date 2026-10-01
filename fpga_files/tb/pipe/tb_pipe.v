@@ -22,7 +22,7 @@ module tb_pipe_top;
     reg [REG_WIDTH-1:0] matrix_control_in;
 
     reg                           pixel_wr_en;
-    reg [PIX_WIDTH-1:0]           pixel_wr_data;
+    reg [1:0][PIX_WIDTH-1:0]      pixel_wr_data;
     reg [$clog2(ACTIVATIONS)-1:0] pixel_wr_address;
 
     // DUT outputs
@@ -98,9 +98,10 @@ module tb_pipe_top;
     // ------------------------------------------------------------------
     task write_pixel_data();
         @(negedge clk);
-        for(int i = 0; i < ACTIVATIONS; i++) begin
+        for(int i = 0; i < ACTIVATIONS; i=i+2) begin
             pixel_wr_en <= 1'b1;
-            pixel_wr_data <= pixels[i];
+            pixel_wr_data[0] <= pixels[i];
+            pixel_wr_data[1] <= pixels[i+1];
             pixel_wr_address <= i[$clog2(ACTIVATIONS)-1:0];
             @(negedge clk);
         end
@@ -210,7 +211,7 @@ module tb_pipe_top;
     initial begin
         matrix_control_in = {REG_WIDTH{1'b0}};
         pixel_wr_en       = 1'b0;
-        pixel_wr_data     = {PIX_WIDTH{1'b0}};
+        pixel_wr_data     = 'b0;
         pixel_wr_address  = {$clog2(ACTIVATIONS){1'b0}};
 
         load_goldens();
@@ -229,7 +230,9 @@ module tb_pipe_top;
 
         $display("[%0t] === TEST PASSED: hidden_relu, requantized, output, argmax all match pipeline.py ===",
                  $time);
-        $display("[%0t] predicted %0d (predicted_result_out reads %0d -- port is undriven)",
+
+        
+        $display("[%0t] predicted %0d (predicted_result_out reads %0d)",
                  $time, uut.argmax_layer_output_l, predicted_result_out);
 
         $finish;

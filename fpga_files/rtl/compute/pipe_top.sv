@@ -12,7 +12,7 @@ import pipe_params::*;
 
     /*** PIXEL WRITE ***/
     input pixel_wr_en,
-    input [HIDDEN_PIXEL_WIDTH-1:0] pixel_wr_data, // FIXME::This is now two pixels coming in...needs adjusting in BRAM
+    input [1:0][HIDDEN_PIXEL_WIDTH-1:0] pixel_wr_data, 
     input [$clog2(HIDDEN_ACTIVATION_SIZE)-1:0] pixel_wr_address
 );
 
@@ -213,6 +213,8 @@ import pipe_params::*;
         .N(1), // 1 BRAM only - flattened pixels
         .BRAM_SIZE(HIDDEN_ACTIVATION_SIZE), // Per BRAM 
         .DATA_WIDTH(HIDDEN_PIXEL_WIDTH),
+        .WRITE_WIDTH(HIDDEN_PIXEL_WIDTH * 2),
+        .WRITE_SCALE(2),
         .OUTDATA_WIDTH(HIDDEN_WEIGHT_WIDTH),
         .SIGN_EXTEND(0),
         .PRELOAD(0),

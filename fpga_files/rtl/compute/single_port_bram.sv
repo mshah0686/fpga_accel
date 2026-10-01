@@ -3,6 +3,8 @@ module single_port_bram #(
     parameter DATA_WIDTH = 8, 
     parameter PRELOAD = 0,
     parameter LOAD_FILE = "",
+    parameter WRITE_WIDTH = DATA_WIDTH, // WRITE data on this width
+    parameter WRITE_SCALE = 1, // How many addresses written at once
     localparam ADDR_WIDTH = $clog2(SIZE)
 )(
     input clk,
@@ -13,7 +15,7 @@ module single_port_bram #(
 
     input w_en,
     input [ADDR_WIDTH-1:0] w_addr,
-    input [DATA_WIDTH-1:0] w_data
+    input [WRITE_WIDTH-1:0] w_data
 );
 
     logic [DATA_WIDTH-1:0] storage [SIZE-1:0];
@@ -27,9 +29,12 @@ module single_port_bram #(
         end
     end
     
+    integer k;
     always_ff @(posedge clk) begin
         if(w_en) begin
-            storage[w_addr] <= w_data;
+            for(int k = 0; k < WRITE_SCALE; k++) begin
+                storage[ADDR_WIDTH'(w_addr + k)] <= w_data[(DATA_WIDTH * k)+: DATA_WIDTH];
+            end
         end
     end
 
