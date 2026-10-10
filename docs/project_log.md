@@ -167,7 +167,7 @@ This is total 20 bits. I could add another DATA field to reduce the SPI transact
 The other approach is I could write a start command, then stream 4 pixels at a time after to reduce the total SPI writes required. This would require some sequencer sitting between decoder and RAL to intercept those writes. I will stick to the two stream writes for now and consider more optimizations later.
 
 The final RAL architecture is:
-[CMD: 2 bits][Peripheral TAG: 2 bits][ADDRESS: 10 bits][DATA: 16 bits]
+[CMD: 2 bits][Reserved: 2 bits][Peripheral TAG: 2 bits][ADDRESS: 10 bits][DATA: 16 bits]
 CMD:
 - NOP: 0x0
 - READ: 0x1

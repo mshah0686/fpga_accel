@@ -20,8 +20,7 @@ verilate(${TB_NAME}
         "--trace"
         "--trace-structs"
     SOURCES
-        # Shared network / quantization sizes. Must come first: pipe_top and
-        # tb_pipe both `import pipe_params::*` instead of taking parameters.
+        "${CMAKE_SOURCE_DIR}/rtl/fpga_types.sv"
         "${CMAKE_SOURCE_DIR}/rtl/compute/pipe_params.sv"
 
         # BRAM storage + per-edge BRAM array wrapper (hidden/output weights
@@ -92,20 +91,14 @@ foreach(_waves_dir
     endif()
 endforeach()
 
-# Read in golden data from python model
-foreach(_golden_dir
-        "${CMAKE_SOURCE_DIR}"
-        "${CMAKE_BINARY_DIR}"
-        "${CMAKE_CURRENT_BINARY_DIR}")
-    if(NOT IS_SYMLINK "${_golden_dir}/golden" AND NOT EXISTS "${_golden_dir}/golden")
-        file(CREATE_LINK
-            "${CMAKE_CURRENT_SOURCE_DIR}"
-            "${_golden_dir}/golden"
-            SYMBOLIC)
-    endif()
-endforeach()
+# 7. Goldens from scripts/model_pipeline/pipeline.py live in fpga_files/golden,
+#    which tb_pipe.v $readmemh's as "golden/golden_*.hex". That path only
+#    resolves from the fpga_files/ root -- the documented run dir, and what
+#    run_pipe_tb below pins -- so there is nothing to link, just a directory to
+#    guarantee exists so pipeline.py has somewhere to write.
+file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/golden")
 
-# 7. Convenience target that pins the working directory to fpga_files/, so
+# 8. Convenience target that pins the working directory to fpga_files/, so
 #    `cmake --build . --target run_pipe_tb` can never hit the CWD trap above.
 add_custom_target(run_${TB_NAME}
     COMMAND $<TARGET_FILE:${TB_NAME}>

@@ -2,13 +2,13 @@
 // output layer logits, 10 classes
 // Integer scale factor: 2097152 (real value = entry / 2097152).
 // Width: 32 bits, two's complement.
-005d3874
-fe65a19c
-00c10967
-ff8bcd88
-ff7b2e4c
-ff8cd62a
-fff11c38
-fe4f4bfd
-0039581c
-fff1cc44
+001e3d35
+ff46a6aa
+ffcfd013
+ff4f4854
+ffb7f84f
+ffbf07f4
+00d08e9a
+ff26bbfb
+ffa80d24
+ffbfb171

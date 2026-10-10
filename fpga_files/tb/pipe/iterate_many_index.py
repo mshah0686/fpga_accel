@@ -4,16 +4,17 @@ For each index: regenerate the goldens with pipeline.py, rerun the compiled
 testbench, and record whether it passed.
 
 The testbench is built once up front rather than per index -- only the
-golden_*.hex files change between iterations, and tb_pipe.v $readmemh's them at
-time 0 of every run, so nothing needs recompiling.
+fpga_files/golden/golden_*.hex files change between iterations, and tb_pipe.v
+$readmemh's them at time 0 of every run, so nothing needs recompiling.
 
     python3 fpga_files/tb/pipe/iterate_many_index.py                 # images 0-100
     python3 fpga_files/tb/pipe/iterate_many_index.py --start 200 --end 250
     python3 fpga_files/tb/pipe/iterate_many_index.py --indices 3,8,42
 
 stdout and stderr from failing runs are written to tb/pipe/iterate_logs/.
-Exits non-zero if any index failed. The goldens left on disk afterwards are
-whichever index ran last, so re-run pipeline.py before debugging a single image.
+Exits non-zero if any index failed. The goldens left in fpga_files/golden/
+afterwards are whichever index ran last, so re-run pipeline.py before debugging
+a single image.
 """
 
 import argparse
@@ -21,6 +22,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 
 TB_DIR = os.path.dirname(os.path.abspath(__file__))
 FPGA_DIR = os.path.abspath(os.path.join(TB_DIR, os.pardir, os.pardir))
@@ -30,6 +32,14 @@ PIPELINE = os.path.join(REPO_DIR, "scripts", "model_pipeline", "pipeline.py")
 BUILD_DIR = os.path.join(FPGA_DIR, "build")
 BINARY = os.path.join(BUILD_DIR, "tb", "pipe", "pipe_tb")
 LOG_DIR = os.path.join(TB_DIR, "iterate_logs")
+
+# pipeline.py writes the goldens here and tb_pipe.v reads them back as
+# "golden/golden_*.hex", resolved against the sim's CWD -- which is why the
+# binary is launched from FPGA_DIR below.
+GOLDEN_DIR = os.path.join(FPGA_DIR, "golden")
+GOLDEN_FILES = ("golden_pixels.hex", "golden_hidden_relu.hex",
+                "golden_requantized.hex", "golden_output.hex",
+                "golden_argmax.hex")
 
 TB_TARGET = "pipe_tb"
 RUN_TIMEOUT_S = 600   # the TB has its own watchdog; this catches a wedged sim
@@ -55,11 +65,34 @@ def build():
         sys.exit(f"built, but no binary at {BINARY}")
 
 
+def stale_goldens(since):
+    """Golden files missing from GOLDEN_DIR, or not rewritten since `since`.
+
+    pipeline.py exits 0 as long as the model ran, so if its output directory
+    ever drifts from where tb_pipe.v reads, every index in the sweep would be
+    checked against one frozen golden set and silently "pass".
+    """
+    stale = []
+    for name in GOLDEN_FILES:
+        path = os.path.join(GOLDEN_DIR, name)
+        if not os.path.isfile(path) or os.path.getmtime(path) < since:
+            stale.append(name)
+    return stale
+
+
 def gen_goldens(index):
     """Run pipeline.py for one image. Returns (label, model_pred, output)."""
+    before = time.time()
     res = run([sys.executable, PIPELINE, "--index", str(index)], REPO_DIR)
     if res.returncode != 0:
         return None, None, res.stdout
+
+    # mtime has 1s granularity on some filesystems -- allow a second of slack.
+    stale = stale_goldens(before - 1)
+    if stale:
+        sys.exit(f"pipeline.py exited 0 but did not refresh {', '.join(stale)} "
+                 f"in {GOLDEN_DIR} -- check its OUT_DIR against the "
+                 f"golden/ path tb_pipe.v $readmemh's")
 
     # "ran     MNIST t10k image 0, true label 7" / "argmax  7  (hit)"
     label = re.search(r"true label (\d+)", res.stdout)

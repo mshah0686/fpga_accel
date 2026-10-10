@@ -8,9 +8,11 @@ verilate(${TB_NAME}
     TOP_MODULE tb_top
     TRACE_VCD
     INCLUDE_DIRS
+        # rtl/ so pipe_top's `include "weights/*_biases.svh"` resolves
         "${CMAKE_SOURCE_DIR}/rtl"
         "${CMAKE_SOURCE_DIR}/rtl/spi"
         "${CMAKE_SOURCE_DIR}/rtl/compute"
+        "${CMAKE_SOURCE_DIR}/rtl/weights"
     VERILATOR_ARGS
         "-timescale"
         "1ns/1ps"
@@ -19,6 +21,10 @@ verilate(${TB_NAME}
         "--trace-structs"
     SOURCES
         "${CMAKE_SOURCE_DIR}/rtl/fpga_types.sv"
+
+        # Shared network / quantization sizes. Must come first: pipe_top
+        # imports pipe_params::* instead of taking parameters.
+        "${CMAKE_SOURCE_DIR}/rtl/compute/pipe_params.sv"
 
         # SPI front-end (RX + CDC + decode + TX FIFO)
         "${CMAKE_SOURCE_DIR}/rtl/spi/spi_rx.sv"
@@ -30,10 +36,8 @@ verilate(${TB_NAME}
         "${CMAKE_SOURCE_DIR}/rtl/spi/packet_decoder.sv"
         "${CMAKE_SOURCE_DIR}/rtl/spi_top.sv"
 
-        # Register model + peripherals
+        # Register model (the only RAL)
         "${CMAKE_SOURCE_DIR}/rtl/register_model.sv"
-        "${CMAKE_SOURCE_DIR}/rtl/timer.sv"
-        "${CMAKE_SOURCE_DIR}/rtl/segment_display.sv"
 
         # Matrix multiplier: BRAM storage + wrapper feed the systolic array
         "${CMAKE_SOURCE_DIR}/rtl/compute/single_port_bram.sv"
@@ -43,7 +47,16 @@ verilate(${TB_NAME}
         "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_controller.sv"
         "${CMAKE_SOURCE_DIR}/rtl/compute/matrix_mult_top.sv"
 
-        # Chip top + testbench
+        # Per-layer stages between the two matrix multiplies
+        "${CMAKE_SOURCE_DIR}/rtl/compute/relu.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/reqauntizer.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/argmax.sv"
+
+        # Full inference pipeline + its sequencing FSM
+        "${CMAKE_SOURCE_DIR}/rtl/compute/pipe_control_fsm.sv"
+        "${CMAKE_SOURCE_DIR}/rtl/compute/pipe_top.sv"
+
+        # Chip top + testbench (setup only: clocks, idle SPI pins)
         "${CMAKE_SOURCE_DIR}/rtl/top.sv"
         "${CMAKE_CURRENT_SOURCE_DIR}/tb_top.v"
 )
@@ -54,12 +67,47 @@ target_link_libraries(${TB_NAME}
         ${VERILATOR_LIBS}
 )
 
-# 4. single_port_bram's $readmemh uses paths like "weights/hidden_0.hex",
-#    resolved against the simulator's working directory (fpga_files/), while
-#    the real files live in fpga_files/rtl/weights. Symlink them into place.
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/weights")
-    file(CREATE_LINK
-        "${CMAKE_SOURCE_DIR}/rtl/weights"
-        "${CMAKE_SOURCE_DIR}/weights"
-        SYMBOLIC)
-endif()
+# 4. bram_wrapper's $readmemh uses paths like "weights/hidden_0.hex", resolved
+#    against the simulator's working directory, while the real files live in
+#    fpga_files/rtl/weights. A missing preload is only a warning -- the sim
+#    runs on all-zero weights and quietly predicts 0 -- so drop a "weights"
+#    symlink in every directory the binary is plausibly launched from.
+foreach(_weights_dir
+        "${CMAKE_SOURCE_DIR}"
+        "${CMAKE_BINARY_DIR}"
+        "${CMAKE_CURRENT_BINARY_DIR}")
+    if(NOT IS_SYMLINK "${_weights_dir}/weights" AND NOT EXISTS "${_weights_dir}/weights")
+        file(CREATE_LINK
+            "${CMAKE_SOURCE_DIR}/rtl/weights"
+            "${_weights_dir}/weights"
+            SYMBOLIC)
+    endif()
+endforeach()
+
+# 5. Same story for waves/: the C++ TB opens waves/tb_top.vcd relative to the
+#    run directory, and fopen on a missing dir just drops the trace.
+file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/waves")
+foreach(_waves_dir
+        "${CMAKE_BINARY_DIR}"
+        "${CMAKE_CURRENT_BINARY_DIR}")
+    if(NOT IS_SYMLINK "${_waves_dir}/waves" AND NOT EXISTS "${_waves_dir}/waves")
+        file(CREATE_LINK
+            "${CMAKE_SOURCE_DIR}/waves"
+            "${_waves_dir}/waves"
+            SYMBOLIC)
+    endif()
+endforeach()
+
+# 6. tb_top $readmemh's golden/golden_pixels.hex and golden/golden_argmax.hex
+#    from fpga_files/golden -- the same directory, and the same goldens,
+#    tb_pipe reads. That relative path only resolves from the fpga_files/ root
+#    (what run_top_tb below pins), so there is nothing to link here.
+file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/golden")
+
+# 7. Convenience target that pins the working directory to fpga_files/.
+add_custom_target(run_${TB_NAME}
+    COMMAND $<TARGET_FILE:${TB_NAME}>
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    DEPENDS ${TB_NAME}
+    USES_TERMINAL
+    COMMENT "Running ${TB_NAME} from ${CMAKE_SOURCE_DIR}")

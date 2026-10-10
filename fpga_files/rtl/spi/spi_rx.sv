@@ -22,7 +22,7 @@ reg [DATA_COUNTER_WIDTH - 1 : 0] recieved_count = 0;
 
 // On last transaction
 wire last_txn_flag;
-assign last_txn_flag = ({1'b0, recieved_count} == (DATA_WIDTH -1));
+assign last_txn_flag = ({recieved_count} == DATA_COUNTER_WIDTH'(DATA_WIDTH -1));
 
 // Latch SPI data
 always @(posedge spi_clk) begin

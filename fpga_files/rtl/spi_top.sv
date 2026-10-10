@@ -1,10 +1,9 @@
 // Handle RX and TX
 //  - Receive SPI packets, CDC into the system clock, decode to the RAL request bus
 //  - Accept RAL read data and stream it back out over SPI TX
-
-`include "fpga_types.sv"
-
-module spi_top (
+module spi_top 
+import fpga_params::*;
+(
     input clk,                       // system clock
 
     // SPI physical interface
@@ -16,33 +15,30 @@ module spi_top (
     // Decoded packet out to register model (RAL)
     output                   ral_req_valid,
     output                   ral_req_wr_en,
-    output [`TAG_WIDTH-1:0]  ral_req_tag,
-    output [`ADDR_WIDTH-1:0] ral_req_addr,
-    output [`DATA_WIDTH-1:0] ral_req_data,
+    output [TAG_WIDTH-1:0]  ral_req_tag,
+    output [ADDR_WIDTH-1:0] ral_req_addr,
+    output [DATA_WIDTH-1:0] ral_req_data,
 
     // Read data in from register model -> TX FIFO
     input                    rd_fifo_wr_en,
-    input  [`DATA_WIDTH-1:0] rd_fifo_wr_data,
-
-    // DBG
-    output [3:0] dbg
+    input  [DATA_WIDTH-1:0] rd_fifo_wr_data
 );
 
     // RX -> SPI read data
-    wire [`TXN_WIDTH-1:0] spi_rx_data;         // SPI clock domain
+    wire [TXN_WIDTH-1:0] spi_rx_data;         // SPI clock domain
     wire                  spi_rx_valid;
 
     // RX -> Synced data
-    wire [`TXN_WIDTH-1:0] spi_rx_synced_data;  // system clock domain
+    wire [TXN_WIDTH-1:0] spi_rx_synced_data;  // system clock domain
     wire                  spi_rx_synced_valid;
 
     // TX -> Read from fifo
-    wire [`DATA_WIDTH-1:0] rd_fifo_rd_data;
+    wire [DATA_WIDTH-1:0] rd_fifo_rd_data;
     wire                   rd_fifo_rd_en;
     wire                   rd_fifo_empty;
 
     // Receiver (SPI clock domain)
-    spi_rx #(.DATA_WIDTH(`TXN_WIDTH))
+    spi_rx #(.DATA_WIDTH(TXN_WIDTH))
     spi_rx_u (
         // INPUT
         .spi_clk(spi_sck),
@@ -59,7 +55,7 @@ module spi_top (
     );
 
     // CDC from SPI clock to system clock
-    spi_rx_sync #(.DATA_WIDTH(`TXN_WIDTH))
+    spi_rx_sync #(.DATA_WIDTH(TXN_WIDTH))
     spi_rx_sync_u (
         .system_clk(clk),
 
@@ -95,7 +91,7 @@ module spi_top (
     // TX read-data FIFO (write: system clock, read: SPI clock)
     async_fifo #(
         .DEPTH(2),
-        .DATA_WIDTH(`DATA_WIDTH)
+        .DATA_WIDTH(DATA_WIDTH)
     ) rd_out_fifo_u (
         .w_en(rd_fifo_wr_en),
         .w_data(rd_fifo_wr_data),
@@ -114,8 +110,8 @@ module spi_top (
     // SPI TX: stream FIFO data back out over POCI
     // Note -> Latches here operate on negedge
     spi_tx #(
-        .TXN_WIDTH(`TXN_WIDTH),
-        .DATA_WIDTH(`DATA_WIDTH)
+        .TXN_WIDTH(TXN_WIDTH),
+        .DATA_WIDTH(DATA_WIDTH)
     ) spi_tx_u (
         .spi_clk(spi_sck),
         .spi_poci(spi_poci),
@@ -126,7 +122,7 @@ module spi_top (
         .fifo_empty_in(rd_fifo_empty),
         .r_en_out(rd_fifo_rd_en),
 
-        .dbg(dbg)
+        .dbg()
     );
 
 endmodule

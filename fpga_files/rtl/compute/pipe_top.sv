@@ -1,5 +1,6 @@
 module pipe_top 
 import pipe_params::*;
+import fpga_params::*;
 #(
     parameter REG_WIDTH = 16
 ) (
@@ -13,7 +14,7 @@ import pipe_params::*;
     /*** PIXEL WRITE ***/
     input pixel_wr_en,
     input [1:0][HIDDEN_PIXEL_WIDTH-1:0] pixel_wr_data, 
-    input [$clog2(HIDDEN_ACTIVATION_SIZE)-1:0] pixel_wr_address
+    input [ADDR_WIDTH-1:0] pixel_wr_address
 );
 
     `include "weights/hidden_biases.svh"
@@ -76,8 +77,8 @@ import pipe_params::*;
     requantize #(
         .INPUT_WIDTH(HIDDEN_ACCUM_WIDTH),
         .OUTPUT_WIDTH(OUTPUT_ACTIVATION_WIDTH),
-        .INPUT_SCALE_N(21), // FIXME::Need to parameterize
-        .OUTPUT_SCALE_N(8),
+        .INPUT_SCALE_N(HIDDEN_ACCUM_SCALE), // FIXME::Need to parameterize
+        .OUTPUT_SCALE_N(OUTPUT_ACTIVATION_SCALE),
         .ARRAY_HEIGHT(HIDDEN_NEURONS_SIZE),
         .ARRAY_WIDTH(1)
     ) reqquantize_u (

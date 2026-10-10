@@ -1,20 +1,22 @@
 // List of common configurations
-`ifndef FPGA_TYPES_V
-`define FPGA_TYPES_V
+package fpga_params;
 
-// TXN WIDTHS - 32 bits each
-`define CMD_WIDTH  2
-`define TAG_WIDTTH 2
-`define ADDR_WIDTH 10
-`define DATA_WIDTH 16
-`define TXN_WIDTH  (`CMD_WIDTH + `TAG_WIDTTH + `ADDR_WIDTH + `DATA_WIDTH)
+    localparam CMD_WIDTH = 2;
+    localparam TAG_WIDTH = 2;
+    localparam RESERVED_WIDTH = 2;
+    localparam ADDR_WIDTH = 10;
+    localparam DATA_WIDTH = 16;
+    localparam TXN_WIDTH = (CMD_WIDTH + RESERVED_WIDTH + TAG_WIDTH + ADDR_WIDTH + DATA_WIDTH);
 
-// COMMANDS
-`define CMD_NOP    `CMD_WIDTH'd0
-`define CMD_READ   `CMD_WIDTH'd1
-`define CMD_WRITE  `CMD_WIDTH'd2
+    // COMMANDS
+    localparam logic [CMD_WIDTH-1:0] CMD_NOP = 'd0;
+    localparam logic [CMD_WIDTH-1:0] CMD_READ = 'd1;
+    localparam  logic [CMD_WIDTH-1:0] CMD_WRITE = 'd2;
 
-`define PIXEL_TAG 0
-`define MATRIX_TAG 1
+    localparam PIXEL_TAG = 0;
+    localparam MATRIX_TAG  = 1;
 
-`endif
+    // Interface sizes
+    localparam PIXEL_PER_WRITE = 2;
+
+endpackage

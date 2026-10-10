@@ -55,7 +55,8 @@ module tb_pipe_top;
     // Stimulus and goldens from scripts/model_pipeline/pipeline.py.
     //
     // Run `python3 scripts/model_pipeline/pipeline.py --index N` first: it
-    // writes golden_*.hex into tb/pipe/
+    // writes golden_*.hex into fpga_files/golden/, so the paths below only
+    // resolve when the sim runs from the fpga_files/ root.
     // ------------------------------------------------------------------
     reg [PIX_WIDTH-1:0]               pixels          [0:ACTIVATIONS-1];
     reg [HIDDEN_ACCUM_WIDTH-1:0]      exp_hidden_relu [0:HIDDEN_NEURONS_SIZE-1];

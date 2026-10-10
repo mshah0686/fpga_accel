@@ -84,7 +84,7 @@ factor, so a stale golden file identifies itself.
 
 A bit-accurate integer model of `pipe_top`: hidden matmul -> ReLU -> requantize
 -> output matmul -> argmax, in the same widths and scales as the RTL. It is the
-golden source for `tb_pipe`.
+golden source for `tb_pipe` and `tb_top`.
 
 ```bash
 python3 scripts/model_pipeline/pipeline.py             # MNIST t10k image 0
@@ -98,8 +98,10 @@ human-readable 28x28 record of what ran; it is an **output**, never an input.
 
 ### What it writes
 
-All five land in `fpga_files/tb/pipe/`, which `tb/pipe/CmakeLists.txt` symlinks
-as `golden/` into every plausible run dir (same CWD trap as `weights/`):
+All five land in `fpga_files/golden/`, read back by both `tb_pipe` and `tb_top`
+as `golden/golden_*.hex`. `$readmemh` resolves that against the simulator's CWD,
+so run the sims from the `fpga_files/` root (or use the `run_*_tb` targets,
+which pin it) — same CWD trap as `weights/`:
 
 | File | Entries | Width | Scale | RTL signal it checks |
 |---|---|---|---|---|

@@ -3,18 +3,18 @@
 // Integer scale factor: 256 (real value = entry / 256).
 // Width: 16 bits, two's complement.
 0000
-04fa
+0314
 0000
 0000
-0ab9
-0713
-0105
+069c
 0000
+0175
 0000
+0220
 0000
+05a7
+0276
 0000
-078f
-0000
-0ad9
-009c
+008d
+0589
 0000
