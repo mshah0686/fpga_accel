@@ -90,3 +90,6 @@ fpga_files/rtl/_build/default/hardware.json
 fpga_files/rtl/_build/default/scons.params
 fpga_files/rtl/_build/default/sconsign.dblite
 CLAUDE.md
+fpga_files/vivado/fpga_accel_vivado/fpga_accel_vivado.cache/wt/project.wpc
+fpga_files/vivado/fpga_accel_vivado/fpga_accel_vivado.hw/fpga_accel_vivado.lpr
+fpga_files/vivado/fpga_accel_vivado/fpga_accel_vivado.xpr
