@@ -1,0 +1,1309 @@
+INFO: [Common 17-3922] A valid Vivado Design Suite BASIC license has been detected. Your current license is active and will expire on 23-aug-2027.
+#-----------------------------------------------------------
+# Vivado v2026.1 (64-bit)
+# SW Build 6511674 on Tue Jun 16 11:02:23 MDT 2026
+# IP Build 6504888 on Tue Jun 09 09:05:25 MDT 2026
+# SharedData Build 6501428 on Mon Jun 08 17:34:18 MDT 2026
+# Start of session at: Tue Oct 13 22:18:49 2026
+# Process ID         : 21004
+# Current directory  : C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/fpga_accel_vivado/fpga_accel_vivado.runs/synth_1
+# Command line       : vivado.exe -log top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top.tcl
+# Log file           : C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/fpga_accel_vivado/fpga_accel_vivado.runs/synth_1/top.vds
+# Journal file       : C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/fpga_accel_vivado/fpga_accel_vivado.runs/synth_1\vivado.jou
+# Running On         : DESKTOP-DUS0QKF
+# Platform           : Windows 10
+# Operating System   : 19045
+# Processor Detail   : Intel(R) Core(TM) i7-3667U CPU @ 2.00GHz
+# CPU Frequency      : 2494 MHz
+# CPU Physical cores : 2
+# CPU Logical cores  : 4
+# Host memory        : 8400 MB
+# Swap memory        : 5809 MB
+# Total Virtual      : 14209 MB
+# Available Virtual  : 2718 MB
+#-----------------------------------------------------------
+source top.tcl -notrace
+create_project: Time (s): cpu = 00:00:26 ; elapsed = 00:00:17 . Memory (MB): peak = 583.449 ; gain = 268.961
+Command: synth_design -top top -part xc7a100tcsg324-1
+Starting synth_design
+Attempting to get a license for feature 'Vivado_Synthesis' and/or device 'xc7a100t'
+INFO: [Common 17-349] Got license for feature 'Vivado_Synthesis' and/or device 'xc7a100t'
+INFO: [Device 21-403] Loading part xc7a100tcsg324-1
+INFO: [Designutils 20-5008] Incremental synthesis strategy default
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 14864
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 1364.590 ; gain = 577.441
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-11065] parameter 'PTR_WIDTH' becomes localparam in 'async_fifo' with formal parameter declaration list [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/fifo_async.sv:19]
+WARNING: [Synth 8-6901] identifier 'c_out_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:83]
+WARNING: [Synth 8-6901] identifier 'left_to_right_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:127]
+WARNING: [Synth 8-6901] identifier 'left_to_right_valid_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:129]
+WARNING: [Synth 8-6901] identifier 'left_to_right_first_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:130]
+WARNING: [Synth 8-6901] identifier 'up_to_down_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:161]
+WARNING: [Synth 8-6901] identifier 'up_to_down_first_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:162]
+WARNING: [Synth 8-6901] identifier 'up_to_down_valid_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:163]
+WARNING: [Synth 8-11065] parameter 'DATA_COUNTER_WIDTH' becomes localparam in 'spi_rx' with formal parameter declaration list [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/spi_rx.sv:15]
+INFO: [Synth 8-6157] synthesizing module 'top' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/top.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'spi_top' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/spi_top.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'spi_rx' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/spi_rx.sv:1]
+	Parameter DATA_WIDTH bound to: 32 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'spi_rx' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/spi_rx.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'spi_rx_sync' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/spi_rx_sync.sv:1]
+	Parameter DATA_WIDTH bound to: 32 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'sync_flops' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/sync_flops.sv:1]
+	Parameter SIZE bound to: 32 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'sync_flops' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/sync_flops.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'sync_flops__parameterized0' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/sync_flops.sv:1]
+	Parameter SIZE bound to: 1 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'sync_flops__parameterized0' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/sync_flops.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'spi_rx_sync' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/spi_rx_sync.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'packet_decoder' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/packet_decoder.sv:4]
+INFO: [Synth 8-6155] done synthesizing module 'packet_decoder' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/packet_decoder.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'async_fifo' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/fifo_async.sv:1]
+	Parameter DEPTH bound to: 2 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'bin2gray' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/bin2gray.sv:1]
+	Parameter SIZE bound to: 2 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'bin2gray' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/bin2gray.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'sync_flops__parameterized1' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/sync_flops.sv:1]
+	Parameter SIZE bound to: 2 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'sync_flops__parameterized1' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/sync_flops.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'async_fifo' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/fifo_async.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'spi_tx' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/spi_tx.sv:1]
+	Parameter TXN_WIDTH bound to: 32 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-226] default block is never used [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/spi_tx.sv:54]
+INFO: [Synth 8-6155] done synthesizing module 'spi_tx' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/spi_tx.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'spi_top' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/spi_top.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'register_model' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/register_model.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'register_model' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/register_model.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'pipe_top' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/pipe_top.sv:1]
+	Parameter REG_WIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'matrix_mult_top' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_top.sv:1]
+	Parameter A_DATA_WIDTH bound to: 16 - type: integer 
+	Parameter B_DATA_WIDTH bound to: 8 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter M bound to: 16 - type: integer 
+	Parameter K bound to: 784 - type: integer 
+	Parameter N bound to: 1 - type: integer 
+	Parameter MAC_BIAS bound to: 512'b00000000000110000100111001101011111111111111100010101111011100011111111111110010101110100010110000000000000100101011101010100011111111111110110000000011000001000000000000000000011010001101100111111111111101101111001000011001000000000000000111000001011110011111111111111101111110110111000111111111111100110101011101111101000000000000110000101100110001110000000000000110000001111010101100000000000001110010100111101010000000000001010000001001010111110000000000000111010101010000011111111111111111100000011011111011 
+INFO: [Synth 8-6157] synthesizing module 'matrix_mult_controller' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_controller.sv:1]
+INFO: [Synth 8-226] default block is never used [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_controller.sv:32]
+INFO: [Synth 8-226] default block is never used [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_controller.sv:69]
+INFO: [Synth 8-6155] done synthesizing module 'matrix_mult_controller' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_controller.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'mult_datapath' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:1]
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter M bound to: 16 - type: integer 
+	Parameter K bound to: 784 - type: integer 
+	Parameter N bound to: 1 - type: integer 
+	Parameter MAC_BIAS bound to: 512'b00000000000110000100111001101011111111111111100010101111011100011111111111110010101110100010110000000000000100101011101010100011111111111110110000000011000001000000000000000000011010001101100111111111111101101111001000011001000000000000000111000001011110011111111111111101111110110111000111111111111100110101011101111101000000000000110000101100110001110000000000000110000001111010101100000000000001110010100111101010000000000001010000001001010111110000000000000111010101010000011111111111111111100000011011111011 
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb11111111111111100000011011111011 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized0' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb00000000000001110101010100000111 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized0' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized1' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb00000000000101000000100101011111 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized1' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized2' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb00000000000001110010100111101010 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized2' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized3' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb00000000000001100000011110101011 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized3' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized4' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb00000000000011000010110011000111 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized4' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized5' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb11111111111100110101011101111101 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized5' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized6' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb11111111111111011111101101110001 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized6' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized7' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb00000000000000011100000101111001 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized7' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized8' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb11111111111101101111001000011001 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized8' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized9' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb00000000000000000110100011011001 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized9' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized10' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb11111111111011000000001100000100 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized10' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized11' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb00000000000100101011101010100011 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized11' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized12' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb11111111111100101011101000101100 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized12' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized13' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb11111111111110001010111101110001 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized13' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized14' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb00000000000110000100111001101011 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized14' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-226] default block is never used [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:64]
+INFO: [Synth 8-6155] done synthesizing module 'mult_datapath' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'matrix_mult_top' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_top.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'relu' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/relu.sv:1]
+	Parameter DATA_SIZE bound to: 32 - type: integer 
+	Parameter ARRAY_COLS bound to: 1 - type: integer 
+	Parameter ARRAY_ROWS bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'relu' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/relu.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'requantize' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/reqauntizer.sv:1]
+	Parameter INPUT_WIDTH bound to: 32 - type: integer 
+	Parameter OUTPUT_WIDTH bound to: 16 - type: integer 
+	Parameter INPUT_SCALE_N bound to: 21 - type: integer 
+	Parameter OUTPUT_SCALE_N bound to: 8 - type: integer 
+	Parameter ARRAY_WIDTH bound to: 1 - type: integer 
+	Parameter ARRAY_HEIGHT bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'requantize' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/reqauntizer.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'matrix_mult_top__parameterized0' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_top.sv:1]
+	Parameter A_DATA_WIDTH bound to: 16 - type: integer 
+	Parameter B_DATA_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter M bound to: 10 - type: integer 
+	Parameter K bound to: 16 - type: integer 
+	Parameter N bound to: 1 - type: integer 
+	Parameter MAC_BIAS bound to: 320'b00000000000000110010010010010101111111111110110111110010011011000000000000001010010010000101111111111111111111110100101001100000000000000001001010001010011101100000000000000111100101110011000111111111111110100001011011101101111111111111010000011010001110000000000000010011001010011110101111111111111100001111100000000110 
+INFO: [Synth 8-6157] synthesizing module 'mult_datapath__parameterized0' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:1]
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter M bound to: 10 - type: integer 
+	Parameter K bound to: 16 - type: integer 
+	Parameter N bound to: 1 - type: integer 
+	Parameter MAC_BIAS bound to: 320'b00000000000000110010010010010101111111111110110111110010011011000000000000001010010010000101111111111111111111110100101001100000000000000001001010001010011101100000000000000111100101110011000111111111111110100001011011101101111111111111010000011010001110000000000000010011001010011110101111111111111100001111100000000110 
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized15' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb11111111111100001111100000000110 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized15' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized16' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb00000000000100110010100111101011 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized16' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized17' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb11111111111101000001101000111000 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized17' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized18' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb11111111111110100001011011101101 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized18' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized19' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb00000000000001111001011100110001 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized19' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized20' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb00000000000100101000101001110110 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized20' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized21' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb11111111111111110100101001100000 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized21' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized22' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb00000000000010100100100001011111 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized22' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized23' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb11111111111011011111001001101100 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized23' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'systolic_mac__parameterized24' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+	Parameter D_WIDTH bound to: 16 - type: integer 
+	Parameter ACC_WIDTH bound to: 32 - type: integer 
+	Parameter PRELOAD_BIAS bound to: 32'sb00000000000000110010010010010101 
+INFO: [Synth 8-6155] done synthesizing module 'systolic_mac__parameterized24' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/mac.sv:3]
+INFO: [Synth 8-226] default block is never used [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:64]
+INFO: [Synth 8-6155] done synthesizing module 'mult_datapath__parameterized0' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'matrix_mult_top__parameterized0' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_top.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'argmax' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/argmax.sv:4]
+	Parameter SIZE bound to: 10 - type: integer 
+	Parameter WIDTH bound to: 32 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'argmax' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/argmax.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'pipe_control_fsm' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/pipe_control_fsm.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'pipe_control_fsm' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/pipe_control_fsm.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'bram_wrapper' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:2]
+	Parameter N bound to: 16 - type: integer 
+	Parameter BRAM_SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter OUTDATA_WIDTH bound to: 16 - type: integer 
+	Parameter SIGN_EXTEND bound to: 1 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE_PREFIX bound to: hidden - type: string 
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_0.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_0.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized0' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_1.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_1.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized0' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized1' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_2.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_2.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized1' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized2' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_3.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_3.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized2' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized3' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_4.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_4.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized3' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized4' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_5.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_5.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized4' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized5' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_6.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_6.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized5' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized6' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_7.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_7.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized6' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized7' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_8.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_8.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized7' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized8' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_9.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_9.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized8' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized9' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_10.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_10.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized9' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized10' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_11.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_11.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized10' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized11' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_12.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_12.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized11' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized12' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_13.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_13.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized12' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized13' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_14.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_14.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized13' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized14' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: hidden_15.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'hidden_15.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized14' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+INFO: [Synth 8-6155] done synthesizing module 'bram_wrapper' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:2]
+INFO: [Synth 8-6157] synthesizing module 'bram_wrapper__parameterized0' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:2]
+	Parameter N bound to: 1 - type: integer 
+	Parameter BRAM_SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 8 - type: integer 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 2 - type: integer 
+	Parameter OUTDATA_WIDTH bound to: 16 - type: integer 
+	Parameter SIGN_EXTEND bound to: 0 - type: integer 
+	Parameter PRELOAD bound to: 0 - type: integer 
+	Parameter LOAD_FILE_PREFIX bound to: (null) - type: string 
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized15' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 784 - type: integer 
+	Parameter DATA_WIDTH bound to: 8 - type: integer 
+	Parameter PRELOAD bound to: 0 - type: integer 
+	Parameter LOAD_FILE bound to: _0.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 2 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized15' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'bram_wrapper__parameterized0' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:2]
+INFO: [Synth 8-6157] synthesizing module 'bram_wrapper__parameterized1' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:2]
+	Parameter N bound to: 10 - type: integer 
+	Parameter BRAM_SIZE bound to: 16 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter OUTDATA_WIDTH bound to: 16 - type: integer 
+	Parameter SIGN_EXTEND bound to: 1 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE_PREFIX bound to: output - type: string 
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized16' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 16 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: output_0.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'output_0.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized16' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized17' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 16 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: output_1.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'output_1.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized17' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized18' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 16 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: output_2.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'output_2.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized18' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized19' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 16 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: output_3.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'output_3.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized19' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized20' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 16 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: output_4.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'output_4.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized20' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized21' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 16 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: output_5.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'output_5.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized21' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized22' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 16 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: output_6.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'output_6.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized22' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized23' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 16 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: output_7.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'output_7.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized23' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized24' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 16 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: output_8.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'output_8.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized24' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'single_port_bram__parameterized25' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+	Parameter SIZE bound to: 16 - type: integer 
+	Parameter DATA_WIDTH bound to: 16 - type: integer 
+	Parameter PRELOAD bound to: 1 - type: integer 
+	Parameter LOAD_FILE bound to: output_9.hex - type: string 
+	Parameter WRITE_WIDTH bound to: 16 - type: integer 
+	Parameter WRITE_SCALE bound to: 1 - type: integer 
+INFO: [Synth 8-3876] $readmem data file 'output_9.hex' is read successfully [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'single_port_bram__parameterized25' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:1]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:59]
+INFO: [Synth 8-6155] done synthesizing module 'bram_wrapper__parameterized1' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:2]
+INFO: [Synth 8-6155] done synthesizing module 'pipe_top' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/pipe_top.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'top' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/top.sv:1]
+WARNING: [Synth 8-3848] Net led_dbg_read in module/entity async_fifo does not have driver. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/fifo_async.sv:15]
+WARNING: [Synth 8-3848] Net led_dbg_write in module/entity async_fifo does not have driver. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/fifo_async.sv:16]
+WARNING: [Synth 8-4767] Trying to implement RAM 'storage_reg' in registers. Block RAM or DRAM implementation is not possible; see log for reasons. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:36]
+Reason is one or more of the following :
+	1: RAM has multiple writes via different ports in same process. If RAM inferencing intended, write to one port per process. 
+	2: Invalid write to RAM. 
+	3: No valid clock found for write to RAM. 
+WARNING: [Synth 8-7129] Port clk in module argmax is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[15] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[14] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[13] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[12] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[11] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[10] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[9] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[8] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[7] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[6] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[5] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[4] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[3] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[2] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_status_out[1] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[15] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[14] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[13] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[12] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[11] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[10] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[9] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[8] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[7] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[6] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[5] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[4] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[3] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[2] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port matrix_control_in[1] in module pipe_top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port spi_cs in module spi_tx is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led_dbg_read[3] in module async_fifo is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led_dbg_read[2] in module async_fifo is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led_dbg_read[1] in module async_fifo is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led_dbg_read[0] in module async_fifo is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led_dbg_write[3] in module async_fifo is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led_dbg_write[2] in module async_fifo is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led_dbg_write[1] in module async_fifo is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led_dbg_write[0] in module async_fifo is either unconnected or has no load
+WARNING: [Synth 8-7129] Port clk in module packet_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port packet_data[29] in module packet_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port packet_data[28] in module packet_decoder is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:23 ; elapsed = 00:00:24 . Memory (MB): peak = 1602.844 ; gain = 815.695
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:24 ; elapsed = 00:00:25 . Memory (MB): peak = 1602.844 ; gain = 815.695
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:24 ; elapsed = 00:00:25 . Memory (MB): peak = 1602.844 ; gain = 815.695
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.317 . Memory (MB): peak = 1602.844 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc]
+WARNING: [Vivado 12-584] No ports matched 'CLK100MHZ'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:7]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:7]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'CLK100MHZ'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:8]
+CRITICAL WARNING: [Vivado 12-4739] create_clock:No valid object(s) found for '-objects [get_ports CLK100MHZ]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:8]
+Resolution: Check if the specified object(s) exists in the current design. If it does, ensure that the correct design hierarchy was specified for the object. If you are working with clocks, make sure create_clock was used to create the clock object before it is referenced.
+WARNING: [Vivado 12-584] No ports matched 'sw[0]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:13]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:13]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'sw[1]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:14]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:14]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[0]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:33]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:33]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[1]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:34]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:34]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[2]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:35]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:35]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[3]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:36]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:36]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[4]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:37]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:37]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[5]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:38]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:38]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[6]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:39]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:39]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[7]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:40]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:40]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[8]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:41]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:41]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[9]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:42]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:42]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[10]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:43]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:43]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[11]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:44]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:44]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[12]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:45]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:45]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[13]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:46]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:46]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[14]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:47]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:47]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'LED[15]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:48]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:48]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[0]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:60]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:60]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[1]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:61]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:61]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[2]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:62]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:62]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[3]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:63]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:63]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[4]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:64]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:64]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[5]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:65]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:65]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[6]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:66]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:66]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'dp'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:68]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:68]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'an[0]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:70]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:70]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'an[1]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:71]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:71]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'an[2]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:72]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:72]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'an[3]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:73]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:73]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'an[4]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:74]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:74]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'an[5]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:75]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:75]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'an[6]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:76]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:76]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'an[7]'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:77]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:77]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'vauxn3'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:144]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:144]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'vauxp3'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:145]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:145]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'vauxn10'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:146]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:146]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'vauxp10'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:147]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:147]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'vauxn2'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:148]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:148]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'vauxp2'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:149]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:149]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'vauxn11'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:150]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:150]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'vauxp11'. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:151]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc:151]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+Finished Parsing XDC File [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/Nexys-A7-100T-Master.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.020 . Memory (MB): peak = 1674.129 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.438 . Memory (MB): peak = 1674.617 ; gain = 0.000
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:50 ; elapsed = 00:00:52 . Memory (MB): peak = 1674.617 ; gain = 887.469
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a100tcsg324-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:50 ; elapsed = 00:00:52 . Memory (MB): peak = 1674.617 ; gain = 887.469
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:50 ; elapsed = 00:00:52 . Memory (MB): peak = 1674.617 ; gain = 887.469
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in module 'spi_tx'
+INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in module 'matrix_mult_controller'
+INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in module 'pipe_control_fsm'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    INIT |                               00 |                               00
+            WAIT_TO_SEND |                               01 |                               01
+                    SEND |                               10 |                               10
+                    SKIP |                               11 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'current_state_reg' using encoding 'User encoding' in module 'spi_tx'
+WARNING: [Synth 8-13157] FSM with state register 'current_state_reg' is not having reset. This may cause incorrect behavior. User should consider using FSM_SAFE_STATE attribute on the register
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    IDLE |                               00 |                               00
+                 EXECUTE |                               01 |                               01
+                    WAIT |                               10 |                               10
+                    SAVE |                               11 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'current_state_reg' using encoding 'User encoding' in module 'matrix_mult_controller'
+WARNING: [Synth 8-13157] FSM with state register 'current_state_reg' is not having reset. This may cause incorrect behavior. User should consider using FSM_SAFE_STATE attribute on the register
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+*
+                    IDLE |                              001 |                               00
+                STATE_GO |                              010 |                               01
+              STATE_WAIT |                              100 |                               10
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'current_state_reg' using encoding 'one-hot' in module 'pipe_control_fsm'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:12 ; elapsed = 00:01:16 . Memory (MB): peak = 1674.617 ; gain = 887.469
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   10 Bit       Adders := 16    
+	   2 Input    5 Bit       Adders := 3     
+	   2 Input    4 Bit       Adders := 9     
+	   2 Input    2 Bit       Adders := 2     
++---XORs : 
+	   2 Input      2 Bit         XORs := 2     
++---Registers : 
+	               32 Bit    Registers := 56    
+	               16 Bit    Registers := 71    
+	               10 Bit    Registers := 2     
+	                8 Bit    Registers := 786   
+	                5 Bit    Registers := 3     
+	                4 Bit    Registers := 1     
+	                2 Bit    Registers := 5     
+	                1 Bit    Registers := 116   
++---RAMs : 
+	               32 Bit	(2 X 16 bit)          RAMs := 1     
++---Muxes : 
+	   2 Input   32 Bit        Muxes := 53    
+	   2 Input   16 Bit        Muxes := 30    
+	   4 Input   16 Bit        Muxes := 1     
+	   2 Input   10 Bit        Muxes := 15    
+	   2 Input    8 Bit        Muxes := 1     
+	   2 Input    4 Bit        Muxes := 9     
+	   4 Input    3 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 3     
+	   4 Input    2 Bit        Muxes := 3     
+	   2 Input    2 Bit        Muxes := 10    
+	   3 Input    2 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 1183  
+	   3 Input    1 Bit        Muxes := 379   
+	   4 Input    1 Bit        Muxes := 7     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 240 (col length:80)
+BRAMs: 270 (col length: RAMB18 80 RAMB36 40)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B''.
+DSP Report: register u_datapath/row_gen[0].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[1].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[2].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*BCIN''.
+DSP Report: register u_datapath/row_gen[2].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[3].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[4].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*BCIN''.
+DSP Report: register u_datapath/row_gen[4].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[5].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[6].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*BCIN''.
+DSP Report: register u_datapath/row_gen[6].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[7].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[8].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*BCIN''.
+DSP Report: register u_datapath/row_gen[7].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[8].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[9].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B''.
+DSP Report: register u_datapath/row_gen[5].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[6].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[7].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B''.
+DSP Report: register u_datapath/row_gen[3].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[4].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[5].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B''.
+DSP Report: register u_datapath/row_gen[1].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[2].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[3].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B2.
+DSP Report: register u_datapath/row_gen[0].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[1].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[0].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B''.
+DSP Report: register u_datapath/row_gen[0].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[1].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[2].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*BCIN''.
+DSP Report: register u_datapath/row_gen[2].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[3].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[4].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*BCIN''.
+DSP Report: register u_datapath/row_gen[4].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[5].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[6].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*BCIN''.
+DSP Report: register u_datapath/row_gen[6].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[7].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[8].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*BCIN''.
+DSP Report: register u_datapath/row_gen[8].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[9].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[10].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*BCIN''.
+DSP Report: register u_datapath/row_gen[10].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[11].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[12].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*BCIN''.
+DSP Report: register u_datapath/row_gen[12].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[13].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[14].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*BCIN''.
+DSP Report: register u_datapath/row_gen[13].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[14].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[15].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B''.
+DSP Report: register u_datapath/row_gen[11].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[12].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[13].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B''.
+DSP Report: register u_datapath/row_gen[9].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[10].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[11].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B''.
+DSP Report: register u_datapath/row_gen[7].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[8].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[9].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B''.
+DSP Report: register u_datapath/row_gen[5].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[6].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[7].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B''.
+DSP Report: register u_datapath/row_gen[3].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[4].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[5].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B''.
+DSP Report: register u_datapath/row_gen[1].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: register u_datapath/row_gen[2].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[3].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B2.
+DSP Report: register u_datapath/row_gen[0].col_gen[0].systolic_pe_u/b_out_reg is absorbed into DSP acc0.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[1].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+DSP Report: Generating DSP acc0, operation Mode is: C+A*B.
+DSP Report: operator acc0 is absorbed into DSP acc0.
+DSP Report: operator u_datapath/row_gen[0].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:02:32 ; elapsed = 00:02:40 . Memory (MB): peak = 1901.086 ; gain = 1113.938
+---------------------------------------------------------------------------------
+ Sort Area is pipe_top__GB1 acc0_a : 0 0 : 2064 16512 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_a : 0 1 : 2064 16512 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_a : 0 2 : 2064 16512 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_a : 0 3 : 2064 16512 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_a : 0 4 : 2064 16512 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_a : 0 5 : 2064 16512 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_a : 0 6 : 2064 16512 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_a : 0 7 : 2064 16512 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_0 : 0 0 : 2064 10320 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_0 : 0 1 : 2064 10320 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_0 : 0 2 : 2064 10320 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_0 : 0 3 : 2064 10320 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_0 : 0 4 : 2064 10320 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_10 : 0 0 : 2064 2064 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_3 : 0 0 : 2064 2064 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_4 : 0 0 : 2064 2064 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_5 : 0 0 : 2064 2064 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_b : 0 0 : 2064 2064 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_c : 0 0 : 2064 2064 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_d : 0 0 : 2064 2064 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_e : 0 0 : 2064 2064 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_f : 0 0 : 2064 2064 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_11 : 0 0 : 2048 2048 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_6 : 0 0 : 2048 2048 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_12 : 0 0 : 2032 2032 : Used 1 time 0
+ Sort Area is pipe_top__GB1 acc0_8 : 0 0 : 2032 2032 : Used 1 time 0
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Distributed RAM: Preliminary Mapping Report (see note below)
++-------------------------------------------+--------------------------------------+-----------+----------------------+--------------+
+|Module Name                                | RTL Object                           | Inference | Size (Depth x Width) | Primitives   | 
++-------------------------------------------+--------------------------------------+-----------+----------------------+--------------+
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[0].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[1].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[2].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[3].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[4].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[5].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[6].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[7].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[8].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[9].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[10].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[11].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[12].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[13].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[14].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[15].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[0].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[1].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[2].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[3].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[4].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[5].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[6].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[7].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[8].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[9].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|top                                        | spi_top_u/rd_out_fifo_u/fifo_mem_reg | Implied   | 2 x 16               | RAM32M x 3   | 
++-------------------------------------------+--------------------------------------+-----------+----------------------+--------------+
+
+Note: The table above is a preliminary report that shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once.
+
+DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding REG is set)
++----------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name     | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++----------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|matrix_mult_top | C+A*B''     | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*BCIN''  | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*BCIN''  | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*BCIN''  | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*BCIN''  | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B2      | 16     | 16     | 32     | -      | 32     | 0    | 1    | 0    | -    | -     | 0    | 0    | 
+|systolic_mac    | C+A*B       | 16     | 16     | 32     | -      | 32     | 0    | 0    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*BCIN''  | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*BCIN''  | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*BCIN''  | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*BCIN''  | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*BCIN''  | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*BCIN''  | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*BCIN''  | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 16     | 16     | 32     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B2      | 16     | 16     | 32     | -      | 32     | 0    | 1    | 0    | -    | -     | 0    | 0    | 
+|systolic_mac    | C+A*B       | 16     | 16     | 32     | -      | 32     | 0    | 0    | 0    | -    | -     | 0    | 0    | 
++----------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:02:33 ; elapsed = 00:02:41 . Memory (MB): peak = 1901.086 ; gain = 1113.938
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Distributed RAM: Final Mapping Report
++-------------------------------------------+--------------------------------------+-----------+----------------------+--------------+
+|Module Name                                | RTL Object                           | Inference | Size (Depth x Width) | Primitives   | 
++-------------------------------------------+--------------------------------------+-----------+----------------------+--------------+
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[0].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[1].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[2].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[3].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[4].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[5].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[6].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[7].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[8].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[9].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[10].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[11].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[12].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[13].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[14].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[15].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[0].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[1].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[2].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[3].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[4].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[5].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[6].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[7].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[8].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[9].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
+|top                                        | spi_top_u/rd_out_fifo_u/fifo_mem_reg | Implied   | 2 x 16               | RAM32M x 3   | 
++-------------------------------------------+--------------------------------------+-----------+----------------------+--------------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:02:41 ; elapsed = 00:02:50 . Memory (MB): peak = 1901.086 ; gain = 1113.938
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:02:57 ; elapsed = 00:03:06 . Memory (MB): peak = 1918.309 ; gain = 1131.160
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:02:57 ; elapsed = 00:03:06 . Memory (MB): peak = 1918.309 ; gain = 1131.160
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:03:00 ; elapsed = 00:03:08 . Memory (MB): peak = 1918.309 ; gain = 1131.160
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:03:01 ; elapsed = 00:03:09 . Memory (MB): peak = 1918.309 ; gain = 1131.160
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:03:02 ; elapsed = 00:03:11 . Memory (MB): peak = 1918.309 ; gain = 1131.160
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:03:02 ; elapsed = 00:03:11 . Memory (MB): peak = 1918.309 ; gain = 1131.160
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+DSP Final Report (the ' indicates corresponding REG is set)
++----------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name     | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++----------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|matrix_mult_top | C+A*B''     | 30     | 8      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 8      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 8      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 8      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 8      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 8      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 8      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B'      | 30     | 8      | 48     | -      | 32     | 0    | 1    | 0    | -    | -     | 0    | 0    | 
+|systolic_mac    | C+A*B       | 30     | 8      | 48     | -      | 32     | 0    | 0    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 18     | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 18     | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 18     | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 18     | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B'      | 30     | 18     | 48     | -      | 32     | 0    | 1    | 0    | -    | -     | 0    | 0    | 
+|systolic_mac    | C+A*B       | 30     | 18     | 48     | -      | 32     | 0    | 0    | 0    | -    | -     | 0    | 0    | 
++----------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+---------+------+
+|      |Cell     |Count |
++------+---------+------+
+|1     |BUFG     |     2|
+|2     |CARRY4   |    48|
+|3     |DSP48E1  |    26|
+|4     |LUT1     |     7|
+|5     |LUT2     |   603|
+|6     |LUT3     |  6267|
+|7     |LUT4     |   557|
+|8     |LUT5     |  1566|
+|9     |LUT6     |  4428|
+|10    |MUXF7    |   864|
+|11    |MUXF8    |   416|
+|12    |RAM32M   |    31|
+|13    |RAM64M   |  1104|
+|14    |RAM64X1D |    15|
+|15    |FDRE     |  8624|
+|16    |FDSE     |     1|
+|17    |IBUF     |     4|
+|18    |OBUF     |     1|
++------+---------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:03:02 ; elapsed = 00:03:11 . Memory (MB): peak = 1918.309 ; gain = 1131.160
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 2 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:02:27 ; elapsed = 00:03:00 . Memory (MB): peak = 1918.309 ; gain = 1059.387
+Synthesis Optimization Complete : Time (s): cpu = 00:03:02 ; elapsed = 00:03:11 . Memory (MB): peak = 1940.309 ; gain = 1131.160
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.564 . Memory (MB): peak = 1958.121 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 2504 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 3 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.041 . Memory (MB): peak = 2095.840 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 1150 instances were transformed.
+  RAM32M => RAM32M (RAMD32(x6), RAMS32(x2)): 31 instances
+  RAM64M => RAM64M (RAMD64E(x4)): 1104 instances
+  RAM64X1D => RAM64X1D (RAMD64E(x2)): 15 instances
+
+Synth Design complete | Checksum: 992a8e9b
+INFO: [Common 17-83] Releasing license: Vivado_Synthesis
+208 Infos, 127 Warnings, 44 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:03:33 ; elapsed = 00:03:45 . Memory (MB): peak = 2096.816 ; gain = 1513.367
+INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
+Write ShapeDB Complete: Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.186 . Memory (MB): peak = 2096.816 ; gain = 0.000
+INFO: [Common 17-1381] The checkpoint 'C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/fpga_accel_vivado/fpga_accel_vivado.runs/synth_1/top.dcp' has been generated.
+write_checkpoint: Time (s): cpu = 00:00:06 ; elapsed = 00:00:05 . Memory (MB): peak = 2096.816 ; gain = 0.000
+INFO: [Vivado 12-24828] Executing command : report_utilization -file top_utilization_synth.rpt -pb top_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Tue Oct 13 22:23:09 2026...

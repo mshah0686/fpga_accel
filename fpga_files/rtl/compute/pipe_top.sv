@@ -17,8 +17,8 @@ import fpga_params::*;
     input [ADDR_WIDTH-1:0] pixel_wr_address
 );
 
-    `include "weights/hidden_biases.svh"
-    `include "weights/output_biases.svh"
+    `include "hidden_biases.svh"
+    `include "output_biases.svh"
 
     /***** HIDDEN LAYER *****/
     logic [HIDDEN_NEURONS_SIZE-1:0][HIDDEN_ACCUM_WIDTH -1:0] hidden_layer_result;
@@ -197,7 +197,7 @@ import fpga_params::*;
         .OUTDATA_WIDTH(HIDDEN_WEIGHT_WIDTH),
         .SIGN_EXTEND(1),
         .PRELOAD(1),
-        .LOAD_FILE_PREFIX("weights/hidden")
+        .LOAD_FILE_PREFIX("hidden")
     ) hidden_weights_bram_u (
         .clk(clk),
         .r_en(hidden_weights_bram_rd_en),
@@ -239,7 +239,7 @@ import fpga_params::*;
         .OUTDATA_WIDTH(OUTPUT_WEIGHT_WIDTH),
         .SIGN_EXTEND(1),
         .PRELOAD(1),
-        .LOAD_FILE_PREFIX("weights/output")
+        .LOAD_FILE_PREFIX("output")
     ) output_weights_bram_u (
         .clk(clk),
 
