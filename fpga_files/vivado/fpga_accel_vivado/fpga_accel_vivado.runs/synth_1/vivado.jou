@@ -3,8 +3,8 @@
 # SW Build 6511674 on Tue Jun 16 11:02:23 MDT 2026
 # IP Build 6504888 on Tue Jun 09 09:05:25 MDT 2026
 # SharedData Build 6501428 on Mon Jun 08 17:34:18 MDT 2026
-# Start of session at: Tue Oct 13 22:18:49 2026
-# Process ID         : 21004
+# Start of session at: Wed Oct 21 07:38:51 2026
+# Process ID         : 12140
 # Current directory  : C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/fpga_accel_vivado/fpga_accel_vivado.runs/synth_1
 # Command line       : vivado.exe -log top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top.tcl
 # Log file           : C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/fpga_accel_vivado/fpga_accel_vivado.runs/synth_1/top.vds
@@ -17,8 +17,8 @@
 # CPU Physical cores : 2
 # CPU Logical cores  : 4
 # Host memory        : 8400 MB
-# Swap memory        : 5809 MB
-# Total Virtual      : 14209 MB
-# Available Virtual  : 2718 MB
+# Swap memory        : 4294 MB
+# Total Virtual      : 12695 MB
+# Available Virtual  : 4633 MB
 #-----------------------------------------------------------
 source top.tcl -notrace

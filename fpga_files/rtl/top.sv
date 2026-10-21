@@ -1,14 +1,15 @@
 module top 
 import fpga_params::*;
 (
-    input  i_clk,       // Main Clock
+    input  fpga_100mhz_clk,       // Main Clock
 
     // SPI
-    input io_PMOD_1, // clk
-    input io_PMOD_2, // PICO data
-    input io_PMOD_3, // cs
-    output io_PMOD_4 // POCI data
+    input spi_clk, // clk
+    input spi_pico, // PICO data
+    input spi_cs, // cs
+    output spi_poci // POCI data
 ); 
+
     // REGISTER_COMMANDS
     wire ral_req_valid;
     wire ral_req_wr_en;
@@ -30,13 +31,13 @@ import fpga_params::*;
 
     // SPI TOP: RX + CDC + decode -> RAL request bus, and RAL read data -> TX
     spi_top spi_top_u (
-        .clk(i_clk),
+        .clk(fpga_100mhz_clk),
 
         // SPI physical interface
-        .spi_sck(io_PMOD_1),
-        .spi_pico(io_PMOD_2),
-        .spi_cs(io_PMOD_3),
-        .spi_poci(io_PMOD_4),
+        .spi_sck(spi_clk),
+        .spi_pico(spi_pico),
+        .spi_cs(spi_cs),
+        .spi_poci(spi_poci),
 
         // Decoded packet -> RAL request bus
         .ral_req_valid(ral_req_valid),
@@ -52,7 +53,7 @@ import fpga_params::*;
 
     // REGISTER MODEL: decode packet into peripheral control/read strobes
     register_model register_model_u (
-        .clk(i_clk),
+        .clk(fpga_100mhz_clk),
 
         // Packet inputs
         .in_valid(ral_req_valid),
@@ -80,7 +81,7 @@ import fpga_params::*;
     pipe_top #(
         .REG_WIDTH(16)
     ) matrix_pipe_top_u (
-        .clk               (i_clk),
+        .clk               (fpga_100mhz_clk),
 
         .matrix_control_in (matrix_control),
         .matrix_status_out(matrix_status),
