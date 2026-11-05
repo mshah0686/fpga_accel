@@ -88,38 +88,40 @@ module mult_datapath #(
     end
 
     // M_edge meta
+    logic [M-1:0] M_edge_valid_next;
     logic [M-1:0] M_edge_valid;
     logic [M-1:0] M_edge_first;
 
     // N-edge  meta
+    logic [N-1:0] N_edge_valid_next;
     logic [N-1:0] N_edge_valid;
     logic [N-1:0] N_edge_first;
 
     logic[M_ADDR_WIDTH:0] m_drive_loop;
+
+    // BRAM req need to happen a cycle before
+    // Keep calculate valids one cycle earlier then latch them to send to systolic array
+    always_ff @(posedge clk) begin
+        M_edge_valid <= M_edge_valid_next;
+    end
+
     always_comb begin
         for(m_drive_loop = 0; m_drive_loop < M; m_drive_loop ++) begin
             // Valid drive
-            if(current_state == EXECUTE && 
-                (COUNTER_WIDTH'(m_drive_loop) <= execution_cycle_counter) 
-                && (execution_cycle_counter < COUNTER_WIDTH'(m_drive_loop + K)) ) begin
-                M_edge_valid[M_ADDR_WIDTH'(m_drive_loop)] = 'd1;
-            end else begin
-                M_edge_valid[M_ADDR_WIDTH'(m_drive_loop)] = 'd0;
-            end
+            M_edge_valid_next[M_ADDR_WIDTH'(m_drive_loop)] = (current_state == EXECUTE && (COUNTER_WIDTH'(m_drive_loop) <= execution_cycle_counter+1) && ((execution_cycle_counter+1) < COUNTER_WIDTH'(m_drive_loop + K))) || (current_state == IDLE && next_state == EXECUTE && m_drive_loop == 'd0);
 
             // First drive
-            if(current_state == EXECUTE && COUNTER_WIDTH'(m_drive_loop) == execution_cycle_counter) begin
-                M_edge_first[M_ADDR_WIDTH'(m_drive_loop)] = 'd1;
-            end else begin
-                M_edge_first[M_ADDR_WIDTH'(m_drive_loop)] = 'd0;
-            end
+            M_edge_first[M_ADDR_WIDTH'(m_drive_loop)] = (current_state == EXECUTE && COUNTER_WIDTH'(m_drive_loop) == execution_cycle_counter);
 
             // BRAM request for values
             // Request on same cycle to latch into PE
-            A_req_en[M_ADDR_WIDTH'(m_drive_loop)] = M_edge_valid[M_ADDR_WIDTH'(m_drive_loop)];
-            if(current_state == EXECUTE && M_edge_valid[M_ADDR_WIDTH'(m_drive_loop)]) begin
-                A_req_addr[M_ADDR_WIDTH'(m_drive_loop)] = K_ADDR_WIDTH'(execution_cycle_counter - m_drive_loop);
+            // Cycle before M_edge_valid
+            A_req_en[M_ADDR_WIDTH'(m_drive_loop)] = M_edge_valid_next[M_ADDR_WIDTH'(m_drive_loop)];
+            if(current_state == EXECUTE && M_edge_valid_next[M_ADDR_WIDTH'(m_drive_loop)]) begin
+                // We request one cycle earlier so BRAM has data on next cycle
+                A_req_addr[M_ADDR_WIDTH'(m_drive_loop)] = K_ADDR_WIDTH'(execution_cycle_counter - m_drive_loop) + 1;
             end else begin
+                // Can be 0 cycle before exectue starts so we use the 0 here to our advantage
                 A_req_addr[M_ADDR_WIDTH'(m_drive_loop)] = 'd0;
             end
 
@@ -132,29 +134,29 @@ module mult_datapath #(
     end
 
     logic[N_ADDR_WIDTH:0] n_drive_loop;
+
+    // BRAM req need to happen a cycle before
+    // Keep calculate valids one cycle earlier then latch them to send to systolic array
+    always_ff @(posedge clk) begin
+        N_edge_valid <= N_edge_valid_next;
+    end
+
     always_comb begin
         for(n_drive_loop = 0; n_drive_loop < N; n_drive_loop ++) begin
             // Valid drive
-            if(current_state == EXECUTE && 
-                (COUNTER_WIDTH'(n_drive_loop) <= execution_cycle_counter) 
-                && (execution_cycle_counter < COUNTER_WIDTH'(n_drive_loop + K)) ) begin
-                N_edge_valid[N_ADDR_WIDTH'(n_drive_loop)] = 'd1;
-            end else begin
-                N_edge_valid[N_ADDR_WIDTH'(n_drive_loop)] = 'd0;
-            end
+            N_edge_valid_next[N_ADDR_WIDTH'(n_drive_loop)] = (current_state == EXECUTE && (COUNTER_WIDTH'(n_drive_loop) <= execution_cycle_counter+1) && ((execution_cycle_counter+1) < COUNTER_WIDTH'(n_drive_loop + K))) || (current_state == IDLE && next_state == EXECUTE && n_drive_loop == 'd0);
 
             // First drive
-            if(current_state == EXECUTE && COUNTER_WIDTH'(n_drive_loop) == execution_cycle_counter) begin
-                N_edge_first[N_ADDR_WIDTH'(n_drive_loop)] = 'd1;
-            end else begin
-                N_edge_first[N_ADDR_WIDTH'(n_drive_loop)] = 'd0;
-            end
+            N_edge_first[N_ADDR_WIDTH'(n_drive_loop)] = (current_state == EXECUTE && COUNTER_WIDTH'(n_drive_loop) == execution_cycle_counter);
 
-            // BRAM reqeuest for values
-            B_req_en[N_ADDR_WIDTH'(n_drive_loop)] = N_edge_valid[N_ADDR_WIDTH'(n_drive_loop)];
-            if(current_state == EXECUTE && N_edge_valid[N_ADDR_WIDTH'(n_drive_loop)]) begin
-                B_req_addr[N_ADDR_WIDTH'(n_drive_loop)] = K_ADDR_WIDTH'(execution_cycle_counter - n_drive_loop);
+            // BRAM request for values
+            // Cycle before N_edge_valid
+            B_req_en[N_ADDR_WIDTH'(n_drive_loop)] = N_edge_valid_next[N_ADDR_WIDTH'(n_drive_loop)];
+            if(current_state == EXECUTE && N_edge_valid_next[N_ADDR_WIDTH'(n_drive_loop)]) begin
+                // We request one cycle earlier so BRAM has data on next cycle
+                B_req_addr[N_ADDR_WIDTH'(n_drive_loop)] = K_ADDR_WIDTH'(execution_cycle_counter - n_drive_loop) + 1;
             end else begin
+                // Can be 0 cycle before exectue starts so we use the 0 here to our advantage
                 B_req_addr[N_ADDR_WIDTH'(n_drive_loop)] = 'd0;
             end
 

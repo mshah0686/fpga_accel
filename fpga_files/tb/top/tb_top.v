@@ -14,6 +14,10 @@ module tb_top;
     // 32 * SPI_CLK_PERIOD ~= 2.5 us. Round well up.
     parameter real TIMEOUT_NS = 3000000;
 
+    // Overridden by CMake (-GWEIGHTS_DIR) with an absolute path so the weight
+    // preload doesn't depend on the CWD; this default assumes fpga_files/.
+    parameter string WEIGHTS_DIR = "rtl/weights/sim_weights/";
+
     localparam ACTIVATIONS = HIDDEN_ACTIVATION_SIZE;
     localparam PIX_WIDTH   = HIDDEN_PIXEL_WIDTH;
     localparam PIXEL_WRITES = ACTIVATIONS / PIXEL_PER_WRITE;
@@ -34,13 +38,15 @@ module tb_top;
     reg spi_clk_ref;
     wire spi_sck = spi_cs ? 1'b0 : spi_clk_ref;
 
-    top uut (
-        .i_clk     (sys_clk),
+    top #(
+        .WEIGHTS_DIR (WEIGHTS_DIR)
+    ) uut (
+        .fpga_100mhz_clk (sys_clk),
 
-        .io_PMOD_1 (spi_sck),   // SPI clk
-        .io_PMOD_2 (spi_pico),  // SPI PICO data
-        .io_PMOD_3 (spi_cs),    // SPI cs (active low)
-        .io_PMOD_4 (spi_poci)   // SPI POCI data
+        .spi_clk  (spi_sck),   // SPI clk
+        .spi_pico (spi_pico),  // SPI PICO data
+        .spi_cs   (spi_cs),    // SPI cs (active low)
+        .spi_poci (spi_poci)   // SPI POCI data
     );
 
     initial begin

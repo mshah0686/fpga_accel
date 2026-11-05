@@ -1,6 +1,10 @@
 module top 
 import fpga_params::*;
-(
+#(
+    // Prefix prepended to the weight .hex file names. Empty for Vivado (files
+    // are project sources); the TBs point it at rtl/weights/sim_weights/.
+    parameter string WEIGHTS_DIR = ""
+) (
     input  fpga_100mhz_clk,       // Main Clock
 
     // SPI
@@ -79,7 +83,8 @@ import fpga_params::*;
     // MATRIX MULT (2x2) controlled from SPI via the register model.
     // Widths match the register model: 16-bit operands, 32-bit result.
     pipe_top #(
-        .REG_WIDTH(16)
+        .REG_WIDTH(16),
+        .WEIGHTS_DIR(WEIGHTS_DIR)
     ) matrix_pipe_top_u (
         .clk               (fpga_100mhz_clk),
 

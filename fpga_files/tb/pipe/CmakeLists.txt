@@ -8,7 +8,7 @@ verilate(${TB_NAME}
     TOP_MODULE tb_pipe_top
     TRACE_VCD
     INCLUDE_DIRS
-        # rtl/ so pipe_top's `include "weights/*_biases.svh"` resolves
+        # rtl/weights so pipe_top's `include "*_biases.svh"` resolves
         "${CMAKE_SOURCE_DIR}/rtl"
         "${CMAKE_SOURCE_DIR}/rtl/compute"
         "${CMAKE_SOURCE_DIR}/rtl/weights"
@@ -19,12 +19,14 @@ verilate(${TB_NAME}
         "--timing"
         "--trace"
         "--trace-structs"
+        # Absolute weight dir so the $readmemh preload works from any CWD
+        "-GWEIGHTS_DIR=\"${CMAKE_SOURCE_DIR}/rtl/weights/sim_weights/\""
     SOURCES
         "${CMAKE_SOURCE_DIR}/rtl/fpga_types.sv"
         "${CMAKE_SOURCE_DIR}/rtl/compute/pipe_params.sv"
 
         # BRAM storage + per-edge BRAM array wrapper (hidden/output weights
-        # preload from rtl/weights/*.hex via $readmemh; pixels are written in)
+        # preload from rtl/weights/sim_weights/*.hex via $readmemh; pixels are written in)
         "${CMAKE_SOURCE_DIR}/rtl/compute/single_port_bram.sv"
         "${CMAKE_SOURCE_DIR}/rtl/compute/bram_wrapper.sv"
 
@@ -57,29 +59,8 @@ target_link_libraries(${TB_NAME}
 #    (run the binary from the fpga_files/ root, same as matrix_mult_tb).
 file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/waves")
 
-# 5. bram_wrapper's $readmemh is called with paths like "weights/hidden_0.hex"
-#    (the LOAD_FILE_PREFIX in pipe_top). $readmemh resolves relative paths
-#    against the simulator's working directory, and the real files live in
-#    fpga_files/rtl/weights. A missing preload is only a warning -- the sim
-#    runs on all-zero weights and quietly predicts 0 -- so drop a "weights"
-#    symlink in every directory the binary is plausibly launched from:
-#      fpga_files/          (documented run dir)
-#      build/               (cmake --build . && ./tb/pipe/pipe_tb)
-#      build/tb/pipe/       (running the binary from next to itself)
-foreach(_weights_dir
-        "${CMAKE_SOURCE_DIR}"
-        "${CMAKE_BINARY_DIR}"
-        "${CMAKE_CURRENT_BINARY_DIR}")
-    if(NOT IS_SYMLINK "${_weights_dir}/weights" AND NOT EXISTS "${_weights_dir}/weights")
-        file(CREATE_LINK
-            "${CMAKE_SOURCE_DIR}/rtl/weights"
-            "${_weights_dir}/weights"
-            SYMBOLIC)
-    endif()
-endforeach()
-
-# 6. Same story for waves/: the C++ TB opens waves/tb_pipe.vcd relative to the
-#    run directory, and fopen on a missing dir just drops the trace.
+# 5. Link waves/ into the build dirs too, for launches from there: fopen on a
+#    missing dir just drops the trace.
 foreach(_waves_dir
         "${CMAKE_BINARY_DIR}"
         "${CMAKE_CURRENT_BINARY_DIR}")
@@ -91,15 +72,15 @@ foreach(_waves_dir
     endif()
 endforeach()
 
-# 7. Goldens from scripts/model_pipeline/pipeline.py live in fpga_files/golden,
+# 6. Goldens from scripts/model_pipeline/pipeline.py live in fpga_files/golden,
 #    which tb_pipe.v $readmemh's as "golden/golden_*.hex". That path only
 #    resolves from the fpga_files/ root -- the documented run dir, and what
 #    run_pipe_tb below pins -- so there is nothing to link, just a directory to
 #    guarantee exists so pipeline.py has somewhere to write.
 file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/golden")
 
-# 8. Convenience target that pins the working directory to fpga_files/, so
-#    `cmake --build . --target run_pipe_tb` can never hit the CWD trap above.
+# 7. Convenience target that pins the working directory to fpga_files/, so
+#    `cmake --build . --target run_pipe_tb` always finds golden/ and waves/.
 add_custom_target(run_${TB_NAME}
     COMMAND $<TARGET_FILE:${TB_NAME}>
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"

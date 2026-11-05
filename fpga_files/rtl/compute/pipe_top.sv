@@ -2,7 +2,8 @@ module pipe_top
 import pipe_params::*;
 import fpga_params::*;
 #(
-    parameter REG_WIDTH = 16
+    parameter REG_WIDTH = 16,
+    parameter string WEIGHTS_DIR = "" // Prefix for weight .hex file names
 ) (
     input clk,
 
@@ -110,12 +111,8 @@ import fpga_params::*;
     logic [OUTPUT_ACTIVATION_WIDTH-1:0] output_activations_bram_rd_data;
 
     // Assign activation reads from RELU flops (simulate BRAM reads)
-    always_comb begin
-        if(output_activations_bram_rd_en) begin
-            output_activations_bram_rd_data = requantized_result_l[output_activations_bram_rd_addr];
-        end else begin
-            output_activations_bram_rd_data = 'd0;
-        end
+    always_ff @(posedge clk) begin
+        output_activations_bram_rd_data <= output_activations_bram_rd_en ? requantized_result_l[output_activations_bram_rd_addr] : 'd0;
     end
 
     // Right now - combinational
@@ -197,7 +194,7 @@ import fpga_params::*;
         .OUTDATA_WIDTH(HIDDEN_WEIGHT_WIDTH),
         .SIGN_EXTEND(1),
         .PRELOAD(1),
-        .LOAD_FILE_PREFIX("hidden")
+        .LOAD_FILE_PREFIX({WEIGHTS_DIR, "hidden"})
     ) hidden_weights_bram_u (
         .clk(clk),
         .r_en(hidden_weights_bram_rd_en),
@@ -239,7 +236,7 @@ import fpga_params::*;
         .OUTDATA_WIDTH(OUTPUT_WEIGHT_WIDTH),
         .SIGN_EXTEND(1),
         .PRELOAD(1),
-        .LOAD_FILE_PREFIX("output")
+        .LOAD_FILE_PREFIX({WEIGHTS_DIR, "output"})
     ) output_weights_bram_u (
         .clk(clk),
 

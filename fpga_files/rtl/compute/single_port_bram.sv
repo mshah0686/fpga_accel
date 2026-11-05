@@ -11,7 +11,7 @@ module single_port_bram #(
 
     input r_en,
     input [ADDR_WIDTH-1:0] r_addr,
-    output [DATA_WIDTH-1:0] r_data,
+    output logic [DATA_WIDTH-1:0] r_data,
 
     input w_en,
     input [ADDR_WIDTH-1:0] w_addr,
@@ -36,8 +36,10 @@ module single_port_bram #(
                 storage[ADDR_WIDTH'(w_addr + k)] <= w_data[(DATA_WIDTH * k)+: DATA_WIDTH];
             end
         end
-    end
 
-    assign r_data = r_en ? storage[r_addr] : 'd0;
+        if(r_en) begin
+            r_data <= storage[r_addr];
+        end
+    end
 
 endmodule
