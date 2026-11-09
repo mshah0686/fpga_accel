@@ -101,10 +101,7 @@ import fpga_params::*;
         .r_en(rd_fifo_rd_en),
         .r_data(rd_fifo_rd_data),
         .r_clk(~spi_sck), // Flip clock since SPI drive on negedge and latch on posedge
-        .fifo_empty(rd_fifo_empty),
-
-        .led_dbg_read(),
-        .led_dbg_write()
+        .fifo_empty(rd_fifo_empty)
     );
 
     // SPI TX: stream FIFO data back out over POCI

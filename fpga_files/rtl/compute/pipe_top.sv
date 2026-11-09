@@ -156,7 +156,6 @@ import fpga_params::*;
         .SIZE(OUTPUT_OUT_SIZE),
         .WIDTH(OUTPUT_ACCUM_WIDTH)
     ) argmax (
-        .clk(clk),
         .inputs(output_layer_result),
         .index_of_max(argmax_idx_out)
     );

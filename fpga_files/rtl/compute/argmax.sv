@@ -7,7 +7,6 @@ module argmax #(
 
     localparam SIZE_WIDTH = $clog2(SIZE)
 ) (
-    input clk,
     input [SIZE -1: 0][WIDTH-1:0] inputs,
     output [SIZE_WIDTH-1:0] index_of_max
 );

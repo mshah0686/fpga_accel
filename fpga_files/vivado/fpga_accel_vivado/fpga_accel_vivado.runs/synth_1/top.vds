@@ -4,8 +4,8 @@ INFO: [Common 17-3922] A valid Vivado Design Suite BASIC license has been detect
 # SW Build 6511674 on Tue Jun 16 11:02:23 MDT 2026
 # IP Build 6504888 on Tue Jun 09 09:05:25 MDT 2026
 # SharedData Build 6501428 on Mon Jun 08 17:34:18 MDT 2026
-# Start of session at: Wed Oct 21 07:57:17 2026
-# Process ID         : 4468
+# Start of session at: Sun Nov  8 18:21:58 2026
+# Process ID         : 12388
 # Current directory  : C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/fpga_accel_vivado/fpga_accel_vivado.runs/synth_1
 # Command line       : vivado.exe -log top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top.tcl
 # Log file           : C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/fpga_accel_vivado/fpga_accel_vivado.runs/synth_1/top.vds
@@ -18,12 +18,12 @@ INFO: [Common 17-3922] A valid Vivado Design Suite BASIC license has been detect
 # CPU Physical cores : 2
 # CPU Logical cores  : 4
 # Host memory        : 8400 MB
-# Swap memory        : 4294 MB
-# Total Virtual      : 12695 MB
-# Available Virtual  : 4315 MB
+# Swap memory        : 5675 MB
+# Total Virtual      : 14075 MB
+# Available Virtual  : 2855 MB
 #-----------------------------------------------------------
 source top.tcl -notrace
-create_project: Time (s): cpu = 00:00:20 ; elapsed = 00:00:14 . Memory (MB): peak = 581.520 ; gain = 268.711
+create_project: Time (s): cpu = 00:00:21 ; elapsed = 00:00:14 . Memory (MB): peak = 582.457 ; gain = 267.816
 Command: synth_design -top top -part xc7a100tcsg324-1
 Starting synth_design
 Attempting to get a license for feature 'Vivado_Synthesis' and/or device 'xc7a100t'
@@ -32,18 +32,16 @@ INFO: [Device 21-403] Loading part xc7a100tcsg324-1
 INFO: [Designutils 20-5008] Incremental synthesis strategy default
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 12924
+INFO: [Synth 8-7075] Helper process launched with PID 13208
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:12 ; elapsed = 00:00:12 . Memory (MB): peak = 1365.098 ; gain = 577.734
+Starting RTL Elaboration : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1364.578 ; gain = 576.797
 ---------------------------------------------------------------------------------
-WARNING: [Synth 8-11065] parameter 'PTR_WIDTH' becomes localparam in 'async_fifo' with formal parameter declaration list [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/fifo_async.sv:19]
-WARNING: [Synth 8-6901] identifier 'c_out_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:83]
-WARNING: [Synth 8-6901] identifier 'left_to_right_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:127]
-WARNING: [Synth 8-6901] identifier 'left_to_right_valid_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:129]
-WARNING: [Synth 8-6901] identifier 'left_to_right_first_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:130]
-WARNING: [Synth 8-6901] identifier 'up_to_down_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:161]
-WARNING: [Synth 8-6901] identifier 'up_to_down_first_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:162]
-WARNING: [Synth 8-6901] identifier 'up_to_down_valid_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:163]
+WARNING: [Synth 8-6901] identifier 'left_to_right_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:122]
+WARNING: [Synth 8-6901] identifier 'left_to_right_valid_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:124]
+WARNING: [Synth 8-6901] identifier 'left_to_right_first_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:125]
+WARNING: [Synth 8-6901] identifier 'up_to_down_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:156]
+WARNING: [Synth 8-6901] identifier 'up_to_down_first_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:157]
+WARNING: [Synth 8-6901] identifier 'up_to_down_valid_conns' is used before its declaration [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_datapath.sv:158]
 WARNING: [Synth 8-11065] parameter 'DATA_COUNTER_WIDTH' becomes localparam in 'spi_rx' with formal parameter declaration list [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/spi_rx.sv:15]
 INFO: [Synth 8-6157] synthesizing module 'top' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/top.sv:1]
 INFO: [Synth 8-6157] synthesizing module 'spi_top' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/spi_top.sv:4]
@@ -81,6 +79,7 @@ INFO: [Synth 8-6157] synthesizing module 'register_model' [C:/Users/Malav/Docume
 INFO: [Synth 8-6155] done synthesizing module 'register_model' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/register_model.sv:3]
 INFO: [Synth 8-6157] synthesizing module 'pipe_top' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/pipe_top.sv:1]
 	Parameter REG_WIDTH bound to: 16 - type: integer 
+	Parameter WEIGHTS_DIR bound to: (null) - type: string 
 INFO: [Synth 8-6157] synthesizing module 'matrix_mult_top' [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/matrix_mult_top.sv:1]
 	Parameter A_DATA_WIDTH bound to: 16 - type: integer 
 	Parameter B_DATA_WIDTH bound to: 8 - type: integer 
@@ -569,14 +568,11 @@ WARNING: [Synth 8-693] zero replication count - replication ignored [C:/Users/Ma
 INFO: [Synth 8-6155] done synthesizing module 'bram_wrapper__parameterized1' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/bram_wrapper.sv:2]
 INFO: [Synth 8-6155] done synthesizing module 'pipe_top' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/pipe_top.sv:1]
 INFO: [Synth 8-6155] done synthesizing module 'top' (0#1) [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/top.sv:1]
-WARNING: [Synth 8-3848] Net led_dbg_read in module/entity async_fifo does not have driver. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/fifo_async.sv:15]
-WARNING: [Synth 8-3848] Net led_dbg_write in module/entity async_fifo does not have driver. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/spi/fifo_async.sv:16]
-WARNING: [Synth 8-4767] Trying to implement RAM 'storage_reg' in registers. Block RAM or DRAM implementation is not possible; see log for reasons. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:36]
+WARNING: [Synth 8-4767] Trying to implement RAM 'storage_reg' in registers. Block RAM or DRAM implementation is not possible; see log for reasons. [C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/rtl/compute/single_port_bram.sv:41]
 Reason is one or more of the following :
 	1: RAM has multiple writes via different ports in same process. If RAM inferencing intended, write to one port per process. 
 	2: Invalid write to RAM. 
 	3: No valid clock found for write to RAM. 
-WARNING: [Synth 8-7129] Port clk in module argmax is either unconnected or has no load
 WARNING: [Synth 8-7129] Port matrix_status_out[15] in module pipe_top is either unconnected or has no load
 WARNING: [Synth 8-7129] Port matrix_status_out[14] in module pipe_top is either unconnected or has no load
 WARNING: [Synth 8-7129] Port matrix_status_out[13] in module pipe_top is either unconnected or has no load
@@ -608,30 +604,22 @@ WARNING: [Synth 8-7129] Port matrix_control_in[3] in module pipe_top is either u
 WARNING: [Synth 8-7129] Port matrix_control_in[2] in module pipe_top is either unconnected or has no load
 WARNING: [Synth 8-7129] Port matrix_control_in[1] in module pipe_top is either unconnected or has no load
 WARNING: [Synth 8-7129] Port spi_cs in module spi_tx is either unconnected or has no load
-WARNING: [Synth 8-7129] Port led_dbg_read[3] in module async_fifo is either unconnected or has no load
-WARNING: [Synth 8-7129] Port led_dbg_read[2] in module async_fifo is either unconnected or has no load
-WARNING: [Synth 8-7129] Port led_dbg_read[1] in module async_fifo is either unconnected or has no load
-WARNING: [Synth 8-7129] Port led_dbg_read[0] in module async_fifo is either unconnected or has no load
-WARNING: [Synth 8-7129] Port led_dbg_write[3] in module async_fifo is either unconnected or has no load
-WARNING: [Synth 8-7129] Port led_dbg_write[2] in module async_fifo is either unconnected or has no load
-WARNING: [Synth 8-7129] Port led_dbg_write[1] in module async_fifo is either unconnected or has no load
-WARNING: [Synth 8-7129] Port led_dbg_write[0] in module async_fifo is either unconnected or has no load
 WARNING: [Synth 8-7129] Port clk in module packet_decoder is either unconnected or has no load
 WARNING: [Synth 8-7129] Port packet_data[29] in module packet_decoder is either unconnected or has no load
 WARNING: [Synth 8-7129] Port packet_data[28] in module packet_decoder is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:20 ; elapsed = 00:00:21 . Memory (MB): peak = 1603.566 ; gain = 816.203
+Finished RTL Elaboration : Time (s): cpu = 00:00:21 ; elapsed = 00:00:21 . Memory (MB): peak = 1604.391 ; gain = 816.609
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:21 ; elapsed = 00:00:22 . Memory (MB): peak = 1603.566 ; gain = 816.203
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:21 ; elapsed = 00:00:22 . Memory (MB): peak = 1604.391 ; gain = 816.609
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:21 ; elapsed = 00:00:22 . Memory (MB): peak = 1603.566 ; gain = 816.203
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:21 ; elapsed = 00:00:22 . Memory (MB): peak = 1604.391 ; gain = 816.609
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.299 . Memory (MB): peak = 1603.566 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.308 . Memory (MB): peak = 1604.391 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
@@ -645,26 +633,26 @@ INFO: [Project 1-236] Implementation specific constraints were found while readi
 Resolution: To avoid this warning, move constraints listed in [.Xil/top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.020 . Memory (MB): peak = 1658.699 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.021 . Memory (MB): peak = 1669.621 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.420 . Memory (MB): peak = 1660.203 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.449 . Memory (MB): peak = 1671.883 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:46 ; elapsed = 00:00:48 . Memory (MB): peak = 1660.203 ; gain = 872.840
+Finished Constraint Validation : Time (s): cpu = 00:00:47 ; elapsed = 00:00:48 . Memory (MB): peak = 1671.883 ; gain = 884.102
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a100tcsg324-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:46 ; elapsed = 00:00:48 . Memory (MB): peak = 1660.203 ; gain = 872.840
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:47 ; elapsed = 00:00:48 . Memory (MB): peak = 1671.883 ; gain = 884.102
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:46 ; elapsed = 00:00:48 . Memory (MB): peak = 1660.203 ; gain = 872.840
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:47 ; elapsed = 00:00:48 . Memory (MB): peak = 1671.883 ; gain = 884.102
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in module 'spi_tx'
 INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in module 'matrix_mult_controller'
@@ -699,14 +687,16 @@ WARNING: [Synth 8-13157] FSM with state register 'current_state_reg' is not havi
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'current_state_reg' using encoding 'one-hot' in module 'pipe_control_fsm'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:07 ; elapsed = 00:01:10 . Memory (MB): peak = 1660.203 ; gain = 872.840
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:08 ; elapsed = 00:01:11 . Memory (MB): peak = 1671.883 ; gain = 884.102
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
 ---------------------------------------------------------------------------------
 Detailed RTL Component Info : 
 +---Adders : 
+	   2 Input   11 Bit       Adders := 1     
 	   2 Input   10 Bit       Adders := 16    
+	   2 Input    6 Bit       Adders := 1     
 	   2 Input    5 Bit       Adders := 3     
 	   2 Input    4 Bit       Adders := 9     
 	   2 Input    2 Bit       Adders := 2     
@@ -714,28 +704,29 @@ Detailed RTL Component Info :
 	   2 Input      2 Bit         XORs := 2     
 +---Registers : 
 	               32 Bit    Registers := 56    
-	               16 Bit    Registers := 71    
-	               10 Bit    Registers := 2     
-	                8 Bit    Registers := 786   
+	               16 Bit    Registers := 99    
+	               10 Bit    Registers := 3     
+	                8 Bit    Registers := 787   
 	                5 Bit    Registers := 3     
 	                4 Bit    Registers := 1     
 	                2 Bit    Registers := 5     
-	                1 Bit    Registers := 116   
+	                1 Bit    Registers := 118   
 +---RAMs : 
+	              12K Bit	(784 X 16 bit)          RAMs := 16    
+	              256 Bit	(16 X 16 bit)          RAMs := 10    
 	               32 Bit	(2 X 16 bit)          RAMs := 1     
 +---Muxes : 
 	   2 Input   32 Bit        Muxes := 53    
-	   2 Input   16 Bit        Muxes := 30    
+	   2 Input   16 Bit        Muxes := 3     
 	   4 Input   16 Bit        Muxes := 1     
 	   2 Input   10 Bit        Muxes := 15    
-	   2 Input    8 Bit        Muxes := 1     
 	   2 Input    4 Bit        Muxes := 9     
 	   4 Input    3 Bit        Muxes := 1     
 	   2 Input    3 Bit        Muxes := 3     
 	   4 Input    2 Bit        Muxes := 3     
 	   2 Input    2 Bit        Muxes := 10    
 	   3 Input    2 Bit        Muxes := 1     
-	   2 Input    1 Bit        Muxes := 1183  
+	   2 Input    1 Bit        Muxes := 1186  
 	   3 Input    1 Bit        Muxes := 379   
 	   4 Input    1 Bit        Muxes := 7     
 ---------------------------------------------------------------------------------
@@ -878,7 +869,7 @@ DSP Report: Generating DSP acc0, operation Mode is: C+A*B.
 DSP Report: operator acc0 is absorbed into DSP acc0.
 DSP Report: operator u_datapath/row_gen[0].col_gen[0].systolic_pe_u/acc1 is absorbed into DSP acc0.
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:02:20 ; elapsed = 00:02:27 . Memory (MB): peak = 1908.246 ; gain = 1120.883
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:02:12 ; elapsed = 00:02:19 . Memory (MB): peak = 1859.395 ; gain = 1071.613
 ---------------------------------------------------------------------------------
  Sort Area is pipe_top__GB1 acc0_a : 0 0 : 2064 16512 : Used 1 time 0
  Sort Area is pipe_top__GB1 acc0_a : 0 1 : 2064 16512 : Used 1 time 0
@@ -910,38 +901,46 @@ Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:02:20 ; elaps
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
 
+Block RAM: Preliminary Mapping Report (see note below)
++------------+-------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name | RTL Object                                            | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++------------+-------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|top         | hidden_weights_bram_u/bram_gen[0].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[1].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[2].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[3].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[4].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[5].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[6].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[7].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[8].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[9].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[10].bram_u/storage_reg | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[11].bram_u/storage_reg | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[12].bram_u/storage_reg | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[13].bram_u/storage_reg | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[14].bram_u/storage_reg | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[15].bram_u/storage_reg | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
++------------+-------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+
+Note: The table above is a preliminary report that shows the Block RAMs at the current stage of the synthesis flow. Some Block RAMs may be reimplemented as non Block RAM primitives later in the synthesis flow. Multiple instantiated Block RAMs are reported only once. 
+
 Distributed RAM: Preliminary Mapping Report (see note below)
-+-------------------------------------------+--------------------------------------+-----------+----------------------+--------------+
-|Module Name                                | RTL Object                           | Inference | Size (Depth x Width) | Primitives   | 
-+-------------------------------------------+--------------------------------------+-----------+----------------------+--------------+
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[0].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[1].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[2].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[3].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[4].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[5].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[6].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[7].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[8].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[9].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[10].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[11].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[12].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[13].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[14].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[15].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[0].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[1].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[2].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[3].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[4].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[5].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[6].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[7].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[8].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[9].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|top                                        | spi_top_u/rd_out_fifo_u/fifo_mem_reg | Implied   | 2 x 16               | RAM32M x 3   | 
-+-------------------------------------------+--------------------------------------+-----------+----------------------+--------------+
++------------+------------------------------------------------------+-----------+----------------------+-------------+
+|Module Name | RTL Object                                           | Inference | Size (Depth x Width) | Primitives  | 
++------------+------------------------------------------------------+-----------+----------------------+-------------+
+|top         | output_weights_bram_u/bram_gen[0].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[1].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[2].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[3].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[4].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[5].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[6].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[7].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[8].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[9].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | spi_top_u/rd_out_fifo_u/fifo_mem_reg                 | Implied   | 2 x 16               | RAM32M x 3  | 
++------------+------------------------------------------------------+-----------+----------------------+-------------+
 
 Note: The table above is a preliminary report that shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once.
 
@@ -985,50 +984,57 @@ Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:02:38 ; elapsed = 00:02:45 . Memory (MB): peak = 1908.246 ; gain = 1120.883
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:02:31 ; elapsed = 00:02:38 . Memory (MB): peak = 1882.219 ; gain = 1094.438
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:02:56 ; elapsed = 00:03:02 . Memory (MB): peak = 2067.758 ; gain = 1280.395
+Finished Timing Optimization : Time (s): cpu = 00:02:48 ; elapsed = 00:02:56 . Memory (MB): peak = 2038.953 ; gain = 1251.172
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
 
+Block RAM: Final Mapping Report
++------------+-------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name | RTL Object                                            | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++------------+-------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|top         | hidden_weights_bram_u/bram_gen[0].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[1].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[2].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[3].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[4].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[5].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[6].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[7].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[8].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[9].bram_u/storage_reg  | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[10].bram_u/storage_reg | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[11].bram_u/storage_reg | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[12].bram_u/storage_reg | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[13].bram_u/storage_reg | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[14].bram_u/storage_reg | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
+|top         | hidden_weights_bram_u/bram_gen[15].bram_u/storage_reg | 784 x 16(READ_FIRST)   | W |   | 784 x 16(WRITE_FIRST)  |   | R | Port A and B     | 1      | 0      | 
++------------+-------------------------------------------------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+
+
 Distributed RAM: Final Mapping Report
-+-------------------------------------------+--------------------------------------+-----------+----------------------+--------------+
-|Module Name                                | RTL Object                           | Inference | Size (Depth x Width) | Primitives   | 
-+-------------------------------------------+--------------------------------------+-----------+----------------------+--------------+
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[0].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[1].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[2].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[3].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[4].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[5].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[6].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[7].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[8].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[9].bram_u/storage_reg       | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[10].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[11].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[12].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[13].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[14].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/hidden_weights_bram_u | bram_gen[15].bram_u/storage_reg      | Implied   | 1 K x 16             | RAM64M x 78  | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[0].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[1].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[2].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[3].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[4].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[5].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[6].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[7].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[8].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|matrix_pipe_top_ui_1/output_weights_bram_u | bram_gen[9].bram_u/storage_reg       | Implied   | 16 x 16              | RAM32M x 3   | 
-|top                                        | spi_top_u/rd_out_fifo_u/fifo_mem_reg | Implied   | 2 x 16               | RAM32M x 3   | 
-+-------------------------------------------+--------------------------------------+-----------+----------------------+--------------+
++------------+------------------------------------------------------+-----------+----------------------+-------------+
+|Module Name | RTL Object                                           | Inference | Size (Depth x Width) | Primitives  | 
++------------+------------------------------------------------------+-----------+----------------------+-------------+
+|top         | output_weights_bram_u/bram_gen[0].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[1].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[2].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[3].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[4].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[5].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[6].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[7].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[8].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | output_weights_bram_u/bram_gen[9].bram_u/storage_reg | Implied   | 16 x 16              | RAM32M x 3  | 
+|top         | spi_top_u/rd_out_fifo_u/fifo_mem_reg                 | Implied   | 2 x 16               | RAM32M x 3  | 
++------------+------------------------------------------------------+-----------+----------------------+-------------+
 
 ---------------------------------------------------------------------------------
 Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
@@ -1036,8 +1042,24 @@ Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[0].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[1].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[2].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[3].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[4].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[5].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[6].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[7].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[8].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[9].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[10].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[11].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[12].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[13].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[14].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance matrix_pipe_top_u/hidden_weights_bram_u/bram_gen[15].bram_u/storage_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:03:15 ; elapsed = 00:03:22 . Memory (MB): peak = 2067.758 ; gain = 1280.395
+Finished Technology Mapping : Time (s): cpu = 00:03:04 ; elapsed = 00:03:11 . Memory (MB): peak = 2038.953 ; gain = 1251.172
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -1055,37 +1077,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:03:30 ; elapsed = 00:03:37 . Memory (MB): peak = 2214.262 ; gain = 1426.898
+Finished IO Insertion : Time (s): cpu = 00:03:17 ; elapsed = 00:03:25 . Memory (MB): peak = 2210.891 ; gain = 1423.109
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:03:30 ; elapsed = 00:03:37 . Memory (MB): peak = 2214.262 ; gain = 1426.898
+Finished Renaming Generated Instances : Time (s): cpu = 00:03:17 ; elapsed = 00:03:25 . Memory (MB): peak = 2210.891 ; gain = 1423.109
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:03:38 ; elapsed = 00:03:45 . Memory (MB): peak = 2220.812 ; gain = 1433.449
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:03:25 ; elapsed = 00:03:32 . Memory (MB): peak = 2218.938 ; gain = 1431.156
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:03:39 ; elapsed = 00:03:46 . Memory (MB): peak = 2220.812 ; gain = 1433.449
+Finished Renaming Generated Ports : Time (s): cpu = 00:03:25 ; elapsed = 00:03:33 . Memory (MB): peak = 2218.938 ; gain = 1431.156
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:03:41 ; elapsed = 00:03:47 . Memory (MB): peak = 2220.812 ; gain = 1433.449
+Finished Handling Custom Attributes : Time (s): cpu = 00:03:26 ; elapsed = 00:03:34 . Memory (MB): peak = 2243.773 ; gain = 1455.992
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:03:41 ; elapsed = 00:03:48 . Memory (MB): peak = 2220.812 ; gain = 1433.449
+Finished Renaming Generated Nets : Time (s): cpu = 00:03:26 ; elapsed = 00:03:34 . Memory (MB): peak = 2243.773 ; gain = 1455.992
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -1109,18 +1131,18 @@ DSP Final Report (the ' indicates corresponding REG is set)
 |matrix_mult_top | C+A*B''     | 30     | 8      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
 |matrix_mult_top | C+A*B''     | 30     | 8      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
 |matrix_mult_top | C+A*B''     | 30     | 8      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
-|matrix_mult_top | C+A*B'      | 30     | 8      | 48     | -      | 32     | 0    | 1    | 0    | -    | -     | 0    | 0    | 
-|systolic_mac    | C+A*B       | 30     | 8      | 48     | -      | 32     | 0    | 0    | 0    | -    | -     | 0    | 0    | 
-|matrix_mult_top | C+A*B''     | 30     | 18     | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
-|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
-|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
-|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
-|matrix_mult_top | C+A*B''     | 30     | 0      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
-|matrix_mult_top | C+A*B''     | 30     | 18     | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
-|matrix_mult_top | C+A*B''     | 30     | 18     | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
-|matrix_mult_top | C+A*B''     | 30     | 18     | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
-|matrix_mult_top | C+A*B'      | 30     | 18     | 48     | -      | 32     | 0    | 1    | 0    | -    | -     | 0    | 0    | 
-|systolic_mac    | C+A*B       | 30     | 18     | 48     | -      | 32     | 0    | 0    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A*B''     | 30     | 8      | 48     | -      | 32     | 0    | 2    | 0    | -    | -     | 0    | 0    | 
+|systolic_mac    | C+A*B'      | 30     | 8      | 48     | -      | 32     | 0    | 1    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A'*B''    | 30     | 18     | 48     | -      | 32     | 1    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A'*B''    | 30     | 0      | 48     | -      | 32     | 1    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A'*B''    | 30     | 0      | 48     | -      | 32     | 1    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A'*B''    | 30     | 0      | 48     | -      | 32     | 1    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A'*B''    | 30     | 0      | 48     | -      | 32     | 1    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A'*B''    | 30     | 18     | 48     | -      | 32     | 1    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A'*B''    | 30     | 18     | 48     | -      | 32     | 1    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A'*B''    | 30     | 18     | 48     | -      | 32     | 1    | 2    | 0    | -    | -     | 0    | 0    | 
+|matrix_mult_top | C+A'*B'     | 30     | 18     | 48     | -      | 32     | 1    | 1    | 0    | -    | -     | 0    | 0    | 
+|systolic_mac    | C+A'*B'     | 30     | 18     | 48     | -      | 32     | 1    | 1    | 0    | -    | -     | 0    | 0    | 
 +----------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
 
 
@@ -1137,49 +1159,45 @@ Report Cell Usage:
 |1     |BUFG     |     2|
 |2     |CARRY4   |    48|
 |3     |DSP48E1  |    26|
-|8     |LUT1     |     7|
-|9     |LUT2     |   503|
-|10    |LUT3     |  6255|
-|11    |LUT4     |   550|
-|12    |LUT5     |  1638|
-|13    |LUT6     |  4474|
-|14    |MUXF7    |   864|
-|15    |MUXF8    |   416|
-|16    |RAM32M   |    31|
-|17    |RAM64M   |  1104|
-|18    |RAM64X1D |    15|
-|19    |FDRE     |  8623|
-|20    |FDSE     |     1|
-|21    |IBUF     |     4|
-|22    |OBUF     |     1|
+|11    |LUT1     |     7|
+|12    |LUT2     |   462|
+|13    |LUT3     |  6230|
+|14    |LUT4     |   517|
+|15    |LUT5     |  1208|
+|16    |LUT6     |  3339|
+|17    |MUXF7    |   865|
+|18    |MUXF8    |   432|
+|19    |RAM32M   |    31|
+|20    |RAMB18E1 |    16|
+|36    |FDRE     |  8672|
+|37    |FDSE     |     1|
+|38    |IBUF     |     4|
+|39    |OBUF     |     1|
 +------+---------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:03:41 ; elapsed = 00:03:48 . Memory (MB): peak = 2220.812 ; gain = 1433.449
+Finished Writing Synthesis Report : Time (s): cpu = 00:03:27 ; elapsed = 00:03:34 . Memory (MB): peak = 2243.773 ; gain = 1455.992
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 2 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:03:09 ; elapsed = 00:03:37 . Memory (MB): peak = 2220.910 ; gain = 1376.910
-Synthesis Optimization Complete : Time (s): cpu = 00:03:41 ; elapsed = 00:03:48 . Memory (MB): peak = 2239.902 ; gain = 1433.547
+Synthesis Optimization Runtime : Time (s): cpu = 00:02:54 ; elapsed = 00:03:23 . Memory (MB): peak = 2243.773 ; gain = 1388.500
+Synthesis Optimization Complete : Time (s): cpu = 00:03:27 ; elapsed = 00:03:35 . Memory (MB): peak = 2243.773 ; gain = 1455.992
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.632 . Memory (MB): peak = 2251.934 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 2504 Unisim elements for replacement
-INFO: [Netlist 29-28] Unisim Transformation completed in 4 CPU seconds
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.454 . Memory (MB): peak = 2254.559 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 1418 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 1 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.043 . Memory (MB): peak = 2257.762 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.022 . Memory (MB): peak = 2259.238 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
-  A total of 1150 instances were transformed.
+  A total of 31 instances were transformed.
   RAM32M => RAM32M (RAMD32(x6), RAMS32(x2)): 31 instances
-  RAM64M => RAM64M (RAMD64E(x4)): 1104 instances
-  RAM64X1D => RAM64X1D (RAMD64E(x2)): 15 instances
 
-Synth Design complete | Checksum: 1fad5df5
+Synth Design complete | Checksum: bda3293f
 INFO: [Common 17-83] Releasing license: Vivado_Synthesis
-209 Infos, 84 Warnings, 1 Critical Warnings and 0 Errors encountered.
+225 Infos, 71 Warnings, 1 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:04:10 ; elapsed = 00:04:20 . Memory (MB): peak = 2257.770 ; gain = 1676.250
+synth_design: Time (s): cpu = 00:03:50 ; elapsed = 00:04:00 . Memory (MB): peak = 2259.238 ; gain = 1676.781
 INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
-Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.194 . Memory (MB): peak = 2257.770 ; gain = 0.000
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.143 . Memory (MB): peak = 2259.238 ; gain = 0.000
 INFO: [Common 17-1381] The checkpoint 'C:/Users/Malav/Documents/fpga/fpga_accel/fpga_files/vivado/fpga_accel_vivado/fpga_accel_vivado.runs/synth_1/top.dcp' has been generated.
-write_checkpoint: Time (s): cpu = 00:00:07 ; elapsed = 00:00:05 . Memory (MB): peak = 2257.770 ; gain = 0.000
 INFO: [Vivado 12-24828] Executing command : report_utilization -file top_utilization_synth.rpt -pb top_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Wed Oct 21 08:02:04 2026...
+INFO: [Common 17-206] Exiting Vivado at Sun Nov  8 18:26:24 2026...

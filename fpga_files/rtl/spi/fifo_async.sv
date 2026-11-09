@@ -10,13 +10,10 @@ module async_fifo #(
     input r_en,
     output [DATA_WIDTH-1:0] r_data,
     input r_clk,
-    output fifo_empty,
-
-    output [3:0] led_dbg_read,
-    output [3:0] led_dbg_write
+    output fifo_empty
 );
 
-    parameter PTR_WIDTH = $clog2(DEPTH) + 1; // Extra bit to detect fifo full
+    localparam PTR_WIDTH = $clog2(DEPTH) + 1; // Extra bit to detect fifo full
 
     // FIFO MEMORY
     reg [DATA_WIDTH-1:0] fifo_mem [0:DEPTH-1];

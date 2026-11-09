@@ -78,14 +78,7 @@ module mult_datapath #(
 
     assign idle = current_state == IDLE;
 
-    always @(posedge clk) begin
-        if (load_outputs) begin
-            c_out <= c_out_conns;
-            c_out_valid <= 1'b1;
-        end else begin
-            c_out_valid <= 1'b0;
-        end
-    end
+
 
     // M_edge meta
     logic [M-1:0] M_edge_valid_next;
@@ -175,6 +168,16 @@ module mult_datapath #(
     logic [M:0][N:0] up_to_down_first_conns;
 
     logic [M-1:0][N-1:0][ACC_WIDTH-1:0] c_out_conns;
+
+    // Outputs
+    always @(posedge clk) begin
+        if (load_outputs) begin
+            c_out <= c_out_conns;
+            c_out_valid <= 1'b1;
+        end else begin
+            c_out_valid <= 1'b0;
+        end
+    end
 
     genvar r;
     genvar c;
