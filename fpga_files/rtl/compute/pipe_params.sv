@@ -3,7 +3,9 @@ package pipe_params;
     /* MATRIX */
     // PIXELS
     localparam HIDDEN_PIXEL_WIDTH = 8;
+    localparam HIDDEN_PIXEL_BRAM_WIDTH = HIDDEN_PIXEL_WIDTH * 2;
     localparam HIDDEN_ACTIVATION_SIZE = 28 * 28; // Flattened pixels
+    localparam HIDDEN_ACTIVATION_BRAM_SIZE = HIDDEN_ACTIVATION_SIZE / 2; // Flattened pixels
 
     // HIDDEN
     localparam HIDDEN_NEURONS_SIZE = 16;

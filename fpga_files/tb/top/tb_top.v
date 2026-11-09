@@ -170,7 +170,7 @@ module tb_top;
     // and pixel i+1 in the high byte.
     task automatic write_pixels();
         for (int i = 0; i < ACTIVATIONS; i = i + PIXEL_PER_WRITE) begin
-            send_spi(CMD_WRITE, TAG_WIDTH'(PIXEL_TAG), ADDR_WIDTH'(i),
+            send_spi(CMD_WRITE, TAG_WIDTH'(PIXEL_TAG), ADDR_WIDTH'(i >> 1),
                      {pixels[i+1], pixels[i]});
         end
         $display("[%0t] Wrote %0d pixels in %0d transactions.",

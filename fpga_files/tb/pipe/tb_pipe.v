@@ -107,7 +107,7 @@ module tb_pipe_top;
             pixel_wr_en <= 1'b1;
             pixel_wr_data[0] <= pixels[i];
             pixel_wr_data[1] <= pixels[i+1];
-            pixel_wr_address <= i[$clog2(ACTIVATIONS)-1:0];
+            pixel_wr_address <= i[$clog2(ACTIVATIONS)-1:0] >> 1;
             @(negedge clk);
         end
         pixel_wr_en = 1'b0;

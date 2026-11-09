@@ -15,7 +15,7 @@ import fpga_params::*;
     /*** PIXEL WRITE ***/
     input pixel_wr_en,
     input [1:0][HIDDEN_PIXEL_WIDTH-1:0] pixel_wr_data, 
-    input [ADDR_WIDTH-1:0] pixel_wr_address
+    input [ADDR_WIDTH-1:0] pixel_wr_address // From RAL (standard addr width)
 );
 
     `include "hidden_biases.svh"
@@ -31,9 +31,24 @@ import fpga_params::*;
     wire [HIDDEN_NEURONS_SIZE-1:0] hidden_weights_bram_rd_en;
     wire [HIDDEN_NEURONS_SIZE-1:0][$clog2(HIDDEN_ACTIVATION_SIZE)-1:0] hidden_weights_bram_rd_addr;
     wire [HIDDEN_NEURONS_SIZE-1:0][HIDDEN_WEIGHT_WIDTH-1:0] hidden_weights_bram_rd_data;
+
+    // Matrix -> conversion
     wire hidden_pixel_bram_rd_en;
-    wire [$clog2(HIDDEN_ACTIVATION_SIZE)-1:0]hidden_pixel_bram_rd_addr;
-    wire [HIDDEN_WEIGHT_WIDTH-1:0] hidden_pixel_bram_rd_data; // Sized up in BRAM wrapper
+    wire [$clog2(HIDDEN_ACTIVATION_SIZE)-1:0] hidden_pixel_bram_rd_addr;
+    wire [HIDDEN_WEIGHT_WIDTH-1:0] hidden_pixel_bram_rd_data;
+    // conversion -> BRAM
+    wire [$clog2(HIDDEN_ACTIVATION_BRAM_SIZE)-1:0] converted_pixel_bram_rd_addr;
+    wire [HIDDEN_PIXEL_BRAM_WIDTH-1:0] bram_pixel_bram_rd_data; // 2x size
+    logic pixel_bram_rd_byte_select;
+
+    always_ff @(posedge clk) begin
+        if(hidden_pixel_bram_rd_en) begin
+            pixel_bram_rd_byte_select <= hidden_pixel_bram_rd_addr[0]; // Byte select on LSB
+        end
+    end
+    // Little endian - addr 0 is pixel 0, addr 1 is pixel 1
+    assign hidden_pixel_bram_rd_data = pixel_bram_rd_byte_select ? {8'b0, bram_pixel_bram_rd_data[15:8]} : {8'b0, bram_pixel_bram_rd_data[7:0]}; // FIXME::Should be sized based on HIDDEN_WEIGHT_WIDTH parameter
+    assign converted_pixel_bram_rd_addr = hidden_pixel_bram_rd_addr[$clog2(HIDDEN_ACTIVATION_SIZE)-1:1]; // Upper MSB for address (divide by 2)
 
     matrix_mult_top #(
         .A_DATA_WIDTH (HIDDEN_WEIGHT_WIDTH),
@@ -208,22 +223,20 @@ import fpga_params::*;
     // FIXME::This will now have 16 bit write for 2 pixels at a time. Need adjusting in wrapper.
     bram_wrapper #(
         .N(1), // 1 BRAM only - flattened pixels
-        .BRAM_SIZE(HIDDEN_ACTIVATION_SIZE), // Per BRAM 
-        .DATA_WIDTH(HIDDEN_PIXEL_WIDTH),
-        .WRITE_WIDTH(HIDDEN_PIXEL_WIDTH * 2),
-        .WRITE_SCALE(2),
-        .OUTDATA_WIDTH(HIDDEN_WEIGHT_WIDTH),
+        .BRAM_SIZE(HIDDEN_ACTIVATION_BRAM_SIZE), // 2 pixels wide 
+        .DATA_WIDTH(HIDDEN_PIXEL_BRAM_WIDTH), // 2 pixels wide
+        .OUTDATA_WIDTH(HIDDEN_WEIGHT_WIDTH), // Read two pixels at once
         .SIGN_EXTEND(0),
         .PRELOAD(0),
         .LOAD_FILE_PREFIX("")
     ) pixel_bram_u (
         .clk(clk),
         .r_en(hidden_pixel_bram_rd_en),
-        .r_addr(hidden_pixel_bram_rd_addr),
-        .r_data(hidden_pixel_bram_rd_data),
+        .r_addr(converted_pixel_bram_rd_addr),
+        .r_data(bram_pixel_bram_rd_data),
 
         .w_en(pixel_wr_en),
-        .w_addr(pixel_wr_address),
+        .w_addr(pixel_wr_address[$clog2(HIDDEN_ACTIVATION_BRAM_SIZE)-1:0]),
         .w_data(pixel_wr_data)
     );
 
