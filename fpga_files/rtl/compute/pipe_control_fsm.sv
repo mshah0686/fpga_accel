@@ -8,10 +8,10 @@ module pipe_control_fsm (
     input hidden_idle,
 
     output output_go_pulse,
-    input output_idle
+    input output_idle,
 
-    // output argmax_go_pulse,
-    // input argmax_idle
+    output argmax_go_pulse,
+    input argmax_idle
 );
 
     typedef enum logic [1:0] {
@@ -20,16 +20,17 @@ module pipe_control_fsm (
         STATE_WAIT
     } state_t;
 
-    typedef enum logic [0:0] {
+    typedef enum logic [1:0] {
         HIDDEN,
-        OUTPUT
+        OUTPUT,
+        ARGMAX
     } compute_block_t;
 
     state_t current_state, next_state;
     compute_block_t compute_block = HIDDEN;
 
     wire all_idle;
-    assign all_idle = output_idle & hidden_idle; //& argmax_idle
+    assign all_idle = output_idle & hidden_idle & argmax_idle; //& argmax_idle
 
     wire finished_stage_cycle; // Finished all stages
     assign finished_stage_cycle = all_idle && (compute_block == HIDDEN); // Finished last stage, reset compute state to HIDDEN
@@ -73,8 +74,9 @@ module pipe_control_fsm (
         if(current_state == STATE_GO) begin
             case (compute_block)
                 HIDDEN: compute_block <= OUTPUT;
-                OUTPUT: compute_block <= HIDDEN;
-                //ARGMAX: compute_block <= HIDDEN;
+                OUTPUT: compute_block <= ARGMAX;
+                ARGMAX: compute_block <= HIDDEN;
+                default: compute_block <= HIDDEN;
             endcase
         end
     end
@@ -84,7 +86,7 @@ module pipe_control_fsm (
     // Output go pulse based on current stage
     assign hidden_go_pulse = go_pulse & (compute_block == HIDDEN);
     assign output_go_pulse = go_pulse & (compute_block == OUTPUT);
-    //assign argmax_go_pulse = go_pulse & (compute_block == ARGMAX);
+    assign argmax_go_pulse = go_pulse & (compute_block == ARGMAX);
     assign compute_idle = (current_state == IDLE);
 
 endmodule

@@ -162,35 +162,26 @@ import fpga_params::*;
     );
 
     /***** ARGMAX LAYER *****/
-    logic argmax_go;
-    logic argmax_output_aggregate_idle;
+    logic argmax_go_pulse;
+    logic argmax_idle;
+    logic argmax_result_valid;
     logic [$clog2(OUTPUT_OUT_SIZE)-1:0] argmax_layer_output_l;
     logic [$clog2(OUTPUT_OUT_SIZE)-1:0] argmax_idx_out;
 
-    assign argmax_output_aggregate_idle = ~argmax_go && ~output_result_valid && output_idle;
-
-    // Control argmax go/idle abstractly
-    // One cycle after output done sample the idx_out
-    // This is done to help meet timing and break combinational path
-    always_ff @(posedge clk) begin
-        if(output_result_valid) begin
-            argmax_go <= 1'b1;
-        end else if(argmax_go == 1'b1) begin
-            argmax_go <= 1'b0;
-        end
-    end
-
-    // Combinational
     argmax #(
         .SIZE(OUTPUT_OUT_SIZE),
         .WIDTH(OUTPUT_ACCUM_WIDTH)
     ) argmax (
+        .clk(clk),
+        .go_pulse(argmax_go_pulse),
+        .idle(argmax_idle),
+        .result_valid(argmax_result_valid),
         .inputs(output_layer_result_l),
         .index_of_max(argmax_idx_out)
     );
 
     always_ff @(posedge clk) begin
-        if(argmax_go) begin
+        if(argmax_result_valid) begin
             argmax_layer_output_l <= argmax_idx_out;
         end
     end
@@ -208,7 +199,10 @@ import fpga_params::*;
         .hidden_idle(hidden_idle),
 
         .output_go_pulse(output_go_pulse),
-        .output_idle(argmax_output_aggregate_idle) // After argmax finished (one cycle more)
+        .output_idle(output_idle),
+
+        .argmax_go_pulse(argmax_go_pulse),
+        .argmax_idle(argmax_idle)
     );
 
     // Hidden Weights
