@@ -110,7 +110,7 @@ import fpga_params::*;
     end
 
     /***** OUTPUT LAYER *****/
-    //logic [OUTPUT-1:0][OUTPUT_ACCUM_WIDTH -1:0] output_layer_result_l;
+    logic [OUTPUT_OUT_SIZE-1:0][OUTPUT_ACCUM_WIDTH -1:0] output_layer_result_l;
     logic [OUTPUT_OUT_SIZE-1:0][OUTPUT_ACCUM_WIDTH -1:0] output_layer_result;
     logic output_go_pulse;
     logic output_idle;
@@ -130,11 +130,10 @@ import fpga_params::*;
         output_activations_bram_rd_data <= output_activations_bram_rd_en ? requantized_result_l[output_activations_bram_rd_addr] : 'd0;
     end
 
-    // Right now - combinational
-    // always_ff @(posedge clk) begin
-    //     if(output_result_valid)
-    //         output_layer_result_l <= output_layer_result;
-    // end
+    always_ff @(posedge clk) begin
+        if(output_result_valid)
+            output_layer_result_l <= output_layer_result;
+    end
 
     matrix_mult_top #(
         .A_DATA_WIDTH (OUTPUT_WEIGHT_WIDTH), // Weights
@@ -163,20 +162,35 @@ import fpga_params::*;
     );
 
     /***** ARGMAX LAYER *****/
+    logic argmax_go;
+    logic argmax_output_aggregate_idle;
     logic [$clog2(OUTPUT_OUT_SIZE)-1:0] argmax_layer_output_l;
     logic [$clog2(OUTPUT_OUT_SIZE)-1:0] argmax_idx_out;
+
+    assign argmax_output_aggregate_idle = ~argmax_go && ~output_result_valid && output_idle;
+
+    // Control argmax go/idle abstractly
+    // One cycle after output done sample the idx_out
+    // This is done to help meet timing and break combinational path
+    always_ff @(posedge clk) begin
+        if(output_result_valid) begin
+            argmax_go <= 1'b1;
+        end else if(argmax_go == 1'b1) begin
+            argmax_go <= 1'b0;
+        end
+    end
 
     // Combinational
     argmax #(
         .SIZE(OUTPUT_OUT_SIZE),
         .WIDTH(OUTPUT_ACCUM_WIDTH)
     ) argmax (
-        .inputs(output_layer_result),
+        .inputs(output_layer_result_l),
         .index_of_max(argmax_idx_out)
     );
 
     always_ff @(posedge clk) begin
-        if(output_result_valid) begin
+        if(argmax_go) begin
             argmax_layer_output_l <= argmax_idx_out;
         end
     end
@@ -194,10 +208,7 @@ import fpga_params::*;
         .hidden_idle(hidden_idle),
 
         .output_go_pulse(output_go_pulse),
-        .output_idle(output_idle)
-
-        // .argmax_go_pulse(argmax_go_pulse),
-        // .argmax_idle(argmax_idle)
+        .output_idle(argmax_output_aggregate_idle) // After argmax finished (one cycle more)
     );
 
     // Hidden Weights

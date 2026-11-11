@@ -188,7 +188,7 @@ module tb_pipe_top;
     endtask
 
     task check_argmax();
-        wait(uut.output_result_valid == 1'b1);
+        wait(uut.argmax_go == 1'b1);
         @(negedge clk);
         if (uut.argmax_idx_out != exp_argmax[0]) begin
             $display("[%0t] FAIL argmax: expected %0d, got %0d",
