@@ -214,13 +214,14 @@ Learned about how floating point weights are represented in hardware in fixed po
 # Updates:
 1. Finished requantization between layers as per above. 
 2. Created python model in pipelin.py and verified the RTL in simulation against the python model.
+3. Cleaned up RTL to make vivado happy for compiling (mainly moving weights around so Vivado can access thems)
 
-# Currently working on:
+## Currently working on:
 1. Tried synthesizing the design. Impelmentation fails for the design with timing violations. First it was 9.2ns of WNS with failing endpoints being the output layer to the argmax layer. 
 2. I fixed the above by sampling the output layer into a flop and then having argmax layer calculate from there. THis way we isolate the combinational logic in argmax sourced from a flop breaking the chain.
 3. I also needed to fix the way the pixel BRAM read write happened. For optimization, I had done a supersized write which wrote to two indices in the BRAM and the read side was only 1. This inferred in vivado a two port write and single port read. As a result, the synthesis put this as a bunch of LUTs/Flops instead of a BRAM.
     - I updated the pixel side BRAM and reading with a byte select and sized the BRAM as 2 pixel wide. We read the same address twice but use byte select to pick the MSB or LSB of the bytes to read. This way the BRAM read and write are the same size and is correctly synthesized.
 
 
-# Currently struggling with:
+## Currently struggling with:
 1. Timing. Still not meeting timing with the updates to argmax combinational isolation. I think I will need to split the argmax module into a solving chain inside itself since it seems it can't solve in one cycle. This means adding it as a stage to the fsm and adding external control logic. We suffer with some latency (and because there is no pipelined workloads, suffer throughput as well).
